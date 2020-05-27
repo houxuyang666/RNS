@@ -24,11 +24,11 @@ function Import() {
 		}
 	}
 	//--------引入css文件
-	importCssJs.css("../static/uimaker/easyui.css");
-	importCssJs.css("../static/uimaker/icon.css");
-	importCssJs.css("../static/uimaker/panel.css");
-	importCssJs.css("../static/uimaker/linkbutton.css");
-	importCssJs.css("../static/css/providers1.css");
+	importCssJs.css("../uimaker/easyui.css");
+	importCssJs.css("../uimaker/icon.css");
+	importCssJs.css("../uimaker/panel.css");
+	importCssJs.css("../uimaker/linkbutton.css");
+	importCssJs.css("../css/providers1.css");
 
 	//--------引入js文件
 	//	importCssJs.js("js/jquery-1.8.0.min.js");
