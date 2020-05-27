@@ -82,11 +82,7 @@ public class UserController {
         return "/user/Notice";
     }
 
-    @RequestMapping("/JobSetup")
-    public String JobSetup() {
-        System.out.println("JobSetup");
-        return "/user/JobSetup";
-    }
+
 
 
     @RequestMapping("/basic_info")

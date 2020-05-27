@@ -49,13 +49,13 @@ public class ShiroUtils {
      * @Param [operation, username]
      * @return com.tdkj.RNS.entity.Log
      **/
-    public static Log setLog(String operation,String username){
+    public static Log setLog(String operation,String resources){
         //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
         Log log = new Log();
         log.setOperatedate(new Date());
         log.setOperateor(ShiroUtils.getPrincipal().getUsername());
         log.setOperateresult("正常");
-        log.setOperatetype(operation+":"+username);
+        log.setOperatetype(operation+":"+resources);
         log.setIp(IpUtils.getIp());
         return log;
     }
