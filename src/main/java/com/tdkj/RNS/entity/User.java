@@ -1,17 +1,17 @@
 package com.tdkj.RNS.entity;
 
 public class User {
-    private Integer id;
+    private Integer id; //ID
 
-    private String username;
+    private String username; //用户名
 
-    private String password;
+    private String password; //密码
 
-    private String salt;
+    private String salt; //密码盐值
 
-    private Integer status =0;
+    private Integer status =0; //账号状态 0为正常 默认正常  1为锁定
 
-    private Integer rid;
+    private Integer rid; //角色ID
 
     public Integer getId() {
         return id;

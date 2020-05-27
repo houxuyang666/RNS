@@ -56,7 +56,6 @@ public class UserController {
         user.setRid(roleid);
         userService.insert(user);
         /*添加日志*/
-        //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
         Log log = ShiroUtils.setLog("添加用户",username);
         logService.insert(log);
         model.addAttribute("msg","添加成功");
@@ -84,7 +83,47 @@ public class UserController {
     }
 
 
+    @RequestMapping("/basic_info")
+    public String basic_info() {
+        System.out.println("basic_info");
+        return "/user/basic_info";
+    }
 
+    @RequestMapping("/AttendanceInfo")
+    public String AttendanceInfo() {
+        System.out.println("AttendanceInfo");
+        return "/user/AttendanceInfo";
+    }
+
+    @RequestMapping("/CompanyInfo")
+    public String CompanyInfo() {
+        System.out.println("CompanyInfo");
+        return "/user/CompanyInfo";
+    }
+
+    @RequestMapping("/MapInfo")
+    public String MapInfo() {
+        System.out.println("MapInfo");
+        return "/user/MapInfo";
+    }
+
+    @RequestMapping("/ProjectInfo")
+    public String ProjectInfo() {
+        System.out.println("ProjectInfo");
+        return "/user/ProjectInfo";
+    }
+
+    @RequestMapping("/WageInfo")
+    public String WageInfo() {
+        System.out.println("WageInfo");
+        return "/user/WageInfo";
+    }
+
+    @RequestMapping("/WorkerIDInfo")
+    public String WorkerIDInfo() {
+        System.out.println("WorkerIDInfo");
+        return "/user/WorkerIDInfo";
+    }
 
 
     /**
@@ -155,7 +194,6 @@ public class UserController {
             return "login";
         }
         Subject subject = SecurityUtils.getSubject();
-
         try {
             User user =userService.findByName(username);
             if (1==user.getStatus()){

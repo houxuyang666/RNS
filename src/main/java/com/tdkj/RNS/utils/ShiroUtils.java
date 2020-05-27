@@ -26,10 +26,12 @@ public class ShiroUtils {
     }
 
     /**
-     * 
-     * @param operation
-     * @return
-     */
+     * @Author houxuyang
+     * @Description //用于插入log
+     * @Date 14:30 2020/5/27
+     * @Param [operation]
+     * @return com.tdkj.RNS.entity.Log
+     **/
     public static Log setLog(String operation){
         Log log = new Log();
         log.setOperatedate(new Date());
@@ -40,7 +42,15 @@ public class ShiroUtils {
         return log;
     }
 
+    /**
+     * @Author houxuyang
+     * @Description //重载日志方法
+     * @Date 14:31 2020/5/27
+     * @Param [operation, username]
+     * @return com.tdkj.RNS.entity.Log
+     **/
     public static Log setLog(String operation,String username){
+        //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
         Log log = new Log();
         log.setOperatedate(new Date());
         log.setOperateor(ShiroUtils.getPrincipal().getUsername());

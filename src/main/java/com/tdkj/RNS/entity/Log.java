@@ -3,17 +3,17 @@ package com.tdkj.RNS.entity;
 import java.util.Date;
 
 public class Log {
-    private Integer id;
+    private Integer id;  //ID
 
-    private String operateor;
+    private String operateor;  //当前用户
 
-    private String operatetype;
+    private String operatetype; //操作
 
-    private Date operatedate;
+    private Date operatedate; //时间
 
-    private String operateresult;
+    private String operateresult;  //状态
 
-    private String ip;
+    private String ip;  //用户ip地址
 
     public Integer getId() {
         return id;

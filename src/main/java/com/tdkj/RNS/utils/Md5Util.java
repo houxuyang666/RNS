@@ -15,7 +15,13 @@ public class Md5Util {
 
     private static final int HASH_ITERATIONS = 5;
 
-
+    /**
+     * @Author houxuyang
+     * @Description //用于密码加密
+     * @Date 14:30 2020/5/27
+     * @Param [username, password]
+     * @return java.lang.String
+     **/
     public static String Md5Password(String username, String password) {
         String source = StringUtils.lowerCase(username);
         password = StringUtils.lowerCase(password);

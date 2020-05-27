@@ -1,9 +1,9 @@
 package com.tdkj.RNS.entity;
 
 public class Role {
-    private Integer rid;
+    private Integer rid;  //ID
 
-    private String rolename;
+    private String rolename; //角色名称
 
     public Integer getRid() {
         return rid;

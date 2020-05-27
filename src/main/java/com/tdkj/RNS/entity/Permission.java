@@ -1,11 +1,11 @@
 package com.tdkj.RNS.entity;
 
 public class Permission {
-    private Integer pid;
+    private Integer pid;  //ID
 
-    private String permissionname;
+    private String permissionname;  //权限
 
-    private Integer rid;
+    private Integer rid;  //角色ID
 
     public Integer getPid() {
         return pid;
