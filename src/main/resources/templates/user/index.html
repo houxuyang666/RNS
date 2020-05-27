@@ -32,14 +32,14 @@
                                 <span class="pf-opt-name">用户信息</span>
                             </a>
                         </li>
-                        <li class="pf-modify-pwd"  shiro:hasPermission="user:adduser">
+                        <li  shiro:hasPermission="user:adduser">
                                 <a href="/add">
-                                    <i class="iconfont">&#xe634;</i>
+                                    <i class="iconfont">&#xe6d0;</i>
                                     <span class="pf-opt-name">添加用户</span>
                                 </a>
                         </li>
-                        <li class="pf-modify-pwd" shiro:hasPermission="user:updatepassword">
-                            <a href="/update">
+                        <li  shiro:hasPermission="user:updatepassword">
+                            <a href="#" onclick="Update()">
                                 <i class="iconfont">&#xe634;</i>
                                 <span class="pf-opt-name">修改密码</span>
                             </a>
@@ -113,19 +113,59 @@
                 </div>
 			</div>
 		</div>
-		
-		
-		<script type="text/javascript">
+
+
+        <div id="UpdatePwd">
+            <div data-options="region:'center'" style="padding:100px 170px ">
+                <form id="SubForm" method="post" data-options="novalidate:true"  action="/updatepassword">
+                    <input type="hidden" name="id" th:value="${session.user.id}">
+                    原密码：<input class="easyui-textbox" type="password" name="oldpassword" required="required" missingMessage="请输入旧密码" style="height:35px;"></input>
+                    <br><br><br>
+                    新密码：<input class="easyui-textbox" type="password" name="newpassword" data-options="required:true,missingMessage:'请输入新密码'" style="height:35px;"></input>
+                  <!--  原密码  <input type="text" name="oldpassword" required="required"><br>
+                    新密码  <input type="text" name="newpassword" required="required"><br>
+                    <input type="submit" name="修改密码">-->
+                </form>
+            </div>
+        </div>
+        <div id="Updatebtn">
+            <a href="#" class="easyui-linkbutton" onclick="SubForm()">保存</a>
+            <a href="#" class="easyui-linkbutton" onclick="FunClose()">关闭</a>
+        </div>
+
+        <script type="text/javascript">
+
+            $(function () {
+                //设置修改密码弹窗
+                $("#UpdatePwd").dialog({
+                    title: "修改密码",
+                    width: 600,
+                    height: 400,
+                    modal: true,
+                    shadow: true,
+                    minimizable: false,
+                    maximizable: false,
+                    buttons: "#Updatebtn"
+                });
+                $("#UpdatePwd").dialog("close");
+            })
+
+            function Update(){
+                $("#UpdatePwd").dialog("open");
+            }
+            function SubForm(){
+                $('#SubForm').form("submit",{
+                    onSubmit:function () {
+                        return $(this).form("enableValidation").form("validate");
+                    }
+                });
+            }
+            function FunClose(){
+                $("#UpdatePwd").dialog("close");
+            }
 			
 			$(".easyui-tabs1").tabs({
 				tabHeight:44,
-//				onSelect:function(title,index){
-//					var curentTab=$(".easyui-tabs1").tabs("getSelected");
-//					if(currentTab.find("iframe") && currentTab.find("iframe").size()){
-//                   currentTab.find("iframe").attr("src",currentTab.find("iframe").attr("src"));
-//                  }
-//				}
-				
 			})
 			//获取全部的菜单
 			
