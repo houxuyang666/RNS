@@ -6,6 +6,10 @@ import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.UserService;
 import com.tdkj.RNS.utils.Md5Util;
 import com.tdkj.RNS.utils.ShiroUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
 
+@Api("UserController")
 @Controller
 public class UserController {
 
@@ -56,7 +61,8 @@ public class UserController {
         user.setRid(roleid);
         userService.insert(user);
         /*添加日志*/
-        Log log = ShiroUtils.setLog("添加用户",username);
+        //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
+        Log log = ShiroUtils.setLog("添加用户", username);
         logService.insert(log);
         model.addAttribute("msg","添加成功");
         return "/user/add";
@@ -184,6 +190,11 @@ public class UserController {
     }
 
     /*编写shiro 登录认证逻辑*/
+    @ApiOperation("登录")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "username", value = "账号", required = true, dataType = "String")
+            , @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true, dataType = "String")
+    }
+    )
     @RequestMapping("/login")
     public String login(String username,String password,Model model) {
         /*使用Shiro编写认证操作
@@ -194,6 +205,7 @@ public class UserController {
             return "login";
         }
         Subject subject = SecurityUtils.getSubject();
+
         try {
             User user =userService.findByName(username);
             if (1==user.getStatus()){

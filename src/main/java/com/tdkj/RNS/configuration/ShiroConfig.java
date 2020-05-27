@@ -44,6 +44,13 @@ public class ShiroConfig{
         /* 第二个参数配置为logout  不用配置cotroller就能直接退出 并清除session*/
         filterMap.put("/logout","logout");
 
+        /*Swagger 开放白名单*/
+
+        filterMap.put("/swagger-ui.html", "anon");
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/v2/**", "anon");
+        filterMap.put("/swagger-resources/**", "anon");
+
 
         /*授权拦截器  访问add 需要perms[user:add] 该授权*/
         filterMap.put("/adduser","perms[user:adduser]");
