@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdkj.RNS.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.tdkj.RNS.entity.Role">
+    <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    rid, rolename
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from u_role
+    where rid = #{rid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from u_role
+    where rid = #{rid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tdkj.RNS.entity.Role">
+    insert into u_role (rid, rolename)
+    values (#{rid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tdkj.RNS.entity.Role">
+    insert into u_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="rolename != null">
+        rolename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

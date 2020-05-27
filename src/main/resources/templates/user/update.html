@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户更新</title>
+</head>
+<body>
+用户更新
+<form   action="/updatepassword">
+            <input type="hidden" name="id" th:value="${session.user.id}">
+  原密码  <input type="text" name="oldpassword" required="required"><br>
+  新密码  <input type="text" name="newpassword" required="required"><br>
+    <input type="submit" name="修改密码">
+</form>
+</body>
+</html>

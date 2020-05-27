@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工人身份证信息</title>
+		<link rel="stylesheet" type="text/css" href="/uimaker/easyui.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<table id="tab" style="width:100%;"></table>
+			<div id="tb" style="padding:0 30px;">
+				<div class="conditions">
+					<span class="con-span">姓名: </span><input class="easyui-textbox biaoti" type="text" name="biaoti" value="" style="width:166px;height:35px;line-height:35px;"></input>
+					<span class="con-span">身份证号: </span><input class="easyui-textbox biaoti" type="text" name="biaoti" value="" style="width:166px;height:35px;line-height:35px;"></input>
+					<a href="#" class="easyui-linkbutton" id="search" iconCls="icon-search" data-options="selected:true">查询</a>
+					<a href="#" class="easyui-linkbutton" id="chongzhi" iconCls="icon-reload">刷新</a>
+					<a href="#" class="easyui-linkbutton more" iconCls="icon-more">更多</a>
+				</div>
+				<div class="conditions hide">
+					<span class="con-span">住址: </span><input class="easyui-textbox" type="text" name="code" style="width:166px;height:35px;line-height:35px;"></input>
+					<span class="con-span">签发机关: </span><input class="easyui-textbox" type="text" name="code" style="width:166px;height:35px;line-height:35px;"></input>
+					<span class="con-span">所在项目: </span><input class="easyui-textbox" type="text" name="code" style="width:166px;height:35px;line-height:35px;"></input>	
+			    </div>
+			</div>	
+		</div>
+
+		<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript" src="/js/public.js"></script>
+		<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="/js/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				Import();
+			}
+			$(function() {
+
+				var t_titleName = "工人身份信息";
+				var u_url = "";
+				var m_method = "get";
+				var a_arr_columns = tab_columns();
+				var i_idName = "#tab";
+				var t_toolbar = "#tb";
+				init_datagrid(i_idName, t_titleName, u_url, a_arr_columns, m_method, t_toolbar);
+
+			})
+
+
+			function tab_columns() {
+				var arr = new Array();
+				arr.push({
+					field: 'Name',
+					title: '姓名',
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'ShenID',
+					title: '身份证号',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'Sex',
+					title: '性别',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'MinZu',
+					title: '民族',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'ZhuZhi',
+					title: '住址',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'QianFaJiGuan',
+					title: '签发机关',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				arr.push({
+					field: 'SuoZaiXiangMu',
+					title: '所在项目',
+					sortable: true,
+					width: $(this).width() * 0.5,
+					align: 'center'
+				});
+				return arr;
+			}
+			//查询按钮
+			$("#search").click(function(){
+				var  biaoti =$(".biaoti").val();
+				alert(biaoti);
+			})
+			//重置按钮
+			$("#chongzhi").click(function(){
+				$(".biaoti").attr("value"," ");
+				window.location.reload();
+			})
+			
+			$(".more").click(function() {
+				//alert("12346");
+				$(this).closest(".conditions").siblings().toggleClass("hide");
+			})
+		</script>
+	</body>
+
+</html>

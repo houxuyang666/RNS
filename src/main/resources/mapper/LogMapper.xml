@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdkj.RNS.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.tdkj.RNS.entity.Log" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="operateor" property="operateor" jdbcType="VARCHAR" />
+    <result column="operateType" property="operatetype" jdbcType="VARCHAR" />
+    <result column="operateDate" property="operatedate" jdbcType="TIMESTAMP" />
+    <result column="operateResult" property="operateresult" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, operateor, operateType, operateDate, operateResult, ip
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from u_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from u_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tdkj.RNS.entity.Log" >
+    insert into u_log (id, operateor, operateType, 
+      operateDate, operateResult, ip
+      )
+    values (#{id,jdbcType=INTEGER}, #{operateor,jdbcType=VARCHAR}, #{operatetype,jdbcType=VARCHAR}, 
+      #{operatedate,jdbcType=TIMESTAMP}, #{operateresult,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tdkj.RNS.entity.Log" >
+    insert into u_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operateor != null" >
+        operateor,
+      </if>
+      <if test="operatetype != null" >
+        operateType,
+      </if>
+      <if test="operatedate != null" >
+        operateDate,
+      </if>
+      <if test="operateresult != null" >
+        operateResult,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="operateor != null" >
+        #{operateor,jdbcType=VARCHAR},
+      </if>
+      <if test="operatetype != null" >
+        #{operatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="operatedate != null" >
+        #{operatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateresult != null" >
+        #{operateresult,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tdkj.RNS.entity.Log" >
+    update u_log
+    <set >
+      <if test="operateor != null" >
+        operateor = #{operateor,jdbcType=VARCHAR},
+      </if>
+      <if test="operatetype != null" >
+        operateType = #{operatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="operatedate != null" >
+        operateDate = #{operatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateresult != null" >
+        operateResult = #{operateresult,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tdkj.RNS.entity.Log" >
+    update u_log
+    set operateor = #{operateor,jdbcType=VARCHAR},
+      operateType = #{operatetype,jdbcType=VARCHAR},
+      operateDate = #{operatedate,jdbcType=TIMESTAMP},
+      operateResult = #{operateresult,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

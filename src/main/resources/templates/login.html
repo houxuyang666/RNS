@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>劳务用工实名制管理系统登录</title>
+	<link href="/css/base.css" rel="stylesheet">
+	<link href="/css/login.css" rel="stylesheet">
+	<style type="text/css">
+		#login{
+			width: 80%;
+		}
+		.nothing{
+			height:30px;
+		}
+	</style>
+	<link rel="stylesheet" href="/css/easyui.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.easyui.min.js"></script>
+</head>
+<body class="white">
+<div class="login-hd">
+	<div class="left-bg" ></div>
+	<div class="right-bg"></div>
+	<div class="hd-inner">
+		<span class="logo"></span>
+		<span class="split"></span>
+		<span class="sys-name">劳务用工实名制管理系统</span>
+	</div>
+</div>
+<div class="login-bd">
+	<div class="bd-inner">
+		<div class="inner-wrap">
+			<div class="lg-zone">
+				<div class="lg-box">
+					<div class="lg-label"><h4>用户登录</h4></div>
+					<div class="nothing"></div>
+					<form style="margin-top: 20px; margin-bottom: 20px;" id="loginForm" action="login" method="post">
+						<div class="lg-username input-item clearfix">
+							<i class="iconfont">&#xe60d;</i>
+							<input type="text" placeholder="账号/邮箱" name="username" required="required"/>
+						</div>
+						<div class="lg-password input-item clearfix">
+							<i class="iconfont">&#xe634;</i>
+							<input type="password" placeholder="请输入密码" name="password" required="required"/>
+						</div>
+						<span style="color: red;font-size:12px; margin-left: 30px;" th:text="${msg}"></span>
+						<div class="tips clearfix">
+								<a href="javascript:;" class="register">立即注册</a>
+								<a href="javascript:;" class="forget-pwd">忘记密码？</a>
+						</div>
+						<div class="enter">
+							<a href="javascript:;" id="login" class="supplier input-item" onClick="tosubmit()">登录</a>
+							<!--<input type="submit" value="登录">-->
+						</div>
+					</form>
+					<div class="line line-y"></div>
+					<div class="line line-g"></div>
+				</div>
+			</div>
+			<div class="lg-poster">
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="login-ft">
+	<div class="ft-inner">
+		<div class="about-us">
+			<a href="javascript:;">关于我们</a>
+			<a href="javascript:;">法律声明</a>
+			<a href="javascript:;">服务条款</a>
+			<a href="javascript:;">联系方式</a>
+		</div>
+		<div class="address">地址：河南省洛阳市洛龙区古城路和伊洛路交叉口&nbsp;邮编：471000&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2019&nbsp;-&nbsp;2020&nbsp;唐都科技&nbsp;版权所有</div>
+		<div class="other-info">建议使用谷歌、360浏览器&nbsp;豫ICP备&nbsp;09003078号&nbsp;E-mail：123456789@qq.com</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function tosubmit(action_str) {
+		var userName = $("input[name='username']").val();
+		var userPwd = $("input[name='password']").val();
+		if (userName == "" || userPwd == "") {
+			$.messager.alert('提示信息', '请输入用户名和密码');
+		} else {
+			var myform = document.getElementById("loginForm");
+			if (action_str == null) {
+				myform.submit();
+			} else {
+				myform.action = action_str;
+				myform.submit();
+			}
+			return false;
+		}
+	}
+</script>
+
+</body>
+</html>
+

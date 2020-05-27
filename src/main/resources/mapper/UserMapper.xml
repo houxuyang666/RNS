@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdkj.RNS.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.tdkj.RNS.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password,status, salt, rid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from u_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from u_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tdkj.RNS.entity.User">
+    insert into u_user (id, username, password, status,
+      salt, rid)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{salt,jdbcType=VARCHAR},  #{rid,jdbcType=INTEGER})
+  </insert>
+
+  <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from u_user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findByUsername" parameterType="java.lang.String" resultType="com.tdkj.RNS.entity.Permission">
+    select  p.pid as pid,
+            p.permissionname as permissionname,
+            p.rid as rid
+            from u_user u inner join u_role r on u.rid=r.rid
+                INNER JOIN u_permission p on r.rid =p.rid where u.username=#{username,jdbcType=VARCHAR}
+  </select>
+
+  <update id="findByidUpdate" parameterType="com.tdkj.RNS.entity.User">
+            update u_user SET password=#{password,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER}
+    </update>
+</mapper>
