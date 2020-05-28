@@ -1,5 +1,8 @@
 package com.tdkj.RNS.controller;
 
+import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResultCode;
+import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.entity.Userinfo;
@@ -22,12 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.UUID;
 @Slf4j
 @Api("UserController")
 @Controller
-public class UserController {
+public class UserController implements RnsResultType, RnsResultCode {
 
     @Autowired
     private UserService userService;
@@ -80,7 +84,7 @@ public class UserController {
     @RequestMapping("/Notice")
     public String Notice() {
 
-        System.out.println("Notice");
+
         return "/user/Notice";
     }
     //离子页面
@@ -133,23 +137,21 @@ public class UserController {
      * @Param [id, oldpassword, newpassword]
      * @return java.lang.String
      **/
+    @ResponseBody
     @RequestMapping("/updatepassword")
-    public String updatepassword(Integer id,String oldpassword,String newpassword,Model model) {
+    public RnsResponse updatepassword(Integer id,String oldpassword,String newpassword,Model model) {
 
-        if (oldpassword.equals(newpassword)){
+    /*    if (oldpassword.equals(newpassword)){
             //前端可以直接档掉
             model.addAttribute("msg","原密码和新密码不可一致");
-            return "updateError";
-        }
+            return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
+        }*/
         //根据用户id查询出来用户信息
         User user =userService.selectByPrimaryKey(id);
-//        System.out.println("oldpassword---------"+oldpassword);
-//        System.out.println("newpassword---------"+newpassword);
         //将输入的原密码进行加密后 与数据库密码进行对比
         String dbpassword = Md5Util.Md5Password(user.getSalt(), oldpassword);
         if (!dbpassword.equals(user.getPassword())){
-            model.addAttribute("msg","原密码不正确");
-            return "updateError";
+            return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
         }
         //密码正确后进入  将新密码进行加密
         newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);
@@ -159,12 +161,12 @@ public class UserController {
         Log log = ShiroUtils.setLog("修改密码");
         logService.insert(log);
         //前端未确认返回code
-        return "redirect:/logout";
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
     }
 
     @RequestMapping("/select")
     public String select() {
-        System.out.println("select");
+        log.info("------------------------------select");
         return null;
     }
     @RequestMapping("/delete")

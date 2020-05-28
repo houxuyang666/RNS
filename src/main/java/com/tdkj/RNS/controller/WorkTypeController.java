@@ -1,5 +1,8 @@
 package com.tdkj.RNS.controller;
 
+import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResultCode;
+import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.Worktype;
 import com.tdkj.RNS.service.LogService;
@@ -18,7 +21,7 @@ import java.util.List;
  * @date 2020/5/27 16:53
  */
 @Controller
-public class WorkTypeController {
+public class WorkTypeController  implements RnsResultCode, RnsResultType {
 
     @Autowired
     private WorkTypeService workTypeService;
@@ -26,13 +29,12 @@ public class WorkTypeController {
     @Autowired
     private LogService logService;
 
-    @RequestMapping("/JobSetup")
-    public String selectJobSetup(Model model) {
+    @RequestMapping("/selectJobSetup")
+    public RnsResponse selectJobSetup(Model model) {
     //前端需要传过来 分页数据 该功能sql 默认为0-10
         List<Worktype> worktypeList = workTypeService.select();
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
-        model.addAttribute("worktypeList",worktypeList);
-        return "/worktype/JobSetup";
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,worktypeList);
     }
 }
