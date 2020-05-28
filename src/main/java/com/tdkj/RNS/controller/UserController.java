@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -22,7 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
-
+@Slf4j
 @Api("UserController")
 @Controller
 public class UserController {
@@ -170,7 +171,7 @@ public class UserController {
 
     @RequestMapping("/tologin")
     public String toLogin() {
-        System.out.println("tologin");
+        log.info("tologin");
         return "login";
     }
 
@@ -201,7 +202,6 @@ public class UserController {
             return "login";
         }
         Subject subject = SecurityUtils.getSubject();
-
         try {
             User user =userService.findByName(username);
             if (1==user.getStatus()){

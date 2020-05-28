@@ -21,6 +21,18 @@
 	</properties>
 
 	<dependencies>
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- 控制台 SQL日志打印插件 -->
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+			<version>3.8.1</version>
+		</dependency>
 		<!--swager依赖-->
 		<dependency>
 			<groupId>io.springfox</groupId>
