@@ -29,8 +29,8 @@
 			$(function() {
 
 				var t_titleName = "工种设置";
-				var u_url = "/json/jobSetup.json";
-				var m_method = "get";
+				var u_url = "/selectJobSetup";
+				var m_method = "post";
 				var a_arr_columns = tab_columns();
 				var i_idName = "#tab";
 				var t_toolbar = "#tb";
@@ -51,14 +51,14 @@
 					}
 				});
 				arr.push({
-					field: 'jobId',
+					field: 'id',
 					title: '工种编号',
 					sortable: true,
 					width: $(this).width() * 0.5,
 					align: 'center'
 				});
 				arr.push({
-					field: 'jobName',
+					field: 'WorktypeName',
 					title: '工种名称',
 					sortable: true,
 					width: $(this).width() * 0.5,

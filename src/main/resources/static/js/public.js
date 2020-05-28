@@ -137,3 +137,41 @@ function PanelSetup(id_name, _title, _width, _height) {
 		collapsible:true
 	});
 }
+
+//Ajax请求封装方法（get）
+function GetAjax(url,param,callback) {
+	$.ajax({
+		type:"GET",
+		url:url,
+		data:param,
+		dataType:"json",
+		success:callback,
+		error:function(XMLHttpRequest,textStatus,errorThrown){
+			console.log(XMLHttpRequest.responseText);//服务器响应返回的文本信息
+			console.log(XMLHttpRequest.status);//返回的HTTP状态码，比如常见的404,500等错误代码。
+			console.log(XMLHttpRequest.readyState);//:当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+			console.log(XMLHttpRequest.statusText);//应状态码的错误信息，比如404错误信息是not found,500是Internal Server Error。
+			console.log(textStatus);//"timeout"（超时）, "error"（错误）, "abort"(中止), "parsererror"（解析错误），还有可能返回空值。
+			console.log(errorThrown);//表示服务器抛出返回的错误信息
+		}
+	})
+}
+
+//Ajax请求封装方法（post）
+function PostAjax(url,param,callback) {
+	$.ajax({
+		type:"POST",
+		url:url,
+		data:param,
+		dataType:"json",
+		success:callback,
+		error:function(XMLHttpRequest,textStatus,errorThrown){
+			console.log(XMLHttpRequest.responseText);//服务器响应返回的文本信息
+			console.log(XMLHttpRequest.status);//返回的HTTP状态码，比如常见的404,500等错误代码。
+			console.log(XMLHttpRequest.readyState);//:当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+			console.log(XMLHttpRequest.statusText);//应状态码的错误信息，比如404错误信息是not found,500是Internal Server Error。
+			console.log(textStatus);//"timeout"（超时）, "error"（错误）, "abort"(中止), "parsererror"（解析错误），还有可能返回空值。
+			console.log(errorThrown);//表示服务器抛出返回的错误信息
+		}
+	})
+}
