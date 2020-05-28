@@ -13,6 +13,8 @@ public class User {
 
     private Integer rid; //角色ID
 
+    private Integer userinfoid; //外键  用于链接 用户信息表
+
     public Integer getId() {
         return id;
     }
@@ -45,14 +47,6 @@ public class User {
         this.salt = salt == null ? null : salt.trim();
     }
 
-    public Integer getRid() {
-        return rid;
-    }
-
-    public void setRid(Integer rid) {
-        this.rid = rid;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -61,15 +55,19 @@ public class User {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", status=" + status +
-                ", rid=" + rid +
-                '}';
+    public Integer getRid() {
+        return rid;
+    }
+
+    public void setRid(Integer rid) {
+        this.rid = rid;
+    }
+
+    public Integer getUserinfoid() {
+        return userinfoid;
+    }
+
+    public void setUserinfoid(Integer userinfoid) {
+        this.userinfoid = userinfoid;
     }
 }

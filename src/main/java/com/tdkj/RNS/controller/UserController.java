@@ -2,6 +2,7 @@ package com.tdkj.RNS.controller;
 
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.entity.Userinfo;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.UserService;
 import com.tdkj.RNS.utils.Md5Util;
@@ -35,7 +36,7 @@ public class UserController {
 
     @RequestMapping("/add")
     public String add() {
-        System.out.println("add");
+        /*进入添加用户页面*/
         return "/user/add";
     }
     /**
@@ -60,6 +61,7 @@ public class UserController {
         user.setStatus(0);
         user.setSalt(uuid);
         user.setRid(roleid);
+        Userinfo userinfo =new Userinfo();
         userService.insert(user);
         /*添加日志*/
         //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
@@ -71,7 +73,6 @@ public class UserController {
 
     @RequestMapping("/update")
     public String update() {
-
         System.out.println("update");
         return "/user/update";
     }
@@ -82,13 +83,9 @@ public class UserController {
         System.out.println("Notice");
         return "/user/Notice";
     }
-
-
-
-
+    //离子页面
     @RequestMapping("/basic_info")
     public String basic_info() {
-        System.out.println("basic_info");
         return "/user/basic_info";
     }
 
@@ -137,25 +134,32 @@ public class UserController {
      * @return java.lang.String
      **/
     @RequestMapping("/updatepassword")
-    public String updatepassword(Integer id,String oldpassword,String newpassword) {
+    public String updatepassword(Integer id,String oldpassword,String newpassword,Model model) {
+
+        if (oldpassword.equals(newpassword)){
+            //前端可以直接档掉
+            model.addAttribute("msg","原密码和新密码不可一致");
+            return "updateError";
+        }
         //根据用户id查询出来用户信息
         User user =userService.selectByPrimaryKey(id);
-        System.out.println("oldpassword---------"+oldpassword);
-        System.out.println("newpassword---------"+newpassword);
-
+//        System.out.println("oldpassword---------"+oldpassword);
+//        System.out.println("newpassword---------"+newpassword);
         //将输入的原密码进行加密后 与数据库密码进行对比
         String dbpassword = Md5Util.Md5Password(user.getSalt(), oldpassword);
-        if (dbpassword.equals(user.getPassword())){
-            //密码正确后进入  将新密码进行加密
-            newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);
-            user.setPassword(newpassword);
-            userService.findByidUpdate(user);
-            /*添加日志*/
-            Log log = ShiroUtils.setLog("修改密码");
-            logService.insert(log);
-            return "updateSuccess";
+        if (!dbpassword.equals(user.getPassword())){
+            model.addAttribute("msg","原密码不正确");
+            return "updateError";
         }
-        return "updateError";
+        //密码正确后进入  将新密码进行加密
+        newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);
+        user.setPassword(newpassword);
+        userService.findByidUpdate(user);
+        /*添加日志*/
+        Log log = ShiroUtils.setLog("修改密码");
+        logService.insert(log);
+        //前端未确认返回code
+        return "redirect:/logout";
     }
 
     @RequestMapping("/select")
@@ -171,7 +175,7 @@ public class UserController {
 
     @RequestMapping("/tologin")
     public String toLogin() {
-        log.info("tologin");
+        log.info("------------------------------tologin");
         return "login";
     }
 

@@ -12,7 +12,6 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer id);
 
-
     User findByName(String username);
 
     List<Permission> findByUsername(String username);
