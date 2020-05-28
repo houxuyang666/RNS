@@ -114,14 +114,15 @@
 			</div>
 		</div>
 
-
         <div id="UpdatePwd">
-            <div data-options="region:'center'" style="padding:100px 170px ">
-                <form id="SubForm" method="post" data-options="novalidate:true"  action="/updatepassword">
+            <div data-options="region:'center'" style="padding:50px 120px ">
+                <form id="SubForm" method="post" data-options="novalidate:true">
                     <input type="hidden" name="id" th:value="${session.user.id}">
-                    原密码：<input class="easyui-textbox" type="password" name="oldpassword" required="required" missingMessage="请输入旧密码" style="height:35px;"></input>
+                    原来密码：<input class="easyui-textbox" type="password" name="oldpassword" required="required" missingMessage="请输入旧密码" style="height:35px;"></input>
                     <br><br><br>
-                    新密码：<input class="easyui-textbox" type="password" name="newpassword" data-options="required:true,missingMessage:'请输入新密码'" style="height:35px;"></input>
+                    新的密码：<input class="easyui-validatebox" id="pwd" type="password" name="newpassword" data-options="required:true, missingMessage:'密码长度不能小于6',validType:'eqMinLength[6]'" style="height:35px;"></input>
+                    <br><br><br>
+                    确认密码：<input class="easyui-validatebox" id="rpwd" type="password" name="aginpassword" required="required" missingMessage="和密码保持一致" validType="eqPwd['#pwd']" style="height:35px;"></input>
                   <!--  原密码  <input type="text" name="oldpassword" required="required"><br>
                     新密码  <input type="text" name="newpassword" required="required"><br>
                     <input type="submit" name="修改密码">-->
@@ -129,7 +130,7 @@
             </div>
         </div>
         <div id="Updatebtn">
-            <a href="#" class="easyui-linkbutton" onclick="SubForm()">保存</a>
+            <a href="#" class="easyui-linkbutton" onclick="SubForm('/updatepassword')">保存</a>
             <a href="#" class="easyui-linkbutton" onclick="FunClose()">关闭</a>
         </div>
 
@@ -139,7 +140,7 @@
                 //设置修改密码弹窗
                 $("#UpdatePwd").dialog({
                     title: "修改密码",
-                    width: 600,
+                    width: 500,
                     height: 400,
                     modal: true,
                     shadow: true,
@@ -153,22 +154,51 @@
             function Update(){
                 $("#UpdatePwd").dialog("open");
             }
-            function SubForm(){
+            function SubForm(url){
                 $('#SubForm').form("submit",{
+                    url:url,
+                    data:{
+                        oldpassword: $("#SubForm input[name='oldpassword']").val(),
+                        newpassword: $("#SubForm input[name='newpassword']").val()
+                    },
                     onSubmit:function () {
                         return $(this).form("enableValidation").form("validate");
+                    },
+                    success:function (msg) {
+                        var obj=jQuery.parseJSON(msg);
+                        console.info(obj);
+                        if(obj.success){
+                            $("#UpdatePwd").dialog("close");
+                            $.messager.show({
+                                title:"提示",
+                                msg:obj.msg,//修改成功提示
+                                timeout:3000,
+                                showType:"silde"
+                            })
+                        }else if(obj.success="Password") {
+                             //原密码不正确
+                        }else {
+                            $("#UpdatePwd").dialog("close");
+                            $.messager.show({
+                                title:"提示",
+                                msg:"密码修改不成功，请再次修改",//修改失败提示
+                                timeout:3000,
+                                showType:"silde"
+                            })
+                        }
+
                     }
                 });
             }
             function FunClose(){
                 $("#UpdatePwd").dialog("close");
             }
-			
+
+
 			$(".easyui-tabs1").tabs({
 				tabHeight:44,
 			})
 			//获取全部的菜单
-			
 			var cons=$('.main>div.content');
 			//添加选项卡 
 			function AddTab(aa,title,url){
@@ -189,6 +219,23 @@
 				    $(aa).addClass("active").siblings().removeClass("active");	
 				}
 			}
+
+			//验证密码是否输入 一致
+            $.extend($.fn.validatebox.defaults.rules,{
+                eqPwd:{
+                    validator:function (value,param) {
+                        return value==$(param[0]).val();
+                    },
+                    message:"密码不一致"
+                },
+                eqMinLength:{
+                    validator:function (value,param) {
+                        return value.length>=param[0];
+                    },
+                    message:"字符串的长度不够"
+                }
+            })
+
 		</script>
 		
 		
