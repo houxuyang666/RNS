@@ -1,23 +1,17 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
 public class Worktype {
     private Integer id; //ID
 
     private String worktypeName; //工种名称
 
-    public Integer getId() {
-        return id;
-    }
+    private Date createTime; //创建时间
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Date modfiyTime; //修改时间
 
-    public String getWorktypeName() {
-        return worktypeName;
-    }
-
-    public void setWorktypeName(String worktypeName) {
-        this.worktypeName = worktypeName == null ? null : worktypeName.trim();
-    }
 }

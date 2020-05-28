@@ -8,15 +8,13 @@ import com.tdkj.RNS.entity.Worktype;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.WorkTypeService;
 import com.tdkj.RNS.utils.ShiroUtils;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,23 +39,26 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         return "/worktype/JobSetup";
     }
 
-
     @ResponseBody
     @RequestMapping("/selectJobSetup")
-    public RnsResponse selectJobSetup() {
+    public RnsResponse selectJobSetup(int page,int rows) {
     //前端需要传过来 分页数据 该功能sql 默认为0-10
-        List<Worktype> worktypeList = workTypeService.select();
+        List<Worktype> worktypeList = workTypeService.selectByLimit(page,rows);
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,worktypeList);
     }
 
+    @ResponseBody
     @RequestMapping("/addJobSetup")
-    public RnsResponse addJobSetup() {
+    public RnsResponse addJobSetup(String worktypeName) {
         //前端需要传过来 分页数据 该功能sql 默认为0-10
-        List<Worktype> worktypeList = workTypeService.select();
-        Log log = ShiroUtils.setLog("查看工种");
+        Worktype worktype =new Worktype();
+        worktype.setWorktypeName(worktypeName);
+        worktype.setCreateTime(new Date());
+        workTypeService.insertSelective(worktype);
+        Log log = ShiroUtils.setLog("添加工种");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,worktypeList);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,ADD_SUCCESS);
     }
 }

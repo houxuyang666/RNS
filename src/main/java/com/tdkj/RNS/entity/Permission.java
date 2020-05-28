@@ -1,5 +1,8 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
+@Data
 public class Permission {
     private Integer pid;  //ID
 
@@ -7,27 +10,4 @@ public class Permission {
 
     private Integer rid;  //角色ID
 
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getPermissionname() {
-        return permissionname;
-    }
-
-    public void setPermissionname(String permissionname) {
-        this.permissionname = permissionname == null ? null : permissionname.trim();
-    }
-
-    public Integer getRid() {
-        return rid;
-    }
-
-    public void setRid(Integer rid) {
-        this.rid = rid;
-    }
 }

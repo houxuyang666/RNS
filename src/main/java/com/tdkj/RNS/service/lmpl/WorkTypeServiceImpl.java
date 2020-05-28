@@ -18,9 +18,20 @@ public class WorkTypeServiceImpl implements WorkTypeService {
 
 
     @Autowired
-    private WorktypeMapper WorktypeMapper;
+    private WorktypeMapper worktypeMapper;
+
     @Override
     public List<Worktype> select() {
-        return WorktypeMapper.select();
+        return worktypeMapper.select();
+    }
+
+    @Override
+    public int insertSelective(Worktype worktype) {
+        return worktypeMapper.insertSelective(worktype);
+    }
+
+    @Override
+    public List<Worktype> selectByLimit(int page, int rows) {
+        return worktypeMapper.selectByLimit(page,rows);
     }
 }

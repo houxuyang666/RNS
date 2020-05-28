@@ -1,5 +1,8 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
+@Data
 public class User {
     private Integer id; //ID
 
@@ -15,59 +18,5 @@ public class User {
 
     private Integer userinfoid; //外键  用于链接 用户信息表
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getRid() {
-        return rid;
-    }
-
-    public void setRid(Integer rid) {
-        this.rid = rid;
-    }
-
-    public Integer getUserinfoid() {
-        return userinfoid;
-    }
-
-    public void setUserinfoid(Integer userinfoid) {
-        this.userinfoid = userinfoid;
-    }
 }

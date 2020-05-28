@@ -12,4 +12,8 @@ import java.util.List;
 public interface WorkTypeService {
 
     List<Worktype> select();
+
+    int insertSelective(Worktype worktype);
+
+    List<Worktype> selectByLimit(int page, int rows);
 }
