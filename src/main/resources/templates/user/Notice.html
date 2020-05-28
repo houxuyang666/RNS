@@ -1,139 +1,124 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>通知公告</title>
-		<link rel="stylesheet" type="text/css" href="/uimaker/easyui.css">
-		
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>通知公告</title>
+	<link rel="stylesheet" type="text/css" href="/uimaker/easyui.css">
+</head>
 
-	<body>
-		<div class="container">
-			<table id="dg" style="width:100%;height:auto"></table>
-			<div id="tb" style="padding:0 30px;">
-				<div class="conditions">
-					<span class="con-span">通知类型: </span><input class="easyui-combobox Notivetype" type="text" name="Notivetype" style="width:166px;height:35px;line-height:35px;"></input>
-					<span class="con-span">标题: </span><input class="easyui-textbox biaoti"  type="text" name="biaoti" value="" style="width:166px;height:35px;line-height:35px;"></input>
-					<a href="#" class="easyui-linkbutton" id="search" iconCls="icon-search" data-options="selected:true">查询</a>
-					<a href="#" class="easyui-linkbutton" id="chongzhi" iconCls="icon-reload">重置</a>
-				</div>
-			</div>
-			<div id="win">
-				<div data-options="region:'center'" style="padding:10px;">
-				  你要填充的内容
-			   </div>
-			</div> 
+<body>
+<div class="container">
+	<table id="tab" style="width:100%;"></table>
+	<div id="tb" style="padding:0 30px;">
+		<div class="conditions">
+			<span class="con-span">通知类型: </span>
+			<select class="easyui-combobox" name="language" style="height:35px;width:166px;">
+				<option>全站公告</option>
+				<option>数控技术科技</option>
+			</select>
+			<span class="con-span">标题: </span><input class="easyui-textbox biaoti" type="text" name="biaoti" value="" style="width:166px;height:35px;line-height:35px;"></input>
+			<a href="#" class="easyui-linkbutton" id="search" iconCls="icon-search" data-options="selected:true">查询</a>
+			<a href="#" class="easyui-linkbutton" id="chongzhi" iconCls="icon-reload">刷新</a>
 		</div>
-		<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
-		<script type="text/javascript" src="/js/public.js"></script>
-		<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="/js/easyui-lang-zh_CN.js"></script>
+	</div>
+	<!--地图弹窗设置-->
+	<div id="winMap">
+		<div data-options="region:'center'" style="padding:10px;">
+			你要填充的内容
+		</div>
+	</div>
+</div>
 
-		<script type="text/javascript">
-			$(function() {
-				//表头字段
-				var arr_columns = dg_columns();
-				//datagrid名称
-				var title_name = "通知公告";
-				var idName="#dg";
-				var jsonUrl="/json/Notice.json";
-				var  m_method="get";
-				var t_toolbar="#tb"
-				init_datagrid(idName, title_name, jsonUrl, arr_columns, m_method, t_toolbar);
-				
-				//弹窗
-				$('#win').window({
-					title:"浏览",
-					width:600,
-					height:500,
-					modal:true,
-					closed:false,
-					shadow:true,
-					//inline:true
-				});
-				$('#win').window('close');  
-			})
-			function dg_columns() {
-				var arr = new Array();
-//				arr.push({
-//					field:'ck',
-//					checkbox:true,
-//					width: $(this).width() * 0.5,
-//					align: 'center',
-//					formatter: function(value, rowData, rowIndex){
-//                      return "<input type=\"checkbox\">";
-//  				}
-//				});
-				arr.push({
-					field: 'look',
-					title: '浏览',
-					width: $(this).width() * 0.5,
-					align: 'center',
-					formatter:function(value,row,index){
-						return '<a href="javacript:;" onclick="WindowLook()"><img src="/images/look.png""></a>'
-					}
-				});
-				arr.push({
-					field: 'name',
-					title: '标题',
-					sortable:true,
-					width: $(this).width() * 0.5,
-					align: 'center'
-				});
-				arr.push({
-					field: 'notiveType',
-					title: '通知类型',
-					sortable:true,
-					width: $(this).width() * 0.5,
-					align: 'center'
-				});
-				arr.push({
-					field: 'type',
-					title: '类型',
-					sortable:true,
-					width: $(this).width() * 0.5,
-					align: 'center'
-				});
-				arr.push({
-					field: 'pepole',
-					title: '创建人',
-					sortable:true,
-					width: $(this).width() * 0.5,
-					align: 'center'
-				});
-				arr.push({
-					field: 'addDate',
-					title: '创建日期',
-					sortable:true,
-					width: $(this).width() * 0.5,
-					align: 'center'
-				});
-				return arr;
+<script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/js/public.js"></script>
+<script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		Import();
+	}
+	$(function() {
+
+		var t_titleName = "通知公告";
+		var u_url = "/json/Notice.json";
+		var m_method = "get";
+		var a_arr_columns = tab_columns();
+		var i_idName = "#tab";
+		var t_toolbar = "#tb";
+		init_datagrid(i_idName, t_titleName, u_url, a_arr_columns, m_method, t_toolbar);
+		WindowSetup("#winMap","浏览",600,500);
+		$("#winMap").window("close");
+	})
+
+
+	function tab_columns() {
+		var arr = new Array();
+		arr.push({
+			field: 'look',
+			title: '浏览',
+			width: $(this).width() * 0.5,
+			align: 'center',
+			formatter:function(value,row,index){
+				return '<a href="javacript:;" onclick="WindowLook()"><img src="/images/look.png""></a>'
 			}
+		});
+		arr.push({
+			field: 'name',
+			title: '标题',
+			sortable: true,
+			width: $(this).width() * 0.5,
+			align: 'center'
+		});
+		arr.push({
+			field: 'notiveType',
+			title: '全站公告',
+			sortable: true,
+			width: $(this).width() * 0.5,
+			align: 'center'
+		});
+		arr.push({
+			field: 'type',
+			title: '类型',
+			sortable: true,
+			width: $(this).width() * 0.5,
+			align: 'center'
+		});
+		arr.push({
+			field: 'pepole',
+			title: '创建人',
+			sortable: true,
+			width: $(this).width() * 0.5,
+			align: 'center'
+		});
+		arr.push({
+			field: 'addDate',
+			title: '创建日期',
+			sortable: true,
+			width: $(this).width() * 0.5,
+			align: 'center'
+		});
 
+		return arr;
+	}
+	//重置按钮事件
+	$("#chongzhi").click(function(){
+		$(".biaoti").attr("value","");
+		$('#dg').datagrid('reload');
+	})
 
-			
-			//重置按钮事件
-			$("#chongzhi").click(function(){
-			    $(".biaoti").attr("value","");
-			    $('#dg').datagrid('reload');    
-			})
-			
-			//查询按钮事件
-			$("#search").click(function(){
-				var biaoti = $(".biaoti").val();
-				var notivetype=$(".Notivetype").val();
-				alert(biaoti);
-			})
-			
-			//弹窗事件
-			function WindowLook(){
-				$("#win").window("open");
-				
-			}
-		</script>
+	//查询按钮事件
+	$("#search").click(function(){
+		var biaoti = $(".biaoti").val();
+		var notivetype=$(".Notivetype").val();
+		alert(biaoti);
+	})
 
-	</body>
+	//弹窗事件
+	function WindowLook(){
+		$("#winMap").window("open");
+	}
+</script>
+</body>
 
 </html>
