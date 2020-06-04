@@ -172,12 +172,17 @@
                         if(obj.responseCode=='200'){
                             $("#UpdatePwd").dialog("close");
                             $(this).form("clear");//清除文本框
-                            $.messager.show({
+                            $.messager.alert({
                                 title:"提示",
                                 msg:obj.message,//修改成功提示
                                 timeout:3000,
-                                showType:"silde"
+                                icon:'info',
+                                showType:"silde",
+                                onBeforeClose:function(){
+                                    window.location.href='/logout';
+                                }
                             })
+                            //window.location.href='/logout';
                         }else if(obj.responseCode="500") {
                              //原密码不正确
                             $("#UpdatePwd").dialog("close");
