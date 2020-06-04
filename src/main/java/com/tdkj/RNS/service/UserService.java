@@ -14,9 +14,7 @@ public interface UserService {
 
     int insert(User user);
 
-    List<Permission> findByUsername(String username);
+    User queryById(Integer id);
 
-    User selectByPrimaryKey(Integer id);
-
-    int findByidUpdate(User user);
+    int update(User user);
 }

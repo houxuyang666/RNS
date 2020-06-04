@@ -1,8 +1,8 @@
-package com.tdkj.RNS.mapper;
+package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Log;
 
-public interface LogMapper {
+public interface LogDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Log record);

@@ -1,10 +1,10 @@
-package com.tdkj.RNS.mapper;
+package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Worktype;
 
 import java.util.List;
 
-public interface WorktypeMapper {
+public interface WorktypeDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Worktype record);

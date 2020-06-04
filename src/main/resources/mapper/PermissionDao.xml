@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdkj.RNS.dao.PermissionDao">
+
+    <resultMap type="com.tdkj.RNS.entity.Permission" id="PermissionMap">
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="permissionName" column="permission_name" jdbcType="VARCHAR"/>
+        <result property="permissionUrl" column="permission_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PermissionMap">
+        select
+          pid, permission_name, permission_url
+        from test.u_permission
+        where pid = #{pid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PermissionMap">
+        select
+          pid, permission_name, permission_url
+        from test.u_permission
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PermissionMap">
+        select
+          pid, permission_name, permission_url
+        from test.u_permission
+        <where>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="permissionName != null and permissionName != ''">
+                and permission_name = #{permissionName}
+            </if>
+            <if test="permissionUrl != null and permissionUrl != ''">
+                and permission_url = #{permissionUrl}
+            </if>
+        </where>
+    </select>
+    <!--根据姓名获取权限列表-->
+    <select id="findByUsernameGetPermission" resultType="com.tdkj.RNS.entity.Permission">
+        select p.pid as pid,
+            p.permission_name as permissionName,
+            p.permission_url as permissionUrl
+            from u_user u JOIN role_permission rp
+            ON u.rid =rp.role_id JOIN u_permission p
+            on rp.permission_id =p.pid where u.username= #{username}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="pid" useGeneratedKeys="true">
+        insert into test.u_permission(permission_name, permission_url)
+        values (#{permissionName}, #{permissionUrl})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update test.u_permission
+        <set>
+            <if test="permissionName != null and permissionName != ''">
+                permission_name = #{permissionName},
+            </if>
+            <if test="permissionUrl != null and permissionUrl != ''">
+                permission_url = #{permissionUrl},
+            </if>
+        </set>
+        where pid = #{pid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from test.u_permission where pid = #{pid}
+    </delete>
+
+</mapper>

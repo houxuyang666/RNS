@@ -16,7 +16,7 @@ public class User {
 
     private Integer rid; //角色ID
 
-    private Integer userinfoid; //外键  用于链接 用户信息表
+    private Integer userinfoId; //外键  用于链接 用户信息表
 
 
 }

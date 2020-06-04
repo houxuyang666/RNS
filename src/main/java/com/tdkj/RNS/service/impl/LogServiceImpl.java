@@ -1,7 +1,7 @@
-package com.tdkj.RNS.service.lmpl;
+package com.tdkj.RNS.service.impl;
 
 import com.tdkj.RNS.entity.Log;
-import com.tdkj.RNS.mapper.LogMapper;
+import com.tdkj.RNS.dao.LogDao;
 import com.tdkj.RNS.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class LogServiceImpl implements LogService {
 
     @Autowired(required=false)
-    private LogMapper logMapper;
+    private LogDao logDao;
 
     @Override
     public int insert(Log log) {
-        return logMapper.insert(log);
+        return logDao.insert(log);
     }
 }

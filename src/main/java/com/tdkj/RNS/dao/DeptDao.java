@@ -1,8 +1,8 @@
-package com.tdkj.RNS.mapper;
+package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Dept;
 
-public interface DeptMapper {
+public interface DeptDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Dept record);

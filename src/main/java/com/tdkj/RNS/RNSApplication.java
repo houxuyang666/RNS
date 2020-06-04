@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan("com.tdkj.RNS.mapper")
+@MapperScan("com.tdkj.RNS.dao")
 public class RNSApplication {
 
 	public static void main(String[] args) {

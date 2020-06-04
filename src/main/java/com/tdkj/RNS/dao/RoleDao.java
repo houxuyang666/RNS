@@ -1,8 +1,8 @@
-package com.tdkj.RNS.mapper;
+package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Role;
 
-public interface RoleMapper {
+public interface RoleDao {
     int deleteByPrimaryKey(Integer rid);
 
     int insert(Role record);

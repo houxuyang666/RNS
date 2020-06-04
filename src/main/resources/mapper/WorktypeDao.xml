@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tdkj.RNS.mapper.WorktypeMapper">
+<mapper namespace="com.tdkj.RNS.dao.WorktypeDao">
   <resultMap id="BaseResultMap" type="com.tdkj.RNS.entity.Worktype">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="workType_name" jdbcType="VARCHAR" property="worktypeName" />

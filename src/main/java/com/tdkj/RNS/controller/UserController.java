@@ -52,6 +52,7 @@ public class UserController implements RnsResultType, RnsResultCode {
      **/
     @RequestMapping("/adduser")
     public String adduser(String username,String password,Integer roleid,Model model) {
+        log.info("添加用户");
         User user = userService.findByName(username);
         if (user != null) {
             model.addAttribute("msg","用户名已存在");
@@ -139,15 +140,10 @@ public class UserController implements RnsResultType, RnsResultCode {
      **/
     @ResponseBody
     @RequestMapping("/updatepassword")
-    public RnsResponse updatepassword(Integer id,String oldpassword,String newpassword,Model model) {
-
-    /*    if (oldpassword.equals(newpassword)){
-            //前端可以直接档掉
-            model.addAttribute("msg","原密码和新密码不可一致");
-            return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
-        }*/
+    public RnsResponse updatepassword(Integer id,String oldpassword,String newpassword) {
+        log.info("修改密码");
         //根据用户id查询出来用户信息
-        User user =userService.selectByPrimaryKey(id);
+        User user =userService.queryById(id);
         //将输入的原密码进行加密后 与数据库密码进行对比
         String dbpassword = Md5Util.Md5Password(user.getSalt(), oldpassword);
         if (!dbpassword.equals(user.getPassword())){
@@ -156,7 +152,8 @@ public class UserController implements RnsResultType, RnsResultCode {
         //密码正确后进入  将新密码进行加密
         newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);
         user.setPassword(newpassword);
-        userService.findByidUpdate(user);
+        userService.update(user);
+        log.info("密码修改成功");
         /*添加日志*/
         Log log = ShiroUtils.setLog("修改密码");
         logService.insert(log);

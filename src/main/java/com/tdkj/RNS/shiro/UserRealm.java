@@ -3,7 +3,9 @@ package com.tdkj.RNS.shiro;
 
 import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.service.PermissionService;
 import com.tdkj.RNS.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -14,16 +16,20 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
+@Slf4j
 public class UserRealm extends AuthorizingRealm {
 
     /*注入查询业务*/
     @Autowired
     private UserService userService;
+    @Autowired
+    private PermissionService permissionService;
     /*执行授权逻辑*/
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("执行授权逻辑");
+        log.info("执行授权逻辑");
         //创建该类给资源进行授权
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         /*一定要与perms[user:add]中的字符串一致*/
@@ -35,15 +41,17 @@ public class UserRealm extends AuthorizingRealm {
         Subject subject = SecurityUtils.getSubject();
         //也就是获取doGetAuthenticationInfo return 中参数带的user
         User user =(User)subject.getPrincipal();
-        System.out.println("ShiroUsername"+user.getUsername());
+        log.info("ShiroUsername:"+user.getUsername());
         //获取数据库中用户的
-        User dbUser =userService.selectByPrimaryKey(user.getId());
-        System.out.println("DBusername"+dbUser.getUsername());
+        User dbUser =userService.queryById(user.getId());
+        log.info("DBusername:"+dbUser.getUsername());
 
-        List<Permission> permissionList = userService.findByUsername(dbUser.getUsername());
+        List<Permission> permissionList = permissionService.findByUsernameGetPermission(dbUser.getUsername());
+
         for (Permission list:permissionList){
-            System.out.println("用户拥有的权限"+list.getPermissionname());
-            info.addStringPermission(list.getPermissionname());
+            log.info("用户拥有的权限:"+list.getPermissionUrl());
+            info.addStringPermission(list.getPermissionUrl());
+            log.info("用户权限:"+list.getPermissionUrl()+":加入完成");
         }
 
         /*添加该用户的授权  现在只是一个 实际项目中应该是一个map  或者 查询返回list 循环遍历 add方法 加入到info中*/
@@ -53,7 +61,7 @@ public class UserRealm extends AuthorizingRealm {
     /*执行认证逻辑*/
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("执行认证逻辑");
+        log.info("执行认证逻辑");
 
         UsernamePasswordToken tokens = (UsernamePasswordToken) authenticationToken;
         User user = userService.findByName(tokens.getUsername());

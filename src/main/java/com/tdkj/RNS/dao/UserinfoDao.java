@@ -1,8 +1,8 @@
-package com.tdkj.RNS.mapper;
+package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Userinfo;
 
-public interface UserinfoMapper {
+public interface UserinfoDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Userinfo record);

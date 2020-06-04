@@ -1,8 +1,8 @@
-package com.tdkj.RNS.service.lmpl;
+package com.tdkj.RNS.service.impl;
 
+import com.tdkj.RNS.dao.UserDao;
 import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
-import com.tdkj.RNS.mapper.UserMapper;
 import com.tdkj.RNS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,31 +14,27 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired(required=false)
-    private UserMapper userMapper;
+    @Autowired
+    private UserDao userDao;
     @Override
     public User findByName(String username) {
-        return userMapper.findByName(username);
+        return userDao.findByName(username);
     }
 
 
     @Override
-    public List<Permission> findByUsername(String username) {
-        return userMapper.findByUsername(username);
+    public User queryById(Integer id) {
+        return userDao.queryById(id);
     }
 
     @Override
-    public User selectByPrimaryKey(Integer id) {
-        return userMapper.selectByPrimaryKey(id);
+    public int update(User user) {
+        return userDao.update(user);
     }
 
-    @Override
-    public int findByidUpdate(User user) {
-        return userMapper.findByidUpdate(user);
-    }
 
     @Override
     public int insert(User user) {
-        return userMapper.insert(user);
+        return userDao.insert(user);
     }
 }
