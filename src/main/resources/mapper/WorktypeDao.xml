@@ -23,6 +23,23 @@
     from work_type
   </select>
 
+
+  <select id="selectLimit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    id, workType_name, create_time, modfiy_time
+    from work_type limit #{page},#{rows}
+  </select>
+
+  <select id="count" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1)
+    from work_type
+  </select>
+
+
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from work_type
     where id = #{id,jdbcType=INTEGER}

@@ -17,6 +17,7 @@ public class RnsResponse {
     private Integer ResponseCode;
     private String Message;
     private Object Data;
+    private long total;
 
     public static RnsResponse setResult(Integer ResponseCode, String message, Object data) {
         RnsResponse rnsResponse =new RnsResponse();
@@ -32,4 +33,13 @@ public class RnsResponse {
         rnsResponse.setMessage(message);
         return rnsResponse;
     }
+
+
+    public static RnsResponse setResult(long total, Object data) {
+        RnsResponse rnsResponse =new RnsResponse();
+        rnsResponse.setTotal(total);
+        rnsResponse.setData(data);
+        return rnsResponse;
+    }
+
 }

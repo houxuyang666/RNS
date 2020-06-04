@@ -37,5 +37,15 @@ public class WorkTypeServiceImpl implements WorkTypeService {
         return page;
     }
 
+    @Override
+    public List<Worktype> selectLimit(int page, int rows) {
+        return worktypeDao.selectLimit(page,rows);
+    }
+
+    @Override
+    public int count() {
+        return worktypeDao.count();
+    }
+
 
 }

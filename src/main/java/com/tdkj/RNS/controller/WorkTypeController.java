@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author hxy
@@ -40,7 +41,7 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         return "/worktype/JobSetup";
     }
 
-    @ResponseBody
+   /* @ResponseBody
     @RequestMapping("/selectJobSetup")
     public RnsResponse selectJobSetup(int page,int rows) {
         log.info("------------selectJobSetup");
@@ -48,6 +49,16 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pagelist);
+    }*/
+
+    @RequestMapping("/selectJobSetup")
+    public RnsResponse selectJobSetup(int page,int rows) {
+        log.info("------------selectJobSetup");
+        int count =workTypeService.count();
+        List<Worktype> pagelist = workTypeService.selectLimit(page,rows);
+        Log log = ShiroUtils.setLog("查看工种");
+        logService.insert(log);
+        return RnsResponse.setResult(count,pagelist);
     }
 
     @ResponseBody
