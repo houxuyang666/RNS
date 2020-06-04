@@ -47,19 +47,16 @@ public class ShiroConfig{
         filterMap.put("/logout","logout");
 
         /*Swagger 开放白名单*/
-
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/v2/**", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-
 
         /*授权拦截器  访问add 需要perms[user:add] 该授权*/
         filterMap.put("/adduser","perms[user:adduser]");
         filterMap.put("/updatepassword","perms[user:updatepassword]");
         filterMap.put("/select","perms[user:select]");
         filterMap.put("/delete","perms[user:delete]");
-
         /*授权拦截器 结束*/
 
         /*放行静态资源-开始*/

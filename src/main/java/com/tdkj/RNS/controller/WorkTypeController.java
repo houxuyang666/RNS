@@ -24,6 +24,7 @@ import java.util.Date;
  */
 @Slf4j
 @Controller
+@RequestMapping("WorkType")
 public class WorkTypeController  implements RnsResultCode, RnsResultType {
 
     @Autowired
@@ -35,13 +36,14 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
 
     @RequestMapping("/JobSetup")
     public String JobSetup() {
-        log.info("------------JobSetup");
+        log.info("------------跳转页面JobSetup");
         return "/worktype/JobSetup";
     }
 
     @ResponseBody
     @RequestMapping("/selectJobSetup")
     public RnsResponse selectJobSetup(int pageNo,int pageSize) {
+        log.info("------------selectJobSetup");
         PageInfo<Worktype> page = workTypeService.selectByLimit(pageNo,pageSize);
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
@@ -51,6 +53,7 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
     @ResponseBody
     @RequestMapping("/addJobSetup")
     public RnsResponse addJobSetup(String worktypeName) {
+        log.info("------------addJobSetup");
         Worktype worktype =new Worktype();
         worktype.setWorktypeName(worktypeName);
         worktype.setCreateTime(new Date());
