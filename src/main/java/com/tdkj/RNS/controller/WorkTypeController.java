@@ -1,5 +1,6 @@
 package com.tdkj.RNS.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author hxy
@@ -41,18 +41,16 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
 
     @ResponseBody
     @RequestMapping("/selectJobSetup")
-    public RnsResponse selectJobSetup(int page,int rows) {
-    //前端需要传过来 分页数据 该功能sql 默认为0-10
-        List<Worktype> worktypeList = workTypeService.selectByLimit(page,rows);
+    public RnsResponse selectJobSetup(int pageNo,int pageSize) {
+        PageInfo<Worktype> page = workTypeService.selectByLimit(pageNo,pageSize);
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,worktypeList);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,page);
     }
 
     @ResponseBody
     @RequestMapping("/addJobSetup")
     public RnsResponse addJobSetup(String worktypeName) {
-        //前端需要传过来 分页数据 该功能sql 默认为0-10
         Worktype worktype =new Worktype();
         worktype.setWorktypeName(worktypeName);
         worktype.setCreateTime(new Date());

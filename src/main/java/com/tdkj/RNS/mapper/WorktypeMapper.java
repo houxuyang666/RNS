@@ -17,7 +17,5 @@ public interface WorktypeMapper {
 
     int updateByPrimaryKey(Worktype record);
 
-    List<Worktype> select();
-
-    List<Worktype> selectByLimit(int page, int rows);
+    List<Worktype> selectByLimit();
 }

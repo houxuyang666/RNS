@@ -1,8 +1,8 @@
 package com.tdkj.RNS.service;
 
+import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.entity.Worktype;
 
-import java.util.List;
 
 /**
  * @author hxy
@@ -11,9 +11,7 @@ import java.util.List;
  */
 public interface WorkTypeService {
 
-    List<Worktype> select();
-
     int insertSelective(Worktype worktype);
 
-    List<Worktype> selectByLimit(int page, int rows);
+    PageInfo<Worktype> selectByLimit(int pageNo, int pageSize);
 }
