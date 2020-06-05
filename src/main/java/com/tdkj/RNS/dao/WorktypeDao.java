@@ -20,7 +20,6 @@ public interface WorktypeDao {
 
     List<Worktype> selectByLimit();
 
-    List<Worktype> selectLimit(@Param("page")int page,@Param("rows")int rows);
+    //List<Worktype> selectLimit(@Param("page")int page,@Param("rows")int rows);
 
-    int count();
 }

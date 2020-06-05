@@ -17,8 +17,6 @@ public interface WorkTypeService {
 
     PageInfo<Worktype> selectByLimit(int pageNo, int pageSize);
 
-    List<Worktype> selectLimit(int page, int rows);
 
-    int count();
 
 }

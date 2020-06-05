@@ -16,14 +16,15 @@ public class RnsResponse {
 
     private Integer ResponseCode;
     private String Message;
-    private Object Data;
-    private long total;
 
-    public static RnsResponse setResult(Integer ResponseCode, String message, Object data) {
+    private Object rows;
+    private Long total;
+
+    public static RnsResponse setResult(Integer ResponseCode, String message, Object rows) {
         RnsResponse rnsResponse =new RnsResponse();
         rnsResponse.setResponseCode(ResponseCode);
         rnsResponse.setMessage(message);
-        rnsResponse.setData(data);
+        rnsResponse.setRows(rows);
         return rnsResponse;
     }
 
@@ -35,11 +36,14 @@ public class RnsResponse {
     }
 
 
-    public static RnsResponse setResult(long total, Object data) {
+    public static RnsResponse setResult(Integer ResponseCode, String message, Object rows,Long total) {
         RnsResponse rnsResponse =new RnsResponse();
+        rnsResponse.setResponseCode(ResponseCode);
+        rnsResponse.setMessage(message);
+        rnsResponse.setRows(rows);
         rnsResponse.setTotal(total);
-        rnsResponse.setData(data);
         return rnsResponse;
     }
+
 
 }
