@@ -1,5 +1,6 @@
 package com.tdkj.RNS.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
+
+import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 /**
  * @author hxy
@@ -41,7 +44,7 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         return "/worktype/JobSetup";
     }
 
-   /* @ResponseBody
+    @ResponseBody
     @RequestMapping("/selectJobSetup")
     public RnsResponse selectJobSetup(int page,int rows) {
         log.info("------------selectJobSetup");
@@ -49,17 +52,19 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pagelist);
-    }*/
+    }
 
-    @RequestMapping("/selectJobSetup")
+ /*   @RequestMapping("/selectJobSetup")
     public RnsResponse selectJobSetup(int page,int rows) {
         log.info("------------selectJobSetup");
         int count =workTypeService.count();
         List<Worktype> pagelist = workTypeService.selectLimit(page,rows);
+        Object json = JSONArray.toJSON(pagelist);
+        log.info(json.toString());
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
-        return RnsResponse.setResult(count,pagelist);
-    }
+        return RnsResponse.setResult(count,json.toString());
+    }*/
 
     @ResponseBody
     @RequestMapping("/addJobSetup")
