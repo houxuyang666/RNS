@@ -51,7 +51,7 @@ public class WorkTypeController  implements RnsResultCode, RnsResultType {
         PageInfo<Worktype> pagelist = workTypeService.selectByLimit(page,rows);
         Log log = ShiroUtils.setLog("查看工种");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pagelist,pagelist.getTotal());
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pagelist.getList(),pagelist.getTotal());
     }
 
  /*   @RequestMapping("/selectJobSetup")
