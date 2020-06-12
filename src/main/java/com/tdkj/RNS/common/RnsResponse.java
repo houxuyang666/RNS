@@ -1,9 +1,6 @@
 package com.tdkj.RNS.common;
 
 import lombok.Data;
-import org.springframework.http.HttpStatus;
-
-import java.util.HashMap;
 
 /**
  * @Description RNS系统,统一响应格式
@@ -17,7 +14,7 @@ public class RnsResponse {
     private Integer ResponseCode;
     private String Message;
 
-    private Object rows;
+    private Object rows;//数据 Data
     private Long total;
 
     public static RnsResponse setResult(Integer ResponseCode, String message, Object rows) {

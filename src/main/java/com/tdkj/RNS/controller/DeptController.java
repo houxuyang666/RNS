@@ -2,17 +2,14 @@ package com.tdkj.RNS.controller;
 
 import com.tdkj.RNS.entity.Dept;
 import com.tdkj.RNS.entity.Log;
-import com.tdkj.RNS.entity.Worktype;
 import com.tdkj.RNS.service.DeptService;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author hxy

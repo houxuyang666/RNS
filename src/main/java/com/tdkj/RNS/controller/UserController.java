@@ -41,7 +41,7 @@ public class UserController implements RnsResultType, RnsResultCode {
     @RequestMapping("/add")
     public String add() {
         /*进入添加用户页面*/
-        return "/user/add";
+        return "user/add";
     }
     /**
      * @Author houxuyang
@@ -56,7 +56,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         User user = userService.findByName(username);
         if (user != null) {
             model.addAttribute("msg","用户名已存在");
-            return "/user/add";
+            return "user/add";
         }
         user = new User();
         //uuid设置盐
@@ -73,61 +73,61 @@ public class UserController implements RnsResultType, RnsResultCode {
         Log log = ShiroUtils.setLog("添加用户", username);
         logService.insert(log);
         model.addAttribute("msg","添加成功");
-        return "/user/add";
+        return "user/add";
     }
 
     @RequestMapping("/update")
     public String update() {
         System.out.println("update");
-        return "/user/update";
+        return "user/update";
     }
 
     @RequestMapping("/Notice")
     public String Notice() {
 
 
-        return "/user/Notice";
+        return "user/Notice";
     }
     //离子页面
     @RequestMapping("/basic_info")
     public String basic_info() {
-        return "/user/basic_info";
+        return "user/basic_info";
     }
 
     @RequestMapping("/AttendanceInfo")
     public String AttendanceInfo() {
         System.out.println("AttendanceInfo");
-        return "/user/AttendanceInfo";
+        return "user/AttendanceInfo";
     }
 
     @RequestMapping("/CompanyInfo")
     public String CompanyInfo() {
         System.out.println("CompanyInfo");
-        return "/user/CompanyInfo";
+        return "user/CompanyInfo";
     }
 
     @RequestMapping("/MapInfo")
     public String MapInfo() {
         System.out.println("MapInfo");
-        return "/user/MapInfo";
+        return "user/MapInfo";
     }
 
     @RequestMapping("/ProjectInfo")
     public String ProjectInfo() {
         System.out.println("ProjectInfo");
-        return "/user/ProjectInfo";
+        return "user/ProjectInfo";
     }
 
     @RequestMapping("/WageInfo")
     public String WageInfo() {
         System.out.println("WageInfo");
-        return "/user/WageInfo";
+        return "user/WageInfo";
     }
 
     @RequestMapping("/WorkerIDInfo")
     public String WorkerIDInfo() {
         System.out.println("WorkerIDInfo");
-        return "/user/WorkerIDInfo";
+        return "user/WorkerIDInfo";
     }
 
 
@@ -186,7 +186,7 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @RequestMapping("/index")
     public String index() {
-        return "/user/index";
+        return "user/index";
     }
 
     /*编写shiro 登录认证逻辑*/
