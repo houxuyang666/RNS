@@ -175,7 +175,7 @@ public class UserController implements RnsResultType, RnsResultCode {
     @RequestMapping("/tologin")
     public String toLogin() {
         log.info("------------------------------tologin");
-        return "login";
+        return "login-2";
     }
 
     @RequestMapping("/noAuth")
