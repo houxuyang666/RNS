@@ -43,6 +43,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         /*进入添加用户页面*/
         return "user/add";
     }
+
     /**
      * @Author houxuyang
      * @Description //添加用户
@@ -82,52 +83,11 @@ public class UserController implements RnsResultType, RnsResultCode {
         return "user/update";
     }
 
-    @RequestMapping("/Notice")
-    public String Notice() {
 
-
-        return "user/Notice";
-    }
     //离子页面
     @RequestMapping("/basic_info")
     public String basic_info() {
         return "user/basic_info";
-    }
-
-    @RequestMapping("/AttendanceInfo")
-    public String AttendanceInfo() {
-        System.out.println("AttendanceInfo");
-        return "user/AttendanceInfo";
-    }
-
-    @RequestMapping("/CompanyInfo")
-    public String CompanyInfo() {
-        System.out.println("CompanyInfo");
-        return "user/CompanyInfo";
-    }
-
-    @RequestMapping("/MapInfo")
-    public String MapInfo() {
-        System.out.println("MapInfo");
-        return "user/MapInfo";
-    }
-
-    @RequestMapping("/ProjectInfo")
-    public String ProjectInfo() {
-        System.out.println("ProjectInfo");
-        return "user/ProjectInfo";
-    }
-
-    @RequestMapping("/WageInfo")
-    public String WageInfo() {
-        System.out.println("WageInfo");
-        return "user/WageInfo";
-    }
-
-    @RequestMapping("/WorkerIDInfo")
-    public String WorkerIDInfo() {
-        System.out.println("WorkerIDInfo");
-        return "user/WorkerIDInfo";
     }
 
 
@@ -161,17 +121,6 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
     }
 
-    @RequestMapping("/select")
-    public String select() {
-        log.info("------------------------------select");
-        return null;
-    }
-    @RequestMapping("/delete")
-    public String delete() {
-        System.out.println("delete");
-        return null;
-    }
-
     @RequestMapping("/tologin")
     public String toLogin() {
         log.info("------------------------------tologin");
@@ -202,14 +151,14 @@ public class UserController implements RnsResultType, RnsResultCode {
         * */
         if ("".equals(username)||"".equals(password)){
             model.addAttribute("msg","请输入用户名或密码！");
-            return "login";
+            return "login-1";
         }
         Subject subject = SecurityUtils.getSubject();
         try {
             User user =userService.findByName(username);
             if (1==user.getStatus()){
                 model.addAttribute("msg","账户已被冻结，请联系管理员");
-                return "login";
+                return "login-1";
             }
             password = Md5Util.Md5Password(user.getSalt(), password);
             /*2.封装用户数据*/
@@ -227,18 +176,15 @@ public class UserController implements RnsResultType, RnsResultCode {
         }catch (UnknownAccountException e){
             //UnknownAccountException 指的是用户名不存在 但是为了防止恶意扫描账号 提示为用户名或密码不正确
             model.addAttribute("msg","用户名或密码错误！");
-            return "login";
+            return "login-1";
         }catch (IncorrectCredentialsException e){
             model.addAttribute("msg","用户名或密码错误");
-            return "login";
+            return "login-1";
         }catch (NullPointerException e){
             //由于在此需要获取用户的盐值及用户名等 会出现null错误 所以添加try
             model.addAttribute("msg","用户名或密码错误");
-            return "login";
+            return "login-1";
         }
     }
-
-
-
 
 }
