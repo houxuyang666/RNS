@@ -3,9 +3,14 @@ package com.tdkj.RNS.configuration;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.github.pagehelper.PageHelper;
 import com.tdkj.RNS.shiro.UserRealm;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+@Slf4j
 @Configuration
 public class ShiroConfig{
     /*
@@ -79,7 +85,7 @@ public class ShiroConfig{
 
         /*放行静态资源-结束*/
         /*用通配符  */
-        filterMap.put("/**","authc");
+        filterMap.put("/**","user"); //user表示配置记住我或认证通过可以访问的地址
 
         /*修改被拦截之后跳转的页面  参数为controller的 RequestMapping*/
         shiroFilterFactoryBean.setLoginUrl("/tologin");
@@ -104,6 +110,7 @@ public class ShiroConfig{
         DefaultWebSecurityManager securityManager =new DefaultWebSecurityManager();
         //关联Realm
         securityManager.setRealm(userRealm);
+        securityManager.setRememberMeManager(rememberMeManager());//（增加改行）配置记住我
         return securityManager;
     }
 
@@ -119,7 +126,6 @@ public class ShiroConfig{
         /*UserRealm用于验证用户 以及授权用户 等逻辑*/
         return new UserRealm();
     }
-
 
     /*
      * @Author houxuyang
@@ -147,14 +153,40 @@ public class ShiroConfig{
     }
 
     /**
-     * Shiro自定义过滤器（解决session丢失）
+     * （新增方法）
+     * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
      * @return
      */
     @Bean
-    public OncePerRequestFilter addPrincipalToSessionFilter() {
-        return new AddPrincipalToSessionFilter();
+    public SimpleCookie rememberMeCookie(){
+        log.info("rememberMeCookie");
+        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
+
+        //setcookie()的第七个参数
+        //设为true后，只能通过http访问，javascript无法访问
+        //防止xss读取cookie
+        simpleCookie.setHttpOnly(true);
+        //simpleCookie.setPath("/");
+        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
+        simpleCookie.setMaxAge(60*5);
+        return simpleCookie;
     }
 
-
+    /**
+     * （新增方法）
+     * cookie管理对象;记住我功能,rememberMe管理器
+     * @return
+     */
+    @Bean
+    public CookieRememberMeManager rememberMeManager(){
+        log.info("rememberMeManager");
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+        cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
+        return cookieRememberMeManager;
+    }
 
 }

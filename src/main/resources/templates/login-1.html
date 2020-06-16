@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>后台管理-登陆</title>
+    <title>唐都科技-登陆</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -35,9 +35,9 @@
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="/login">
                 <div class="layui-form-item logo-title">
-                    <h1>LayuiMini后台登录</h1>
+                    <h1>唐都科技管理系统</h1>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-vercode" for="captcha"></label>
-                    <input type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" >
+                    <input type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
                     <div class="captcha-img">
                         <img id="captchaPic" src="../images/captcha.jpg">
                     </div>
@@ -84,7 +84,7 @@
         });
 
         // 进行登录操作
-        form.on('submit(login)', function (data) {
+        /*form.on('submit(login)', function (data) {
             data = data.field;
             if (data.username == '') {
                 layer.msg('用户名不能为空');
@@ -99,10 +99,10 @@
                 return false;
             }
             layer.msg('登录成功', function () {
-                window.location = '/index.html';
+                window.location.href = '/login';
             });
             return false;
-        });
+        });*/
     });
 </script>
 </body>

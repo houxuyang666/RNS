@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
 @Slf4j
@@ -137,7 +138,7 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @RequestMapping("/index")
     public String index() {
-        return "user/index";
+        return "page/index";
     }
 
     /*编写shiro 登录认证逻辑*/
@@ -147,15 +148,14 @@ public class UserController implements RnsResultType, RnsResultCode {
     }
     )
     @RequestMapping("/login")
-    public String login(String username,String password,boolean rememberMe,Model model) {
+    public String login(String username, String password, boolean rememberMe, Model model, HttpServletResponse response) {
         log.info("-----login");
+        log.info("username"+":"+username);
+        log.info("password"+":"+password);
+        log.info("rememberMe"+":"+rememberMe);
         /*使用Shiro编写认证操作
         *1.获取subjec
         * */
-       /* if ("".equals(username)||"".equals(password)){
-            model.addAttribute("msg","请输入用户名或密码！");
-            return "login-1";
-        }*/
 
         Subject subject = SecurityUtils.getSubject();
         try {
@@ -165,8 +165,8 @@ public class UserController implements RnsResultType, RnsResultCode {
                 return "login-1";
             }
             password = Md5Util.Md5Password(user.getSalt(), password);
-            /*2.封装用户数据*/
-            UsernamePasswordToken token =new UsernamePasswordToken(username,password);
+            /*2.封装用户数据*/ //记住我
+            UsernamePasswordToken token =new UsernamePasswordToken(username,password,rememberMe);
             /*3.执行登录操作*/
             //会将用户信息传给 UserRealm的doGetAuthenticationInfo方法的authenticationToken参数 用于与数据库验证
             subject.login(token);
@@ -175,7 +175,6 @@ public class UserController implements RnsResultType, RnsResultCode {
             logService.insert(log);
             Session session =subject.getSession();
             session.setAttribute("user",user);
-            ((UsernamePasswordToken) token).setRememberMe(rememberMe);
             //登录成功 重定向
             return "redirect:/index";
         }catch (UnknownAccountException e){
