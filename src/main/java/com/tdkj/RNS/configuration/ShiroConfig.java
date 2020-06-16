@@ -5,12 +5,14 @@ import com.github.pagehelper.PageHelper;
 import com.tdkj.RNS.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -89,6 +91,8 @@ public class ShiroConfig{
 
         /*修改被拦截之后跳转的页面  参数为controller的 RequestMapping*/
         shiroFilterFactoryBean.setLoginUrl("/tologin");
+        /*登录成功后跳转的连接*/
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         /*设置未授权跳转的页面*/
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
 
@@ -112,6 +116,53 @@ public class ShiroConfig{
         securityManager.setRealm(userRealm);
         securityManager.setRememberMeManager(rememberMeManager());//（增加改行）配置记住我
         return securityManager;
+    }
+    //会话管理器
+    @Bean
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        sessionManager.setGlobalSessionTimeout(1 * 60 * 60 * 1000);//session过期时间
+        sessionManager.setDeleteInvalidSessions(true);//是否删除过期session
+        sessionManager.setSessionIdCookie(rememberMeCookie());
+        return sessionManager;
+    }
+
+    /**
+     * （新增方法）
+     * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
+     * @return
+     */
+    @Bean
+    public SimpleCookie rememberMeCookie(){
+        log.info("rememberMeCookie");
+        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
+
+        //setcookie()的第七个参数
+        //设为true后，只能通过http访问，javascript无法访问
+        //防止xss读取cookie
+        simpleCookie.setHttpOnly(true);
+        //simpleCookie.setPath("/");
+        //<!-- 记住我cookie生效时间 ,单位秒;-->
+        simpleCookie.setMaxAge(60*5);
+        return simpleCookie;
+    }
+
+    /**
+     * （新增方法）
+     * cookie管理对象;记住我功能,rememberMe管理器
+     * @return
+     */
+    @Bean
+    public CookieRememberMeManager rememberMeManager(){
+        log.info("rememberMeManager");
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+        cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
+        return cookieRememberMeManager;
     }
 
     /*
@@ -139,7 +190,9 @@ public class ShiroConfig{
         return new ShiroDialect();
     }
 
-
+    /**
+     *后端分页插件
+     */
     @Bean
     public PageHelper pageHelper(){
         PageHelper pageHelper = new PageHelper();
@@ -150,43 +203,6 @@ public class ShiroConfig{
         properties.setProperty("dialect","mysql");    //配置mysql数据库的方言
         pageHelper.setProperties(properties);
         return pageHelper;
-    }
-
-    /**
-     * （新增方法）
-     * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
-     * @return
-     */
-    @Bean
-    public SimpleCookie rememberMeCookie(){
-        log.info("rememberMeCookie");
-        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        //setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数。它有以下特点：
-
-        //setcookie()的第七个参数
-        //设为true后，只能通过http访问，javascript无法访问
-        //防止xss读取cookie
-        simpleCookie.setHttpOnly(true);
-        //simpleCookie.setPath("/");
-        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
-        simpleCookie.setMaxAge(60*5);
-        return simpleCookie;
-    }
-
-    /**
-     * （新增方法）
-     * cookie管理对象;记住我功能,rememberMe管理器
-     * @return
-     */
-    @Bean
-    public CookieRememberMeManager rememberMeManager(){
-        log.info("rememberMeManager");
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
-        //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-        cookieRememberMeManager.setCipherKey(Base64.decode("4AvVhmFLUs0KTA3Kprsdag=="));
-        return cookieRememberMeManager;
     }
 
 }

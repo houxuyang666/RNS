@@ -1,20 +1,15 @@
 package com.tdkj.RNS.controller;
 
-import com.tdkj.RNS.VO.PermissionVO;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 
