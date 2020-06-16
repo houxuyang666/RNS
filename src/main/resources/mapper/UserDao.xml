@@ -103,6 +103,11 @@
         from u_user
         where username = #{username}
     </select>
+    <select id="selectUser" resultType="com.tdkj.RNS.entity.User">
+        select
+          id, username, password, salt, status, rid, userinfo_id
+        from u_user
+    </select>
 
 
 </mapper>

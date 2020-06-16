@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.tdkj.RNS.shiro.UserRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -144,6 +145,16 @@ public class ShiroConfig{
         pageHelper.setProperties(properties);
         return pageHelper;
     }
+
+    /**
+     * Shiro自定义过滤器（解决session丢失）
+     * @return
+     */
+    @Bean
+    public OncePerRequestFilter addPrincipalToSessionFilter() {
+        return new AddPrincipalToSessionFilter();
+    }
+
 
 
 }

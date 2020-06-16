@@ -1,5 +1,6 @@
 package com.tdkj.RNS.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
@@ -27,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.UUID;
 @Slf4j
 @Api("UserController")
@@ -124,7 +126,7 @@ public class UserController implements RnsResultType, RnsResultCode {
     @RequestMapping("/tologin")
     public String toLogin() {
         log.info("------------------------------tologin");
-        return "login-1";
+       return "login-1";
     }
 
     @RequestMapping("/noAuth")
@@ -145,14 +147,16 @@ public class UserController implements RnsResultType, RnsResultCode {
     }
     )
     @RequestMapping("/login")
-    public String login(String username,String password,Model model) {
+    public String login(String username,String password,boolean rememberMe,Model model) {
+        log.info("-----login");
         /*使用Shiro编写认证操作
         *1.获取subjec
         * */
-        if ("".equals(username)||"".equals(password)){
+       /* if ("".equals(username)||"".equals(password)){
             model.addAttribute("msg","请输入用户名或密码！");
             return "login-1";
-        }
+        }*/
+
         Subject subject = SecurityUtils.getSubject();
         try {
             User user =userService.findByName(username);
@@ -171,6 +175,7 @@ public class UserController implements RnsResultType, RnsResultCode {
             logService.insert(log);
             Session session =subject.getSession();
             session.setAttribute("user",user);
+            ((UsernamePasswordToken) token).setRememberMe(rememberMe);
             //登录成功 重定向
             return "redirect:/index";
         }catch (UnknownAccountException e){
@@ -186,5 +191,15 @@ public class UserController implements RnsResultType, RnsResultCode {
             return "login-1";
         }
     }
+
+    @RequestMapping("/selectuser")
+    public RnsResponse selectuser() {
+        log.info("-------------selectuser");
+        List<User> userList =userService.selectUser();
+        Object json = JSONArray.toJSON(userList);
+        //log.info(json.toString());
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,json.toString());
+    }
+
 
 }

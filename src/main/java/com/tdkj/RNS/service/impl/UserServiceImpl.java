@@ -32,6 +32,10 @@ public class UserServiceImpl implements UserService {
         return userDao.update(user);
     }
 
+    @Override
+    public List<User> selectUser() {
+        return userDao.selectUser();
+    }
 
     @Override
     public int insert(User user) {

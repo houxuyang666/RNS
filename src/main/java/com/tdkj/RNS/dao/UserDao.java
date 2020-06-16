@@ -75,12 +75,10 @@ public interface UserDao {
 
     /**
      * @Author houxuyang
-     * @Description //查询用户权限
-     * @Date 15:05 2020/6/4
-     * @Param [username]
-     * @return java.util.List<com.tdkj.RNS.entity.PermissionVO>
+     * @Description //查询所有用户
+     * @Date 15:13 2020/6/16
+     * @Param []
+     * @return java.util.List<com.tdkj.RNS.entity.User>
      **/
-    List<Permission> findByUsername(String username);
-
-    int findByidUpdate(User user);
+    List<User> selectUser();
 }

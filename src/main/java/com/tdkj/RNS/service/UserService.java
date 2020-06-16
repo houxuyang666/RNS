@@ -17,4 +17,6 @@ public interface UserService {
     User queryById(Integer id);
 
     int update(User user);
+
+    List<User> selectUser();
 }
