@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 权限表(Permission)表服务接口
+ * 权限表(PermissionVO)表服务接口
  *
  * @author makejava
  * @since 2020-06-04 14:32:47
@@ -58,7 +58,16 @@ public interface PermissionService {
      * @Description //根据姓名获取权限
      * @Date 15:25 2020/6/4
      * @Param [username]
-     * @return java.util.List<com.tdkj.RNS.entity.Permission>
+     * @return java.util.List<com.tdkj.RNS.entity.PermissionVO>
      **/
     List<Permission> findByUsernameGetPermission(String username);
+
+    /**
+     * @Author houxuyang
+     * @Description //查询所有权限
+     * @Date 9:26 2020/6/16
+     * @Param []
+     * @return java.lang.Boolean
+     **/
+    List<Permission> select();
 }

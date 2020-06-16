@@ -3,7 +3,7 @@ package com.tdkj.RNS.entity;
 import java.io.Serializable;
 
 /**
- * 权限表(Permission)实体类
+ * 权限表(PermissionVO)实体类
  *
  * @author makejava
  * @since 2020-06-04 14:32:46

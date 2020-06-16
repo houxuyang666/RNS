@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 权限表(Permission)表数据库访问层
+ * 权限表(PermissionVO)表数据库访问层
  *
  * @author makejava
  * @since 2020-06-04 14:32:46
@@ -66,7 +66,16 @@ public interface PermissionDao {
      * @Description //根据姓名获取权限列表
      * @Date 15:26 2020/6/4
      * @Param [username]
-     * @return java.util.List<com.tdkj.RNS.entity.Permission>
+     * @return java.util.List<com.tdkj.RNS.entity.PermissionVO>
      **/
     List<Permission> findByUsernameGetPermission(String username);
+
+    /**
+     * @Author houxuyang
+     * @Description //查询所有权限
+     * @Date 9:28 2020/6/16
+     * @Param []
+     * @return java.lang.Boolean
+     **/
+    List<Permission> select();
 }

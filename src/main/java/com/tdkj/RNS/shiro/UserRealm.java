@@ -11,6 +11,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,8 @@ public class UserRealm extends AuthorizingRealm {
             info.addStringPermission(list.getPermissionUrl());
             log.info("用户权限:"+list.getPermissionUrl()+":加入完成");
         }
+        Session session =subject.getSession();
+        session.setAttribute("permissionList",permissionList);
 
         /*添加该用户的授权  现在只是一个 实际项目中应该是一个map  或者 查询返回list 循环遍历 add方法 加入到info中*/
         //info.addStringPermissions(); //dbUser.getPerms()

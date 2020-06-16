@@ -50,6 +50,9 @@
             ON u.rid =rp.role_id JOIN u_permission p
             on rp.permission_id =p.pid where u.username= #{username}
     </select>
+    <select id="select" resultType="com.tdkj.RNS.entity.Permission">
+        select pid as pid,permission_name  as permissionName,permission_url as permissionUrl from u_permission;
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="pid" useGeneratedKeys="true">

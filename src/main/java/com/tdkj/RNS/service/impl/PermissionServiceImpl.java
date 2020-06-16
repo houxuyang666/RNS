@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 权限表(Permission)表服务实现类
+ * 权限表(PermissionVO)表服务实现类
  *
  * @author makejava
  * @since 2020-06-04 14:32:47
@@ -77,8 +77,27 @@ public class PermissionServiceImpl implements PermissionService {
         return this.permissionDao.deleteById(pid) > 0;
     }
 
+    /**
+     * @Author houxuyang
+     * @Description //根据用户名称查询当前用户权限
+     * @Date 9:27 2020/6/16
+     * @Param [username]
+     * @return java.util.List<com.tdkj.RNS.entity.PermissionVO>
+     **/
     @Override
     public List<Permission> findByUsernameGetPermission(String username) {
         return permissionDao.findByUsernameGetPermission(username);
+    }
+
+    /**
+     * @Author houxuyang
+     * @Description //查询所有权限
+     * @Date 9:27 2020/6/16
+     * @Param []
+     * @return java.lang.Boolean
+     **/
+    @Override
+    public List<Permission> select() {
+        return permissionDao.select();
     }
 }

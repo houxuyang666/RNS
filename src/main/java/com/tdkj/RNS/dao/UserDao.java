@@ -78,7 +78,7 @@ public interface UserDao {
      * @Description //查询用户权限
      * @Date 15:05 2020/6/4
      * @Param [username]
-     * @return java.util.List<com.tdkj.RNS.entity.Permission>
+     * @return java.util.List<com.tdkj.RNS.entity.PermissionVO>
      **/
     List<Permission> findByUsername(String username);
 
