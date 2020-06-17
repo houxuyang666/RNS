@@ -26,8 +26,8 @@
     insert into u_log (id, operateor, operateType, 
       operateDate, operateResult, ip
       )
-    values (#{id,jdbcType=INTEGER}, #{operateor,jdbcType=VARCHAR}, #{operatetype,jdbcType=VARCHAR}, 
-      #{operatedate,jdbcType=TIMESTAMP}, #{operateresult,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}
+    values (#{id}, #{operateor}, #{operatetype},
+      #{operatedate}, #{operateresult}, #{ip}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tdkj.RNS.entity.Log" >
