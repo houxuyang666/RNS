@@ -1,20 +1,25 @@
 package com.tdkj.RNS.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.tdkj.RNS.annotation.Limit;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.entity.Userinfo;
+import com.tdkj.RNS.exception.RnsException;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.UserService;
 import com.tdkj.RNS.utils.Md5Util;
+import com.tdkj.RNS.utils.RedisUtil;
 import com.tdkj.RNS.utils.ShiroUtils;
+import com.tdkj.RNS.utils.ValidateCodeUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -25,28 +30,38 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 @Slf4j
 @Api("UserController")
 @Controller
+@Validated
+@RequiredArgsConstructor
 public class UserController implements RnsResultType, RnsResultCode {
+
+    private final ValidateCodeUtil validateCodeUtil;
 
     @Autowired
     private UserService userService;
     @Autowired
     private LogService logService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping("/add")
     public String add() {
         /*进入添加用户页面*/
         return "user/add";
     }
-
     /**
      * @Author houxuyang
      * @Description //添加用户
@@ -55,11 +70,11 @@ public class UserController implements RnsResultType, RnsResultCode {
      * @return java.lang.String
      **/
     @RequestMapping("/adduser")
-    public String adduser(String username,String password,Integer roleid,Model model) {
+    public String adduser(String username, String password, Integer roleid, Model model) {
         log.info("添加用户");
         User user = userService.findByName(username);
         if (user != null) {
-            model.addAttribute("msg","用户名已存在");
+            model.addAttribute("msg", "用户名已存在");
             return "user/add";
         }
         user = new User();
@@ -148,7 +163,12 @@ public class UserController implements RnsResultType, RnsResultCode {
     }
     )
     @RequestMapping("/login")
-    public String login(String username, String password, boolean rememberMe, Model model, HttpServletResponse response) {
+    public String login(String username, String password, boolean rememberMe, Model model,String verifyCode,
+                        HttpServletRequest request) throws Exception {
+
+        HttpSession session = request.getSession();
+        validateCodeUtil.check(session.getId(), verifyCode);
+
         log.info("-----login");
         log.info("username"+":"+username);
         log.info("password"+":"+password);
@@ -173,8 +193,8 @@ public class UserController implements RnsResultType, RnsResultCode {
             /*设置session*/
             Log log = ShiroUtils.setLog("登录"); //将操作传过去生成对象后 插入DB
             logService.insert(log);
-            Session session =subject.getSession();
-            session.setAttribute("user",user);
+            Session session1 = subject.getSession();
+            session1.setAttribute("user", user);
             //登录成功 重定向
             return "redirect:/index";
         }catch (UnknownAccountException e){
@@ -200,5 +220,11 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,json.toString());
     }
 
+    @GetMapping("images/captcha")
+    @Limit(key = "get_captcha", period = 60, count = 10, name = "获取验证码", prefix = "limit")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException, RnsException {
+        validateCodeUtil.create(request, response);
+        log.info("测试生成验证码");
+    }
 
 }

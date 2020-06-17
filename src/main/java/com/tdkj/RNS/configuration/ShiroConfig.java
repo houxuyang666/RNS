@@ -69,6 +69,7 @@ public class ShiroConfig{
         /*授权拦截器 结束*/
 
         /*放行静态资源-开始*/
+        filterMap.put("/statics/**","anon");
         filterMap.put("/api/**","anon");
         filterMap.put("/css/**","anon");
         filterMap.put("/images/**","anon");
@@ -84,6 +85,7 @@ public class ShiroConfig{
         filterMap.put("/js/lay-module/wangEditor/fonts/**","anon");
         filterMap.put("/js/lay-module/wangEditor/wangEditor.css/**","anon");
         filterMap.put("/js/lay-module/wangEditor/wangEditor.js/**","anon");
+
 
         /*放行静态资源-结束*/
         /*用通配符  */
