@@ -7,7 +7,7 @@ import java.util.List;
  * (Menu)表服务接口
  *
  * @author makejava
- * @since 2020-06-18 14:53:51
+ * @since 2020-06-18 16:59:56
  */
 public interface MenuService {
 
@@ -52,4 +52,20 @@ public interface MenuService {
      */
     boolean deleteById(Integer menuId);
 
+    /**
+     * @Author houxuyang
+     * @Description //通过名称查询用户权限
+     * @Date 17:06 2020/6/18
+     * @Param [username]
+     * @return java.util.List<com.tdkj.RNS.entity.Menu>
+     **/
+    List<Menu> findByUsernameGetPerms(String username);
+    /**
+     * @Author houxuyang
+     * @Description //通过名称查询菜单
+     * @Date 17:16 2020/6/18
+     * @Param [username]
+     * @return java.util.List<com.tdkj.RNS.entity.Menu>
+     **/
+    List<Menu> findByUsernameGetMenu(String username);
 }

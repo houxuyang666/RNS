@@ -177,7 +177,7 @@ public class UserController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/indexinit")
     public RnsResponse indexinit() {
-        List<Menu> menuList =menuService.queryAllByLimit(0,20);
+        List<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 

@@ -1,15 +1,19 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
+import java.util.Date;
 import java.io.Serializable;
 
 /**
  * (Menu)实体类
  *
  * @author makejava
- * @since 2020-06-18 14:53:51
+ * @since 2020-06-18 16:59:54
  */
+@Data
 public class Menu implements Serializable {
-    private static final long serialVersionUID = -34473616404247869L;
+    private static final long serialVersionUID = -28891821337214503L;
     /**
     * 菜单ID
     */
@@ -27,6 +31,10 @@ public class Menu implements Serializable {
     */
     private String href;
     /**
+    * 权限
+    */
+    private String perms;
+    /**
     * 图标样式
     */
     private String icon;
@@ -34,54 +42,16 @@ public class Menu implements Serializable {
     * 跳转方式
     */
     private String target;
+    /**
+    * 创建时间
+    */
+    private Date createTime;
+    /**
+    * 修改时间
+    */
+    private Date modifyTime;
 
 
-    public Integer getMenuId() {
-        return menuId;
-    }
 
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
 
 }

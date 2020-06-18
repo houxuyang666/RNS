@@ -12,7 +12,7 @@ import java.util.List;
  * (Menu)表服务实现类
  *
  * @author makejava
- * @since 2020-06-18 14:53:51
+ * @since 2020-06-18 16:59:57
  */
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
@@ -75,5 +75,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean deleteById(Integer menuId) {
         return this.menuDao.deleteById(menuId) > 0;
+    }
+
+    @Override
+    public List<Menu> findByUsernameGetPerms(String username) {
+        return this.menuDao.findByUsernameGetPerms(username);
+    }
+
+    @Override
+    public List<Menu> findByUsernameGetMenu(String username) {
+        return this.menuDao.findByUsernameGetMenu(username);
     }
 }

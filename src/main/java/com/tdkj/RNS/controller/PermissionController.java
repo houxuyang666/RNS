@@ -9,6 +9,7 @@ import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.PermissionService;
 import com.tdkj.RNS.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,6 +89,7 @@ public class PermissionController implements RnsResultType, RnsResultCode {
      * @Param [id]
      * @return java.lang.Boolean
      **/
+    @RequiresPermissions("menu:delete")
     @RequestMapping("/deletepermission")
     public Boolean deletepermission(Integer id) {
         Log log = ShiroUtils.setLog("删除权限");

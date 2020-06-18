@@ -1,5 +1,6 @@
 package com.tdkj.RNS.service;
 
+import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.entity.Permission;
 
 import java.util.List;
@@ -70,4 +71,6 @@ public interface PermissionService {
      * @return java.lang.Boolean
      **/
     List<Permission> select();
+
+
 }
