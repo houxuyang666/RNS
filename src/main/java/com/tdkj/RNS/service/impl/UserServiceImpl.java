@@ -1,7 +1,6 @@
 package com.tdkj.RNS.service.impl;
 
 import com.tdkj.RNS.dao.UserDao;
-import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
