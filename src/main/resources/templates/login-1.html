@@ -35,17 +35,17 @@
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
-            <form class="layui-form" action="/login">
+            <form class="layui-form" action="">
                 <div class="layui-form-item logo-title">
                     <h1>唐都科技管理系统</h1>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="username" lay-verify="required|account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
+                    <input type="text" name="username" lay-verify="account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
-                    <input type="password" name="password" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input" >
+                    <input type="password" name="password" lay-verify="password" placeholder="密码" autocomplete="off" class="layui-input" >
                 </div>
 <!--                <div class="layui-form-item">-->
 <!--                    <label class="layui-icon layui-icon-vercode" for="captcha"></label>-->
@@ -67,7 +67,7 @@
                     <div class="layui-row">
                         <div class="layui-col-xs7">
                             <label class="layui-icon label-icon layui-icon-vercode"></label>
-                            <input type="text" maxlength="4" name="verifyCode" lay-verify="required"
+                            <input type="text" maxlength="4" name="verifyCode" lay-verify="verifyCode"
                                    placeholder="验证码" class="layui-input" autocomplete="off">
                         </div>
                         <div class="layui-col-xs5">
@@ -75,9 +75,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
 
                 <div class="layui-form-item">
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
@@ -98,12 +95,10 @@
             form = layui.form,
             layer = layui.layer;
         initCode();
-
         function initCode() {
             $(".layui-container").find('#codeimg').attr("src", "images/captcha?data=" + new Date().getTime());
             //alert($(".layui-container").find('#codeimg').attr("src"));
         }
-
         $(".layui-container").find('#codeimg').on('click', function () {
             //layer.alert("弹出验证码")
             initCode();
@@ -120,8 +115,8 @@
             });
         });
 
-        // 进行登录操作
-        /*form.on('submit(login)', function (data) {
+        // 进行登录操作 /login
+        form.on('submit(login)', function (data) {
             data = data.field;
             if (data.username == '') {
                 layer.msg('用户名不能为空');
@@ -131,15 +126,42 @@
                 layer.msg('密码不能为空');
                 return false;
             }
-            if (data.captcha == '') {
+            if (data.verifyCode == '') {
                 layer.msg('验证码不能为空');
                 return false;
             }
-            layer.msg('登录成功', function () {
-                window.location.href = '/login';
-            });
+           /* layer.msg('登录成功', function () {
+                //window.location.href = '/login';
+            });*/
+           $.ajax({
+               url:"/login",
+               type:"POST",
+               dataType:"json",
+               data:data,
+               beforeSend:function () {
+                   //弹出loding层
+                   layer.load(2,{shade:[0.5,"#333"]});
+               },
+               success:function (res) {
+                if(res.responseCode==200){//判断状态码是200的话就登录index页面
+                    var msg=res.message;
+                    //layer.msg(msg);
+                    window.location.href=msg;
+                }else {
+                    var msg1=res.message;
+                    layer.msg(msg1);
+                }
+               },
+               error:function () {
+                   layer.msg("网络繁忙，访问失败");
+               },
+               complete:function () {
+                   //关掉loading
+                   layer.closeAll("loading");
+               }
+           })
             return false;
-        });*/
+        });
     });
 </script>
 </body>

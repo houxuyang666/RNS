@@ -1,15 +1,15 @@
 {
   "clearInfo": {
-    "clearUrl": "api/clear.json"
+    "clearUrl": "/api/clear.json"
   },
   "homeInfo": {
     "title": "首页",
     "icon": "fa fa-home",
-    "href": "page/welcome-1.html"
+    "href": "welcome-1.html"
   },
   "logoInfo": {
     "title": "唐都科技",
-    "image": "../static/images/tdkjlogo.png",
+    "image": "/tdkjlogo.png",
     "href": ""
   },
   "menuInfo": {
@@ -25,13 +25,13 @@
           "child": [
             {
               "title": "主页一",
-              "href": "page/welcome-1.html",
+              "href": "welcome-1.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             },
             {
               "title": "主页二",
-              "href": "page/welcome-2.html",
+              "href": "welcome-2.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }
@@ -45,13 +45,13 @@
         },
         {
           "title": "系统设置",
-          "href": "page/setting.html",
+          "href": "setting.html",
           "icon": "fa fa-gears",
           "target": "_self"
         },
         {
           "title": "表格示例",
-          "href": "page/table.html",
+          "href": "table.html",
           "icon": "fa fa-file-text",
           "target": "_self"
         },
