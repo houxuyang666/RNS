@@ -26,7 +26,7 @@ import java.io.IOException;
  * @date 2020.06.16 15:46
  */
 @RequiredArgsConstructor
-@Service
+@Component
 public class ValidateCodeUtil {
     private final RedisUtil redisUtil;
     private final RnsProperties properties;

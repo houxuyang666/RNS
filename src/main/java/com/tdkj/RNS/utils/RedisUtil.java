@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @Author Chang
  * @date 2020.06.16 15:09
  */
-@Service
+@Component
 @RequiredArgsConstructor
 public class RedisUtil {
 
