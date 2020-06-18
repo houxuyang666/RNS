@@ -13,6 +13,7 @@ public class RnsResponse {
 
     private Integer ResponseCode;
     private String Message;
+    private String Url;
 
     private Object rows;//数据 Data
     private Long total;
@@ -39,6 +40,15 @@ public class RnsResponse {
         rnsResponse.setMessage(message);
         rnsResponse.setRows(rows);
         rnsResponse.setTotal(total);
+        return rnsResponse;
+    }
+
+    public static RnsResponse setResult(Integer ResponseCode, String message,String url, Object rows) {
+        RnsResponse rnsResponse =new RnsResponse();
+        rnsResponse.setResponseCode(ResponseCode);
+        rnsResponse.setMessage(message);
+        rnsResponse.setRows(rows);
+        rnsResponse.setUrl(url);
         return rnsResponse;
     }
 
