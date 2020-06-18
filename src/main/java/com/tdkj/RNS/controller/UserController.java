@@ -162,31 +162,29 @@ public class UserController implements RnsResultType, RnsResultCode {
             , @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true, dataType = "String")
     }
     )
+    @ResponseBody
     @RequestMapping("/login")
-    public String login(String username, String password, boolean rememberMe, Model model,String verifyCode,
+    public RnsResponse login(String username, String password, boolean rememberMe, Model model,String verifyCode,
                         HttpServletRequest request) throws Exception {
-
-        HttpSession session = request.getSession();
-        validateCodeUtil.check(session.getId(), verifyCode);
-
         log.info("-----login");
-        log.info("username"+":"+username);
-        log.info("password"+":"+password);
-        log.info("rememberMe"+":"+rememberMe);
+        log.info("username" + ":" + username);
+        log.info("password" + ":" + password);
+        log.info("rememberMe" + ":" + rememberMe);
         /*使用Shiro编写认证操作
-        *1.获取subjec
-        * */
-
+         *1.获取subjec
+         * */
         Subject subject = SecurityUtils.getSubject();
         try {
-            User user =userService.findByName(username);
-            if (1==user.getStatus()){
-                model.addAttribute("msg","账户已被冻结，请联系管理员");
-                return "login-1";
+            HttpSession session = request.getSession();
+            validateCodeUtil.check(session.getId(), verifyCode);
+            User user = userService.findByName(username);
+            if (1 == user.getStatus()) {
+                //model.addAttribute("msg", "账户已被冻结，请联系管理员");
+                return RnsResponse.setResult(HTTP_RNS_CODE_401,"账户已被冻结，请联系管理员");
             }
             password = Md5Util.Md5Password(user.getSalt(), password);
             /*2.封装用户数据*/ //记住我
-            UsernamePasswordToken token =new UsernamePasswordToken(username,password,rememberMe);
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             /*3.执行登录操作*/
             //会将用户信息传给 UserRealm的doGetAuthenticationInfo方法的authenticationToken参数 用于与数据库验证
             subject.login(token);
@@ -196,18 +194,21 @@ public class UserController implements RnsResultType, RnsResultCode {
             Session session1 = subject.getSession();
             session1.setAttribute("user", user);
             //登录成功 重定向
-            return "redirect:/index";
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,"/index");
+        } catch(RnsException e){
+            //model.addAttribute("msg","验证码错误！");
+            return RnsResponse.setResult(HTTP_RNS_CODE_401,"验证码错误！");
         }catch (UnknownAccountException e){
             //UnknownAccountException 指的是用户名不存在 但是为了防止恶意扫描账号 提示为用户名或密码不正确
-            model.addAttribute("msg","用户名或密码错误！");
-            return "login-1";
+            //model.addAttribute("msg","用户名或密码错误！");
+            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误！");
         }catch (IncorrectCredentialsException e){
-            model.addAttribute("msg","用户名或密码错误");
-            return "login-1";
+            //model.addAttribute("msg","用户名或密码错误");
+            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
         }catch (NullPointerException e){
             //由于在此需要获取用户的盐值及用户名等 会出现null错误 所以添加try
-            model.addAttribute("msg","用户名或密码错误");
-            return "login-1";
+            //model.addAttribute("msg","用户名或密码错误");
+            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
         }
     }
 

@@ -90,14 +90,12 @@ public class ShiroConfig{
         /*放行静态资源-结束*/
         /*用通配符  */
         filterMap.put("/**","user"); //user表示配置记住我或认证通过可以访问的地址
-
         /*修改被拦截之后跳转的页面  参数为controller的 RequestMapping*/
         shiroFilterFactoryBean.setLoginUrl("/tologin");
         /*登录成功后跳转的连接*/
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //shiroFilterFactoryBean.setSuccessUrl("/index");
         /*设置未授权跳转的页面*/
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
-
         /*将存好的权限交给shiroFilterFactoryBean 处理*/
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
@@ -120,7 +118,7 @@ public class ShiroConfig{
         return securityManager;
     }
     //会话管理器
-    @Bean
+ /*   @Bean
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionIdUrlRewritingEnabled(false);
@@ -129,7 +127,7 @@ public class ShiroConfig{
         sessionManager.setSessionIdCookie(rememberMeCookie());
         return sessionManager;
     }
-
+*/
     /**
      * （新增方法）
      * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
@@ -148,7 +146,7 @@ public class ShiroConfig{
         simpleCookie.setHttpOnly(true);
         //simpleCookie.setPath("/");
         //<!-- 记住我cookie生效时间 ,单位秒;-->
-        simpleCookie.setMaxAge(60*5);
+        simpleCookie.setMaxAge(60);
         return simpleCookie;
     }
 
