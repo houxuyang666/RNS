@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdkj.RNS.dao.MenuDao">
+
+    <resultMap type="com.tdkj.RNS.entity.Menu" id="MenuMap">
+        <result property="menuId" column="menu_id" jdbcType="INTEGER"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="href" column="href" jdbcType="VARCHAR"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="target" column="target" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MenuMap">
+        select
+          menu_id, parent_id, title, href, perms, icon, target, create_time, modify_time
+        from u_menu
+        where menu_id = #{menuId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MenuMap">
+        select
+          menu_id, parent_id, title, href, perms, icon, target, create_time, modify_time
+        from u_menu
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MenuMap">
+        select
+          menu_id, parent_id, title, href, perms, icon, target, create_time, modify_time
+        from u_menu
+        <where>
+            <if test="menuId != null">
+                and menu_id = #{menuId}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="href != null and href != ''">
+                and href = #{href}
+            </if>
+            <if test="perms != null and perms != ''">
+                and perms = #{perms}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="target != null and target != ''">
+                and target = #{target}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="menuId" useGeneratedKeys="true">
+        insert into u_menu(parent_id, title, href, perms, icon, target, create_time, modify_time)
+        values (#{parentId}, #{title}, #{href}, #{perms}, #{icon}, #{target}, #{createTime}, #{modifyTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_menu
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="href != null and href != ''">
+                href = #{href},
+            </if>
+            <if test="perms != null and perms != ''">
+                perms = #{perms},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="target != null and target != ''">
+                target = #{target},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+        </set>
+        where menu_id = #{menuId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from u_menu where menu_id = #{menuId}
+    </delete>
+
+    <select id="findByUsernameGetPerms" resultType="com.tdkj.RNS.entity.Menu">
+        select m.title as title,
+                m.perms as perms
+        from  u_user u JOIN role_menu rm on u.rid=rm.role_id join u_menu m on
+					rm.menu_id =m.menu_id where u.username=#{username}
+    </select>
+
+    <select id="findByUsernameGetMenu" resultType="com.tdkj.RNS.entity.Menu">
+        select m.menu_id as menuId,
+                m.parent_id as parentId,
+                m.title as title,
+                m.href as href,
+                m.icon as icon,
+                m.target as target,
+                m.title as title
+        from  u_user u JOIN role_menu rm on u.rid=rm.role_id join u_menu m on
+				rm.menu_id =m.menu_id where u.username=#{username}
+
+    </select>
+
+
+
+</mapper>

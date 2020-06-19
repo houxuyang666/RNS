@@ -3,6 +3,7 @@ package com.tdkj.RNS.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 public class User implements Serializable {
@@ -35,6 +36,14 @@ public class User implements Serializable {
      * 链接用户信息表
      */
     private Integer userinfoId;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
 
 }

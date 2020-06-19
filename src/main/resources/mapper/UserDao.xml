@@ -10,12 +10,14 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="rid" column="rid" jdbcType="INTEGER"/>
         <result property="userinfoId" column="userinfo_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
-          id, username, password, salt, status, rid, userinfo_id
+          id, username, password, salt, status, rid, userinfo_id,create_time,modify_time
         from u_user
         where id = #{id}
     </select>
@@ -23,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          id, username, password, salt, status, rid, userinfo_id
+          id, username, password, salt, status, rid, userinfo_id,create_time,modify_time
         from u_user
         limit #{offset}, #{limit}
     </select>
@@ -31,8 +33,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-          id, username, password, salt, status, rid, userinfo_id
-        from u_user
+        id, username, password, salt, status, rid, userinfo_id, create_time, modify_time
+        from test.u_user
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -55,18 +57,24 @@
             <if test="userinfoId != null">
                 and userinfo_id = #{userinfoId}
             </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into u_user(username, password, salt, status, rid, userinfo_id)
-        values (#{username}, #{password}, #{salt}, #{status}, #{rid}, #{userinfoId})
+        insert into test.u_user(username, password, salt, status, rid, userinfo_id, create_time, modify_time)
+        values (#{username}, #{password}, #{salt}, #{status}, #{rid}, #{userinfoId}, #{createTime}, #{modifyTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update u_user
+        update test.u_user
         <set>
             <if test="username != null and username != ''">
                 username = #{username},
@@ -86,26 +94,32 @@
             <if test="userinfoId != null">
                 userinfo_id = #{userinfoId},
             </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
         </set>
         where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from u_user where id = #{id}
+        delete from test.u_user where id = #{id}
     </delete>
 
 
     <!--查询单个-->
     <select id="findByName" resultMap="UserMap">
         select
-          id, username, password, salt, status, rid, userinfo_id
+          id, username, password, salt, status, rid, userinfo_id,create_time,modify_time
         from u_user
         where username = #{username}
     </select>
     <select id="selectUser" resultType="com.tdkj.RNS.entity.User">
         select
-          id, username, password, salt, status, rid, userinfo_id
+          id, username, password, salt, status, rid, userinfo_id,create_time,modify_time
         from u_user
     </select>
 

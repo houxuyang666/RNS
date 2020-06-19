@@ -59,7 +59,7 @@
                         <a href="javascript:;" data-content-href="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
                     </dd>
                     <dd>
-                        <a href="javascript:;" class="login-out">退出登录</a>
+                        <a href="/logout" class="login-out">退出登录</a>
                     </dd>
                 </dl>
             </li>
@@ -93,13 +93,13 @@
             element = layui.element,
             layer = layui.layer;
 
-        layuimini.init('/api/init.json');
+        layuimini.init('/indexinit');
 
-        $('.login-out').on("click", function () {
+        /*$('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
                 window.location = 'login-1.html';
             });
-        });
+        });*/
     });
 </script>
 </body>

@@ -2,14 +2,17 @@ package com.tdkj.RNS.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.tdkj.RNS.annotation.Limit;
+import com.tdkj.RNS.common.RnsJson;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
+import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.entity.Userinfo;
 import com.tdkj.RNS.exception.RnsException;
 import com.tdkj.RNS.service.LogService;
+import com.tdkj.RNS.service.MenuService;
 import com.tdkj.RNS.service.UserService;
 import com.tdkj.RNS.utils.Md5Util;
 import com.tdkj.RNS.utils.RedisUtil;
@@ -32,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 @Slf4j
@@ -56,6 +61,9 @@ public class UserController implements RnsResultType, RnsResultCode {
     private LogService logService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private MenuService menuService;
+
 
     @RequestMapping("/add")
     public String add() {
@@ -85,6 +93,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setStatus(0);
         user.setSalt(uuid);
         user.setRid(roleid);
+        user.setCreateTime(new Date());
         Userinfo userinfo =new Userinfo();
         userService.insert(user);
         /*添加日志*/
@@ -130,6 +139,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         //密码正确后进入  将新密码进行加密
         newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);
         user.setPassword(newpassword);
+        user.setModifyTime(new Date());
         userService.update(user);
         log.info("密码修改成功");
         /*添加日志*/
@@ -151,10 +161,26 @@ public class UserController implements RnsResultType, RnsResultCode {
         return "noAuth";
     }
 
+
     @RequestMapping("/index")
     public String index() {
         return "page/index";
     }
+
+    /**
+     * @Author houxuyang
+     * @Description //查询目录
+     * @Date 15:26 2020/6/18
+     * @Param []
+     * @return com.tdkj.RNS.common.RnsResponse
+     **/
+    @ResponseBody
+    @RequestMapping("/indexinit")
+    public RnsResponse indexinit() {
+        List<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
+    }
+
 
     /*编写shiro 登录认证逻辑*/
     @ApiOperation("登录")
@@ -164,7 +190,8 @@ public class UserController implements RnsResultType, RnsResultCode {
     )
     @ResponseBody
     @RequestMapping("/login")
-    public RnsResponse login(String username, String password, boolean rememberMe, Model model,String verifyCode,
+    @PostMapping
+    public RnsResponse login(String username, String password, boolean rememberMe,String verifyCode,
                         HttpServletRequest request) throws Exception {
         log.info("-----login");
         log.info("username" + ":" + username);
@@ -193,21 +220,16 @@ public class UserController implements RnsResultType, RnsResultCode {
             logService.insert(log);
             Session session1 = subject.getSession();
             session1.setAttribute("user", user);
-            //登录成功 重定向
             return RnsResponse.setResult(HTTP_RNS_CODE_200,"/index");
         } catch(RnsException e){
-            //model.addAttribute("msg","验证码错误！");
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"验证码错误！");
         }catch (UnknownAccountException e){
             //UnknownAccountException 指的是用户名不存在 但是为了防止恶意扫描账号 提示为用户名或密码不正确
-            //model.addAttribute("msg","用户名或密码错误！");
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误！");
         }catch (IncorrectCredentialsException e){
-            //model.addAttribute("msg","用户名或密码错误");
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
         }catch (NullPointerException e){
             //由于在此需要获取用户的盐值及用户名等 会出现null错误 所以添加try
-            //model.addAttribute("msg","用户名或密码错误");
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
         }
     }

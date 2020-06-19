@@ -147,7 +147,7 @@ public class ShiroConfig{
         simpleCookie.setHttpOnly(true);
         //simpleCookie.setPath("/");
         //<!-- 记住我cookie生效时间 ,单位秒;-->
-        simpleCookie.setMaxAge(60);
+        simpleCookie.setMaxAge(86400);
         return simpleCookie;
     }
 

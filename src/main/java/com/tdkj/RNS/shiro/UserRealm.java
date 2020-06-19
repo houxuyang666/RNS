@@ -1,8 +1,10 @@
 package com.tdkj.RNS.shiro;
 
 
+import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.service.MenuService;
 import com.tdkj.RNS.service.PermissionService;
 import com.tdkj.RNS.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,7 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
     @Autowired
-    private PermissionService permissionService;
+    private MenuService menuService;
     /*执行授权逻辑*/
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -45,12 +47,12 @@ public class UserRealm extends AuthorizingRealm {
         User dbUser =userService.queryById(user.getId());
         log.info("DBusername:"+dbUser.getUsername());
 
-        List<Permission> permissionList = permissionService.findByUsernameGetPermission(dbUser.getUsername());
+        List<Menu> menuList = menuService.findByUsernameGetPerms(dbUser.getUsername());
 
-        for (Permission list:permissionList){
-            log.info("用户拥有的权限:"+list.getPermissionUrl());
-            info.addStringPermission(list.getPermissionUrl());
-            log.info("用户权限:"+list.getPermissionUrl()+":加入完成");
+        for (Menu list:menuList){
+            log.info("用户拥有的权限:"+list.getPerms());
+            info.addStringPermission(list.getPerms());
+            log.info("用户权限:"+list.getPerms()+":加入完成");
         }
         /*添加该用户的授权  现在只是一个 实际项目中应该是一个map  或者 查询返回list 循环遍历 add方法 加入到info中*/
         //info.addStringPermissions(); //dbUser.getPerms()
