@@ -6,10 +6,7 @@ import com.tdkj.RNS.common.RnsJson;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
-import com.tdkj.RNS.entity.Log;
-import com.tdkj.RNS.entity.Menu;
-import com.tdkj.RNS.entity.User;
-import com.tdkj.RNS.entity.Userinfo;
+import com.tdkj.RNS.entity.*;
 import com.tdkj.RNS.exception.RnsException;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.MenuService;
@@ -43,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -177,8 +175,17 @@ public class UserController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/indexinit")
     public RnsResponse indexinit() {
-        List<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
+        MenuTree<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
+        //System.out.println(menuList);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
+    }
+
+
+    @ResponseBody
+    @GetMapping("tree")
+    public RnsResponse getMenuTree(Menu menu) {
+        MenuTree<Menu> menus = menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menus.getChilds()));
     }
 
 
@@ -215,6 +222,7 @@ public class UserController implements RnsResultType, RnsResultCode {
             /*3.执行登录操作*/
             //会将用户信息传给 UserRealm的doGetAuthenticationInfo方法的authenticationToken参数 用于与数据库验证
             subject.login(token);
+            //token.setRememberMe(true);
             /*设置session*/
             Log log = ShiroUtils.setLog("登录"); //将操作传过去生成对象后 插入DB
             logService.insert(log);

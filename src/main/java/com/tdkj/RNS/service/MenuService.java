@@ -1,6 +1,8 @@
 package com.tdkj.RNS.service;
 
 import com.tdkj.RNS.entity.Menu;
+import com.tdkj.RNS.entity.MenuTree;
+
 import java.util.List;
 
 /**
@@ -67,5 +69,5 @@ public interface MenuService {
      * @Param [username]
      * @return java.util.List<com.tdkj.RNS.entity.Menu>
      **/
-    List<Menu> findByUsernameGetMenu(String username);
+    MenuTree<Menu> findByUsernameGetMenu(String username);
 }

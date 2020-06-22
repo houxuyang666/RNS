@@ -2,10 +2,13 @@ package com.tdkj.RNS.service.impl;
 
 import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.dao.MenuDao;
+import com.tdkj.RNS.entity.MenuTree;
 import com.tdkj.RNS.service.MenuService;
+import com.tdkj.RNS.utils.TreeUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,8 +85,27 @@ public class MenuServiceImpl implements MenuService {
         return this.menuDao.findByUsernameGetPerms(username);
     }
 
+
     @Override
-    public List<Menu> findByUsernameGetMenu(String username) {
-        return this.menuDao.findByUsernameGetMenu(username);
+    public MenuTree<Menu> findByUsernameGetMenu(String username) {
+        List<Menu> menus = this.menuDao.findByUsernameGetMenu(username);
+        List<MenuTree<Menu>> trees = this.convertMenus(menus);
+        return TreeUtil.buildMenuTree(trees);
+
+    }
+
+    private List<MenuTree<Menu>> convertMenus(List<Menu> menus) {
+        List<MenuTree<Menu>> trees = new ArrayList<>();
+        menus.forEach(menu -> {
+            MenuTree<Menu> tree = new MenuTree<>();
+            tree.setId(String.valueOf(menu.getMenuId()));
+            tree.setParentId(String.valueOf(menu.getParentId()));
+            tree.setTitle(menu.getTitle());
+            tree.setIcon(menu.getIcon());
+            tree.setHref(menu.getHref());
+            tree.setData(menu);
+            trees.add(tree);
+        });
+        return trees;
     }
 }
