@@ -92,7 +92,6 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setSalt(uuid);
         user.setRid(roleid);
         user.setCreateTime(new Date());
-        Userinfo userinfo =new Userinfo();
         userService.insert(user);
         /*添加日志*/
         //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法

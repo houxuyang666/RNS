@@ -62,7 +62,7 @@ public class ShiroConfig{
         filterMap.put("/swagger-resources/**", "anon");
 
         /*授权拦截器  访问add 需要perms[user:add] 该授权*/
-        filterMap.put("/adduser","perms[user:adduser]");
+        filterMap.put("/adduser","perms[user:add]");
         filterMap.put("/updatepassword","perms[user:updatepassword]");
         filterMap.put("/select","perms[user:select]");
         filterMap.put("/delete","perms[user:delete]");
@@ -119,7 +119,7 @@ public class ShiroConfig{
         return securityManager;
     }
     //会话管理器
- /*   @Bean
+    @Bean
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionIdUrlRewritingEnabled(false);
@@ -128,7 +128,7 @@ public class ShiroConfig{
         sessionManager.setSessionIdCookie(rememberMeCookie());
         return sessionManager;
     }
-*/
+
     /**
      * （新增方法）
      * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义

@@ -14,13 +14,13 @@
     <result column="id_up_photo" property="idUpPhoto" jdbcType="VARCHAR" />
     <result column="id_down_photo" property="idDownPhoto" jdbcType="VARCHAR" />
     <result column="qualifications_photo" property="qualificationsPhoto" jdbcType="VARCHAR" />
-    <result column="deptid" property="deptid" jdbcType="INTEGER" />
+    <result column="dept_id" property="deptid" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, sex, age, status, phone, id_number, address, photo, id_up_photo, id_down_photo, 
-    qualifications_photo, deptid, create_time, modify_time
+    qualifications_photo, dept_id, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,7 +37,7 @@
       age, status, phone, 
       id_number, address, photo, 
       id_up_photo, id_down_photo, qualifications_photo, 
-      deptid, create_time, modify_time
+      dept_id, create_time, modify_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{age,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
@@ -86,7 +86,7 @@
         qualifications_photo,
       </if>
       <if test="deptid != null" >
-        deptid,
+        dept_id,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -143,7 +143,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tdkj.RNS.entity.Userinfo" >
+  <update id="updateByPrimaryKey" parameterType="com.tdkj.RNS.entity.Userinfo" >
     update u_userinfo
     <set >
       <if test="name != null" >
@@ -180,7 +180,7 @@
         qualifications_photo = #{qualificationsPhoto,jdbcType=VARCHAR},
       </if>
       <if test="deptid != null" >
-        deptid = #{deptid,jdbcType=INTEGER},
+        dept_id = #{deptid,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -191,22 +191,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tdkj.RNS.entity.Userinfo" >
-    update u_userinfo
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      age = #{age,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      phone = #{phone,jdbcType=VARCHAR},
-      id_number = #{idNumber,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR},
-      id_up_photo = #{idUpPhoto,jdbcType=VARCHAR},
-      id_down_photo = #{idDownPhoto,jdbcType=VARCHAR},
-      qualifications_photo = #{qualificationsPhoto,jdbcType=VARCHAR},
-      deptid = #{deptid,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

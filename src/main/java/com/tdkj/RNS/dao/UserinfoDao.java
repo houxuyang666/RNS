@@ -11,7 +11,6 @@ public interface UserinfoDao {
 
     Userinfo selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Userinfo record);
-
     int updateByPrimaryKey(Userinfo record);
+
 }

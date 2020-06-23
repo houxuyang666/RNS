@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/setUserinfo" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id"  th:value="${userinfo.id}"><br>
+   姓名：<input type="text" name="name" th:value="${userinfo.name}" ><br>
+   性别：<select name="sex">
+            <option value="0">女</option>
+            <option value="1" selected="selected">男</option>
+            </select><br>
+    年龄： <input type="text" name="age" th:value="${userinfo.age}"><br>
+    联系电话：<input type="text" name="phone" th:value="${userinfo.phone}"><br>
+    身份证号：<input type="text" name="idNumber" th:value="${userinfo.idNumber}"><br>
+    地址：<input type="text" name="address" th:value="${userinfo.address}"><br>
+    照片：      <input type="file"  name="photo" multiple="multiple" th:value="${userinfo.photo}"><img th:src="@{'/image/'+${userinfo.photo}}" height="100px" width="200px">
+    身份证正面：<input type="file"  name="idUpPhoto" multiple="multiple" th:value="${userinfo.idUpPhoto}"> <img th:src="@{'/image/'+${userinfo.idUpPhoto}}" height="100px" width="200px">
+    身份证反面：<input type="file"  name="idDownPhoto" multiple="multiple" th:value="${userinfo.idDownPhoto}"><img th:src="@{'/image/'+${userinfo.idDownPhoto}}" height="100px" width="200px">
+    从业资格证：<input type="file"  name="qualificationsPhoto" multiple="multiple" th:value="${userinfo.qualificationsPhoto}"><img th:src="@{'/image/'+${userinfo.qualificationsPhoto}}" height="100px" width="200px">
+    部门：<select name="deptid">
+            <option value="1"selected="selected">测试1</option>
+            <option value="2" >测试2</option>
+            <option value="3" >测试3</option>
+            <option value="4" >测试4</option>
+            <option value="5" >测试5</option>
+        </select>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>
