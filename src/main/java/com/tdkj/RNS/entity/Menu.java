@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * (Menu)实体类
@@ -50,6 +51,9 @@ public class Menu implements Serializable {
     * 修改时间
     */
     private Date modifyTime;
+
+    // 子菜单
+    private List<Menu> childMenus;
 
 
 
