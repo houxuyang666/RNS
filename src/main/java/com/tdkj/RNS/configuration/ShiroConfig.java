@@ -70,7 +70,7 @@ public class ShiroConfig{
 
         /*放行静态资源-开始*/
         filterMap.put("/statics/**","anon");
-        filterMap.put("/page/**","anon");
+        filterMap.put("/static/**","anon");
         filterMap.put("/api/**","anon");
         filterMap.put("/css/**","anon");
         filterMap.put("/images/**","anon");

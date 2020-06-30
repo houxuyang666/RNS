@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../lib/layui-v2.5.4/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -50,49 +50,19 @@
                 <i class="layui-icon layui-icon-password admin-icon"></i>
                 <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input admin-input" value="123456">
             </div>
-            <!--                /**-->
-            <!--                 *-->
-            <!--                 * @author Chang-->
-            <!--                 * @description 验证码-->
-            <!--                 * @date 2020/6/16 17:00  -->
-            <!--                 * @return -->
-            <!--                 */-->
-            <div class="layui-form-item">
-                <div class="layui-row">
-                    <div class="layui-col-xs7">
-                        <label class="layui-icon label-icon layui-icon-vercode"></label>
-                        <input type="text" maxlength="4" name="verifyCode" lay-verify="required"
-                               placeholder="验证码" class="layui-input" autocomplete="off">
-                    </div>
-                    <div  class="layui-col-xs5">
-                        <img  style="height: 200px;width: 200px;" class="codeimg" id="codeimg"/>
-                    </div>
-                </div>
+            <div>
+                <input type="text" name="captcha" placeholder="请输入验证码" autocomplete="off" class="layui-input admin-input admin-input-verify" value="xszg">
+                <img class="admin-captcha" width="90" height="30" src="../images/captcha.jpg">
             </div>
-
-
             <button class="layui-btn admin-button" lay-submit="" lay-filter="login">登 陆</button>
         </form>
     </div>
 </div>
-<script src="../lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
+        var form = layui.form,
             layer = layui.layer;
-        initCode();
-        layer.alert("弹出验证码");
-        $("span").click("123123");
-
-        function initCode() {
-            $(".layui-container").find('#codeimg').attr("src", "/images/captcha?data=" + new Date().getTime());
-        }
-
-        $(".layui-container").find('#codeimg').on('click', function () {
-            layer.alert("弹出验证码")
-            initCode();
-        });
 
         // 登录过期的时候，跳出ifram框架
         if (top.location != self.location) top.location = self.location;
@@ -113,7 +83,7 @@
                 return false;
             }
             layer.msg('登录成功', function () {
-                window.location = '/index.html';
+                window.location = '../index.html';
             });
             return false;
         });
