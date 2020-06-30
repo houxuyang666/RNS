@@ -24,8 +24,6 @@ public class UserinfoServiceImpl implements UserinfoService {
         return null;
     }
 
-
-
     /**
      * 新增数据
      *
@@ -33,8 +31,18 @@ public class UserinfoServiceImpl implements UserinfoService {
      * @return 实例对象
      */
     @Override
-    public void insert(Userinfo Userinfo){
-        UserinfoDao.insert(Userinfo);
+    public int insert(Userinfo Userinfo){
+        return UserinfoDao.insert(Userinfo);
+    }
+
+    @Override
+    public Userinfo queryById(Integer id) {
+        return UserinfoDao.queryById(id);
+    }
+
+    @Override
+    public int update(Userinfo userinfo) {
+        return UserinfoDao.update(userinfo);
     }
 
     @Override
@@ -42,14 +50,7 @@ public class UserinfoServiceImpl implements UserinfoService {
         return false;
     }
 
-    @Override
-    public Userinfo selectByPrimaryKey(Integer id) {
-        return UserinfoDao.selectByPrimaryKey(id);
-    }
 
-    @Override
-    public int updateByPrimaryKey(Userinfo userinfo) {
-        return UserinfoDao.updateByPrimaryKey(userinfo);
-    }
+
 
 }

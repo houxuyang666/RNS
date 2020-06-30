@@ -30,14 +30,9 @@ public interface UserinfoService {
      */
     boolean deleteById(Integer id);
 
-    Userinfo selectByPrimaryKey(Integer id);
-    /**
-     * 修改数据
-     *
-     * @param userinfo 实例对象
-     * @return 实例对象
-     */
-    int updateByPrimaryKey(Userinfo userinfo);
+    int insert(Userinfo userinfo);
 
-    void insert(Userinfo userinfo);
+    Userinfo queryById(Integer id);
+
+    int update(Userinfo userinfo);
 }
