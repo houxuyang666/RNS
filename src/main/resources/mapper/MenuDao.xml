@@ -110,8 +110,12 @@
     </delete>
 
     <select id="findByUsernameGetPerms" resultType="com.tdkj.RNS.entity.Menu">
-        select m.title as title,
-                m.perms as perms
+        select m.menu_id as menuId,
+                m.parent_id as parentId,
+                m.title as title,
+                m.href as href,
+                m.icon as icon,
+                m.target as target
         from  u_user u JOIN role_menu rm on u.rid=rm.role_id join u_menu m on
 					rm.menu_id =m.menu_id where u.username=#{username}
     </select>

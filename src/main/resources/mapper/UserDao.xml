@@ -34,7 +34,7 @@
     <select id="queryAll" resultMap="UserMap">
         select
         id, username, password, salt, status, rid, userinfo_id, create_time, modify_time
-        from test.u_user
+        from u_user
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -68,13 +68,13 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into test.u_user(username, password, salt, status, rid, userinfo_id, create_time, modify_time)
+        insert into u_user(username, password, salt, status, rid, userinfo_id, create_time, modify_time)
         values (#{username}, #{password}, #{salt}, #{status}, #{rid}, #{userinfoId}, #{createTime}, #{modifyTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update test.u_user
+        update u_user
         <set>
             <if test="username != null and username != ''">
                 username = #{username},
@@ -106,7 +106,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from test.u_user where id = #{id}
+        delete from u_user where id = #{id}
     </delete>
 
 

@@ -8,9 +8,7 @@ import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.*;
 import com.tdkj.RNS.exception.RnsException;
-import com.tdkj.RNS.service.LogService;
-import com.tdkj.RNS.service.MenuService;
-import com.tdkj.RNS.service.UserService;
+import com.tdkj.RNS.service.*;
 import com.tdkj.RNS.utils.Md5Util;
 import com.tdkj.RNS.utils.RedisUtil;
 import com.tdkj.RNS.utils.ShiroUtils;
@@ -29,26 +27,25 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.beans.Transient;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 @Slf4j
 @Api("UserController")
 @Controller
 @Validated
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController implements RnsResultType, RnsResultCode {
 
     private final ValidateCodeUtil validateCodeUtil;
@@ -61,28 +58,44 @@ public class UserController implements RnsResultType, RnsResultCode {
     private RedisUtil redisUtil;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private UserinfoService userinfoService;
+    @Autowired
+    private CompanyService companyService;
 
 
-    @RequestMapping("/add")
-    public String add() {
+    @RequestMapping("/register")
+    public String add(Model model) {
         /*进入添加用户页面*/
-        return "user/add";
+        List<Company> companylist =companyService.queryAllCompany();
+        model.addAttribute("companylist", companylist);
+        return "register";
     }
     /**
      * @Author houxuyang
-     * @Description //添加用户
+     * @Description //注册用户
      * @Date 15:06 2020/5/26
      * @Param [username, password]
      * @return java.lang.String
      **/
-    @RequestMapping("/adduser")
-    public String adduser(String username, String password, Integer roleid, Model model) {
-        log.info("添加用户");
+    @Transactional
+    @ResponseBody
+    @RequestMapping("/register/user")
+    public RnsResponse adduser(String username, String password,String name,Integer sex,Integer age,String tel,Integer companyId) {
+        log.info("注册用户");
         User user = userService.findByName(username);
         if (user != null) {
-            model.addAttribute("msg", "用户名已存在");
-            return "user/add";
+            return RnsResponse.setResult(HTTP_RNS_CODE_500,"用户名已存在");
         }
+        Userinfo userinfo =new Userinfo();
+        userinfo.setName(name);
+        userinfo.setSex(sex);
+        userinfo.setAge(age);
+        userinfo.setTel(tel);
+        userinfo.setCompanyId(companyId);
+        userinfo.setCreateTime(new Date());
+        userinfoService.insert(userinfo);
+        System.out.println(userinfo.getId());
         user = new User();
         //uuid设置盐
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -90,31 +103,17 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setPassword(Md5Util.Md5Password(uuid,password));
         user.setStatus(0);
         user.setSalt(uuid);
-        user.setRid(roleid);
+        user.setUserinfoId(userinfo.getId());
         user.setCreateTime(new Date());
-        Userinfo userinfo =new Userinfo();
         userService.insert(user);
-        /*添加日志*/
-        //如用户添加 删除用户 等等  都是谁 操作了谁 所以重写一个方法
-        Log log = ShiroUtils.setLog("添加用户", username);
-        logService.insert(log);
-        model.addAttribute("msg","添加成功");
-        return "user/add";
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
 
-    @RequestMapping("/update")
-    public String update() {
-        System.out.println("update");
-        return "user/update";
+    @RequestMapping("/goupdatepassword")
+    public String updatepassword(Model model) {
+        log.info("updatepassword");
+        return "page/user-password";
     }
-
-
-    //离子页面
-    @RequestMapping("/basic_info")
-    public String basic_info() {
-        return "user/basic_info";
-    }
-
 
     /**
      * @Author houxuyang
@@ -125,10 +124,10 @@ public class UserController implements RnsResultType, RnsResultCode {
      **/
     @ResponseBody
     @RequestMapping("/updatepassword")
-    public RnsResponse updatepassword(Integer id,String oldpassword,String newpassword) {
+    public RnsResponse updatepassword(String oldpassword,String newpassword) {
         log.info("修改密码");
         //根据用户id查询出来用户信息
-        User user =userService.queryById(id);
+        User user =userService.queryById(ShiroUtils.getPrincipal().getId());
         //将输入的原密码进行加密后 与数据库密码进行对比
         String dbpassword = Md5Util.Md5Password(user.getSalt(), oldpassword);
         if (!dbpassword.equals(user.getPassword())){
@@ -147,100 +146,13 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
     }
 
-    @RequestMapping("/tologin")
-    public String toLogin() {
-        log.info("------------------------------tologin");
-       return "login-1";
-    }
-
-    @RequestMapping("/noAuth")
-    public String noAuth() {
-        System.out.println("noAuth");
-        return "noAuth";
+    @RequestMapping("/map")
+    public String JobSetup() {
+        log.info("------------map");
+        return "page/map";
     }
 
 
-    @RequestMapping("/index")
-    public String index() {
-        return "page/index";
-    }
-
-    /**
-     * @Author houxuyang
-     * @Description //查询目录
-     * @Date 15:26 2020/6/18
-     * @Param []
-     * @return com.tdkj.RNS.common.RnsResponse
-     **/
-    @ResponseBody
-    @RequestMapping("/indexinit")
-    public RnsResponse indexinit() {
-        MenuTree<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
-        //System.out.println(menuList);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
-    }
-
-
-    @ResponseBody
-    @GetMapping("tree")
-    public RnsResponse getMenuTree(Menu menu) {
-        MenuTree<Menu> menus = menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menus.getChilds()));
-    }
-
-
-    /*编写shiro 登录认证逻辑*/
-    @ApiOperation("登录")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "username", value = "账号", required = true, dataType = "String")
-            , @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true, dataType = "String")
-    }
-    )
-    @ResponseBody
-    @RequestMapping("/login")
-    @PostMapping
-    public RnsResponse login(String username, String password, boolean rememberMe,String verifyCode,
-                        HttpServletRequest request) throws Exception {
-        log.info("-----login");
-        log.info("username" + ":" + username);
-        log.info("password" + ":" + password);
-        log.info("rememberMe" + ":" + rememberMe);
-        /*使用Shiro编写认证操作
-         *1.获取subjec
-         * */
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            HttpSession session = request.getSession();
-            validateCodeUtil.check(session.getId(), verifyCode);
-            User user = userService.findByName(username);
-            if (1 == user.getStatus()) {
-                //model.addAttribute("msg", "账户已被冻结，请联系管理员");
-                return RnsResponse.setResult(HTTP_RNS_CODE_401,"账户已被冻结，请联系管理员");
-            }
-            password = Md5Util.Md5Password(user.getSalt(), password);
-            /*2.封装用户数据*/ //记住我
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-            /*3.执行登录操作*/
-            //会将用户信息传给 UserRealm的doGetAuthenticationInfo方法的authenticationToken参数 用于与数据库验证
-            subject.login(token);
-            //token.setRememberMe(true);
-            /*设置session*/
-            Log log = ShiroUtils.setLog("登录"); //将操作传过去生成对象后 插入DB
-            logService.insert(log);
-            Session session1 = subject.getSession();
-            session1.setAttribute("user", user);
-            return RnsResponse.setResult(HTTP_RNS_CODE_200,"/index");
-        } catch(RnsException e){
-            return RnsResponse.setResult(HTTP_RNS_CODE_401,"验证码错误！");
-        }catch (UnknownAccountException e){
-            //UnknownAccountException 指的是用户名不存在 但是为了防止恶意扫描账号 提示为用户名或密码不正确
-            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误！");
-        }catch (IncorrectCredentialsException e){
-            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
-        }catch (NullPointerException e){
-            //由于在此需要获取用户的盐值及用户名等 会出现null错误 所以添加try
-            return RnsResponse.setResult(HTTP_RNS_CODE_401,"用户名或密码错误");
-        }
-    }
 
     @RequestMapping("/selectuser")
     public RnsResponse selectuser() {
@@ -251,11 +163,9 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,json.toString());
     }
 
-    @GetMapping("images/captcha")
-    @Limit(key = "get_captcha", period = 60, count = 10, name = "获取验证码", prefix = "limit")
-    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException, RnsException {
-        validateCodeUtil.create(request, response);
-        log.info("测试生成验证码");
-    }
+
+
+
+
 
 }

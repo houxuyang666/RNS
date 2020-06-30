@@ -46,14 +46,13 @@ public class ShiroConfig{
         * */
         /*创建一个map存储功能和他它的权限 第一个参数为controller的 RequestMapping*/
         Map<String ,String> filterMap =new LinkedHashMap<String,String>();
-        /*filterMap.put("/add","authc");
-        filterMap.put("/update","authc");*/
-
         /*也可以配合使用 让某个请求可以被访问 ，但是必须在通配符上面*/
-        //filterMap.put("/index","anon");
         filterMap.put("/login","anon");
+
         /* 第二个参数配置为logout  不用配置cotroller就能直接退出 并清除session*/
         filterMap.put("/logout","logout");
+        filterMap.put("/user/register/**","anon");
+        filterMap.put("/user/register/user","anon");
 
         /*Swagger 开放白名单*/
         filterMap.put("/swagger-ui.html", "anon");
@@ -62,7 +61,8 @@ public class ShiroConfig{
         filterMap.put("/swagger-resources/**", "anon");
 
         /*授权拦截器  访问add 需要perms[user:add] 该授权*/
-        filterMap.put("/adduser","perms[user:adduser]");
+        //方法的授权
+        filterMap.put("/adduser","perms[user:add]");
         filterMap.put("/updatepassword","perms[user:updatepassword]");
         filterMap.put("/select","perms[user:select]");
         filterMap.put("/delete","perms[user:delete]");
@@ -119,7 +119,7 @@ public class ShiroConfig{
         return securityManager;
     }
     //会话管理器
- /*   @Bean
+    @Bean
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionIdUrlRewritingEnabled(false);
@@ -128,7 +128,7 @@ public class ShiroConfig{
         sessionManager.setSessionIdCookie(rememberMeCookie());
         return sessionManager;
     }
-*/
+
     /**
      * （新增方法）
      * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
