@@ -93,13 +93,41 @@
             element = layui.element,
             layer = layui.layer;
 
-        layuimini.init('/indexinit');
+        //layuimini.init('/indexinit');
+        //初始化设备端
+        layuimini.initDevice();
+        //初始化背景色
+        layuimini.initBgColor();
+        //初始化菜单栏
+        $.ajax({
+            url:"/indexinit",
+            data:"",
+            type:"POST",
+            dataType:"json",
+            success:function (data) {
+               if(data.responseCode==200){
+                   alert(data.data);
+                   if(data.data==null){
+                       layuimini.msg_error("暂无信息菜单");
+                   }else {
+                       layuimini.initLeftMenu(data.data);
+                   }
+               }else {
+                   layuimini.msg_error("菜单接口有误");
+               }
+            },
+            error:function () {
+                layuimini.msg_error("网络繁忙，访问失败");
+            }
+        })
+        //初始化选项卡
+        layuimini.initPage();
 
-        /*$('.login-out').on("click", function () {
+        $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location = 'login-1.html';
+                window.location = '/logout';
             });
-        });*/
+        });
     });
 </script>
 </body>

@@ -40,7 +40,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
              * 初始化
              * @param url
              */
-            this.init = function (url) {
+           /* this.init = function (url) {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
                 layuimini.initBgColor();
                 layuimini.initDevice();
@@ -58,7 +58,11 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                     layuimini.msg_error('菜单接口有误');
                 });
                 layer.close(loading);
-            };
+            };*/
+
+
+
+
 
             /**
              * 初始化设备端
@@ -281,6 +285,58 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                 element.init();
             };
 
+            /*
+            * 初始化左边的菜单栏
+            * @作者  柴佳楠
+            * */
+            this.initLeftMenu = function (data) {
+                var leftMenuHtml = '',
+                    leftMenuCheckDefault = 'layui-this';
+                window.menuParameId = 1;
+
+                $.each(data, function (key, val) {
+                    leftMenuHtml += '<ul class="layui-nav layui-nav-tree layui-left-nav-tree ' + leftMenuCheckDefault + '" id="' + key + '">\n';
+                    var menuList = val;
+                    $.each(menuList, function (index, menu) {
+                        leftMenuHtml += '<li class="layui-nav-item">\n';
+                        if (menu.child != undefined && menu.child != []) {
+                            leftMenuHtml += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + menu.icon + '"></i><span class="layui-left-nav"> ' + menu.title + '</span> </a>';
+                            var buildChildHtml = function (html, child, menuParameId) {
+                                html += '<dl class="layui-nav-child">\n';
+                                $.each(child, function (childIndex, childMenu) {
+                                    html += '<dd>\n';
+                                    if (childMenu.child != undefined && childMenu.child != []) {
+                                        html += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.title + '</span></a>';
+                                        html = buildChildHtml(html, childMenu.child, menuParameId);
+                                    } else {
+                                        html += '<a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"  data-one-page-mpi="m-p-i-' + menuParameId + '" data-one-page="' + childMenu.href + '" target="' + childMenu.target + '"><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.title + '</span></a>\n';
+                                        menuParameId++;
+                                        window.menuParameId = menuParameId;
+                                    }
+                                    html += '</dd>\n';
+                                });
+                                html += '</dl>\n';
+                                return html;
+                            };
+                            leftMenuHtml = buildChildHtml(leftMenuHtml, menu.child, menuParameId);
+                        } else {
+                            leftMenuHtml += '<a href="javascript:;" class="layui-menu-tips"  data-type="tabAdd" data-one-page-mpi="m-p-i-' + menuParameId + '" data-one-page="' + menu.href + '" target="' + menu.target + '"><i class="' + menu.icon + '"></i><span class="layui-left-nav"> ' + menu.title + '</span></a>\n';
+                            menuParameId++;
+                        }
+                        leftMenuHtml += '</li>\n';
+                    });
+                    leftMenuHtml += '</ul>\n';
+                   // headerMenuCheckDefault = '';
+                    leftMenuCheckDefault = 'layui-hide';
+                });
+               /* $('.layui-header-pc-menu').html(headerMenuHtml); //电脑
+                $('.layui-header-mini-menu').html(headerMobileMenuHtml); //手机*/
+                $('.layui-left-menu').html(leftMenuHtml);
+                element.init();
+            };
+            
+            
+
             /**
              * 配色方案配置项(默认选中第一个方案)
              * @param bgcolorId
@@ -300,7 +356,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#0c0c0c',
                         headerLogo: '#0c0c0c',
                         menuLeft: '#23262e',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#666666',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -324,7 +380,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#0069b7',
                         headerLogo: '#0c0c0c',
                         menuLeft: '#1f1f1f',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#1e9fff',
                         menuLeftHover: '#3b3f4b',
                     },
 
@@ -333,7 +389,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#d09600',
                         headerLogo: '#243346',
                         menuLeft: '#2f4056',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#ffb800',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -341,7 +397,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#ae1919',
                         headerLogo: '#0c0c0c',
                         menuLeft: '#1f1f1f',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#e82121',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -349,7 +405,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#772c6a',
                         headerLogo: '#243346',
                         menuLeft: '#2f4056',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#963885',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -357,7 +413,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#0069b7',
                         headerLogo: '#0069b7',
                         menuLeft: '#1f1f1f',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#1e9fff',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -365,7 +421,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#d09600',
                         headerLogo: '#d09600',
                         menuLeft: '#2f4056',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#ffb800',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -373,7 +429,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#ae1919',
                         headerLogo: '#d91f1f',
                         menuLeft: '#1f1f1f',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#e82121',
                         menuLeftHover: '#3b3f4b',
                     },
                     {
@@ -381,7 +437,7 @@ layui.define(["element", "jquery", "layer"], function (exports) {
                         headerRightThis: '#772c6a',
                         headerLogo: '#772c6a',
                         menuLeft: '#2f4056',
-                        menuLeftThis: '#1aa094',
+                        menuLeftThis: '#963885',
                         menuLeftHover: '#3b3f4b',
                     }
                 ];
