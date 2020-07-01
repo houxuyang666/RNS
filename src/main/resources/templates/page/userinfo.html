@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../static/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+
+<form id="form" action="userinfo/setUserinfo" method="post" enctype="multipart/form-data">
+    姓名：<input type="text" name="name"  th:value="${userinfo!=null ?userinfo.name:''}"><br>
+    性别：<select class="btn btn-info" name="sex">
+            <option value="0" th:selected="(0 eq ${userinfo.sex})" >女</option>
+            <option value="1" th:selected="(1 eq ${userinfo.sex})" >男</option>
+        </select><br>
+    年龄： <input type="text" name="age" th:value="${userinfo!=null ?userinfo.age:''}"><br>
+    联系电话：<input type="text" name="tel" th:value="${userinfo!=null ?userinfo.tel:''}"><br>
+    所属公司：<select class="btn btn-info" name="companyId">
+        <option label=''>所属公司</option>
+        <option th:each="company:${companylist}"
+                th:text="${company.companyName}"
+                th:value="${company.companyId}"
+                th:selected="${company.companyId} eq ${userinfo.companyId}">
+        </option>
+    </select>
+
+    <!--照片：      <input id="loadphoto" type="file" name="photo" onchange="upload(this,'photo','oldloadphoto','loadphoto')" th:value="${userinfo.photo}"/>
+                    <div style="display: inline-block" id="photo"></div>
+                <img id="oldloadphoto" th:src="@{'/image/'+${userinfo.photo}}" height="50px" width="100px" onerror="this.src='/image/default.png'"><br>
+-->
+    <!--身份证正面：<input id="loadidUpPhoto" type="file" name="photo" onchange="upload(idUpPhoto)" th:value="${userinfo.idUpPhoto}" multiple="multiple"/>
+                    <div id="idUpPhoto"></div>
+                    <img th:src="@{'/image/'+${userinfo.idUpPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultID.png'"><br>
+
+    身份证反面：<input id="loadidDownPhoto" type="file" name="photo" onchange="upload(idDownPhoto)" th:value="${userinfo.idDownPhoto}" multiple="multiple"/>
+                    <div id="idDownPhoto"></div>
+                <img th:src="@{'/image/'+${userinfo.idDownPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultID.png'"><br>
+
+    从业资格证：<input id="loadqualificationsPhoto" type="file" name="photo" onchange="upload(qualificationsPhoto)" th:value="${userinfo.qualificationsPhoto}" multiple="multiple"/>
+                <div id="qualificationsPhoto"></div>
+            <img th:src="@{'/image/'+${userinfo.qualificationsPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultQualifications.png'"><br>-->
+
+<!--    所属公司：<select name="companyid">-->
+<!--            <option value="1"selected="selected">测试1</option>-->
+<!--            <option value="2" >测试2</option>-->
+<!--            <option value="3" >测试3</option>-->
+<!--            <option value="4" >测试4</option>-->
+<!--            <option value="5" >测试5</option>-->
+<!--        </select><br>-->
+    <input type="submit" value="提交">
+</form>
+<script type="text/javascript">
+    function upload(obj,photo,oldloadphoto,loadphoto){
+        var f = obj.files;
+        var str = "";
+        var s1 =photo;
+        var s2 =oldloadphoto;
+        var s3 =loadphoto;
+        for(var i=0;i<f.length;i++){
+            var reader = new FileReader();
+            reader.readAsDataURL(f[i]);
+
+            reader.onload = function(e){
+                str+='<img width="100px" height="50px" src="'+e.target.result+'"/>';
+                document.getElementById(s1).innerHTML = str;
+            }
+        }
+        var parent=document.getElementById(s2);
+        parent.remove();
+
+        var file =$("input[name=\"photo\"]").innerHTML;
+
+        alert(file)
+    }
+</script>
+
+
+
+</body>
+</html>

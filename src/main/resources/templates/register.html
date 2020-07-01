@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<form id="form" action="/user/register/user" method="post">
+    登录名：<input type="text" name="username" ><br>
+    密码：<input type="password" name="password" ><br>
+    确认密码：<input type="password" name="password1" ><br>
+    姓名：<input type="text" name="name" ><br>
+    性别：<select class="btn btn-info" name="sex">
+    <option value="0" >女</option>
+    <option value="1">男</option>
+</select><br>
+    年龄： <input type="text" name="age"><br>
+    联系电话：<input type="text" name="tel"><br>
+    所属公司：<select class="btn btn-info" name="companyId">
+                <option label=''>所属公司</option>
+                <option th:each="company:${companylist}"
+                        th:text="${company.companyName}"
+                        th:value="${company.companyId}"
+                        th:selected="${company.companyId} eq '1'">
+                </option>
+            </select>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>
