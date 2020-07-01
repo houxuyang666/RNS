@@ -2,10 +2,8 @@ package com.tdkj.RNS.shiro;
 
 
 import com.tdkj.RNS.entity.Menu;
-import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.service.MenuService;
-import com.tdkj.RNS.service.PermissionService;
 import com.tdkj.RNS.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
