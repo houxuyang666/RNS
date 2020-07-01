@@ -149,7 +149,7 @@
             miniTongji = layui.miniTongji;
 
         var options = {
-            iniUrl: "api/init1.json", // 初始化接口
+            iniUrl: "/indexinit", // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
             urlHashLocation: true, // 是否打开hash定位
             bgColorDefault: false, // 主题默认配置
@@ -159,7 +159,7 @@
             pageAnim: true, // iframe窗口动画
             maxTabNum: 20, // 最大的tab打开数量
         };
-        miniAdmin.render(options);
+        miniAdmin.rendering(options);
 
         // 百度统计代码，只统计指定域名
         miniTongji.render({
@@ -177,7 +177,7 @@
             });
         });
 
-        $.getJSON("api/init2.json", function(data) {
+        /*$.getJSON("api/init2.json", function(data) {
             if(data.responseCode == 200) {
                 //alert(JSON.stringify(data.data));
                 if(data.data == null) {
@@ -234,7 +234,7 @@
             }
         }).fail(function(){
             miniAdmin.error('网络繁忙，访问失败');
-        })
+        })*/
 
     });
 </script>

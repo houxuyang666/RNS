@@ -78,6 +78,131 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             });
         },
 
+
+        rendering:function(options){
+            options.iniUrl = options.iniUrl || null;
+            options.clearUrl = options.clearUrl || null;
+            options.urlHashLocation = options.urlHashLocation || false;
+            options.bgColorDefault = options.bgColorDefault || 0;
+            options.multiModule = options.multiModule || false;
+            options.menuChildOpen = options.menuChildOpen || false;
+            options.loadingTime = options.loadingTime || 1;
+            options.pageAnim = options.pageAnim || false;
+            options.maxTabNum = options.maxTabNum || 20;
+            $.ajax({
+                url:options.iniUrl,
+                type:"POST",
+                dataType:"json",
+                data:"",
+                success:function(data){
+                    if(data.responseCode == 200) {
+                        //alert(JSON.stringify(data.data));
+                        if(data.data == null) {
+                            miniAdmin.error("暂无信息菜单");
+                        } else {
+                            layer.alert(JSON.stringify(data.data));
+                            console.log(data.data)
+                            var objData = data.data.childs;
+                            var obj = [];
+                            alert(objData.length);
+                            for(var i = 0; objData.length > i; i++) {
+                                var objone = new Object();
+                                objone.title = objData[i].data.title;
+                                objone.icon = objData[i].data.icon;
+                                objone.href = objData[i].data.href;
+                                objone.target=objData[i].data.target;
+                                objone.child = [];
+                                if(objData[i].childs.length == 0) {
+                                    objone.child = [];
+                                } else {
+                                    for(var j = 0; j < objData[i].childs.length; j++) {
+                                        var objtwo = new Object();
+                                        objtwo.title = objData[i].childs[j].data.title;
+                                        objtwo.icon = objData[i].childs[j].data.icon;
+                                        objtwo.href = objData[i].childs[j].data.href;
+                                        objtwo.target = objData[i].childs[j].data.target;
+                                        objtwo.child = [];
+                                        //alert(objData[i].childs[j].childs.length);
+                                        if(objData[i].childs[j].childs.length == 0) {
+                                            objtwo.child = [];
+                                        } else {
+                                            for(var p = 0; p < objData[i].childs[j].childs.length; p++) {
+                                                var objthree = new Object();
+                                                objthree.title = objData[i].childs[j].childs[p].data.title;
+                                                objthree.icon = objData[i].childs[j].childs[p].data.icon;
+                                                objthree.href = objData[i].childs[j].childs[p].data.href;
+                                                objthree.child = objData[i].childs[j].childs[p].childs;
+                                                objthree.target = objData[i].childs[j].childs[p].target;
+                                                objtwo.child.push(objthree);
+                                            }
+                                        }
+                                        objone.child.push(objtwo);
+                                    }
+                                }
+                                obj.push(objone);
+                            }
+
+
+                            //格式化数据格式
+                            var jsonArr = {};
+                            jsonArr["homeInfo"] = {
+                                "title": "首页",
+                                "href": "/page/welcome-1.html"
+                            };
+                            jsonArr["logoInfo"] = {
+                                "title": "唐都科技",
+                                "image": "images/tdkjlogo.png",
+                                "href": ""
+                            };
+                            jsonArr["menuInfo"] = [{
+                                "title":"常规管理",
+                                "icon":"fa fa-address-book",
+                                "href":"",
+                                "target":"_self",
+                                "child":obj
+                            }];
+                            console.log(jsonArr);
+                            //layer.alert(JSON.stringify(jsonArr));
+
+                            miniAdmin.renderLogo(jsonArr.logoInfo);
+                            miniAdmin.renderClear(options.clearUrl);
+                            miniAdmin.renderHome(jsonArr.homeInfo);
+                            miniAdmin.renderAnim(options.pageAnim);
+                            miniAdmin.listen();
+                            miniMenu.render({
+                                menuList: jsonArr.menuInfo,
+                                multiModule: options.multiModule,
+                                menuChildOpen: options.menuChildOpen
+                            });
+                            miniTab.render({
+                                filter: 'layuiminiTab',
+                                urlHashLocation: options.urlHashLocation,
+                                multiModule: options.multiModule,
+                                menuChildOpen: options.menuChildOpen,
+                                maxTabNum: options.maxTabNum,
+                                menuList: jsonArr.menuInfo,
+                                homeInfo: jsonArr.homeInfo,
+                                listenSwichCallback: function() {
+                                    miniAdmin.renderDevice();
+                                }
+                            });
+                            miniTheme.render({
+                                bgColorDefault: options.bgColorDefault,
+                                listen: true,
+                            });
+                            miniAdmin.deleteLoader(options.loadingTime);
+
+                        }
+                    } else {
+                        miniAdmin.error("菜单接口有误");
+                    }
+                },
+                error:function(){
+                    miniAdmin.error('网络繁忙，访问失败');
+                }
+
+            })
+        },
         /**
          * 初始化logo
          * @param data
