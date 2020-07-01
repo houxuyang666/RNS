@@ -16,7 +16,7 @@
     <select id="queryById" resultMap="CompanyMap">
         select
           company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
-        from car.company
+        from company
         where company_id = #{companyId}
     </select>
 
@@ -24,7 +24,7 @@
     <select id="queryAllByLimit" resultMap="CompanyMap">
         select
           company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
-        from car.company
+        from company
         limit #{offset}, #{limit}
     </select>
 
@@ -32,7 +32,7 @@
     <select id="queryAll" resultMap="CompanyMap">
         select
           company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
-        from car.company
+        from company
         <where>
             <if test="companyId != null">
                 and company_id = #{companyId}
@@ -60,13 +60,13 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="companyId" useGeneratedKeys="true">
-        insert into car.company(company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time)
+        insert into company(company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time)
         values (#{companyName}, #{companyAddress}, #{vehicleOfficerName}, #{vehicleOfficerTel}, #{createTime}, #{modifyTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update car.company
+        update company
         <set>
             <if test="companyName != null and companyName != ''">
                 company_name = #{companyName},
@@ -92,13 +92,19 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from car.company where company_id = #{companyId}
+        delete from company where company_id = #{companyId}
     </delete>
 
     <select id="queryAllCompany" resultMap="CompanyMap">
     select
     company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
-    from car.company
+    from company
+    </select>
+
+    <select id="queryByName" resultMap="CompanyMap">
+    select
+    company_name
+    from company where company_name = #{companyName}
     </select>
 
 </mapper>

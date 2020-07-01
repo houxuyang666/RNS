@@ -109,8 +109,11 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setStatus(0);
         user.setSalt(uuid);
         user.setRid(1);
+        user.setCreateTime(new Date());
         user.setUserinfoId(userinfo.getId());
         userService.insert(user);
+        Log log = ShiroUtils.setLog(username,"注册");
+        logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
 

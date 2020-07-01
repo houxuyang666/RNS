@@ -53,4 +53,20 @@ public interface VehicleinfoService {
      */
     boolean deleteById(Integer vehicleinfoId);
 
+    /**
+     * @Author houxuyang
+     * @Description //查询所有车辆信息
+     * @Date 17:03 2020/7/1
+     * @Param []
+     * @return java.util.List<com.tdkj.RNS.entity.Vehicleinfo>
+     **/
+    List<Vehicleinfo> queryAllvehicleinfo();
+    /**
+     * @Author houxuyang
+     * @Description //通过车牌号查询
+     * @Date 17:03 2020/7/1
+     * @Param []
+     * @return java.util.List<com.tdkj.RNS.entity.Vehicleinfo>
+     **/
+    Vehicleinfo queryByvehicleNumber(String vehicleNumber);
 }

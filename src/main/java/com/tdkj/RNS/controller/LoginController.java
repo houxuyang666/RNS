@@ -158,7 +158,7 @@ public class LoginController implements RnsResultType, RnsResultCode{
     @RequestMapping("/tologin")
     public String toLogin() {
         log.info("------------------------------tologin");
-        return "login-1";
+        return "login";
     }
 
     @RequestMapping("/noAuth")

@@ -76,4 +76,14 @@ public class VehicleinfoServiceImpl implements VehicleinfoService {
     public boolean deleteById(Integer vehicleinfoId) {
         return this.vehicleinfoDao.deleteById(vehicleinfoId) > 0;
     }
+
+    @Override
+    public List<Vehicleinfo> queryAllvehicleinfo() {
+        return vehicleinfoDao.queryAllvehicleinfo();
+    }
+
+    @Override
+    public Vehicleinfo queryByvehicleNumber(String vehicleNumber) {
+        return vehicleinfoDao.queryByvehicleNumber(vehicleNumber);
+    }
 }

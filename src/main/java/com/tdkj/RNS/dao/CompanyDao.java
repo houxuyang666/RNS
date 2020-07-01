@@ -68,4 +68,12 @@ public interface CompanyDao {
      * @return 对象列表
      */
     List<Company> queryAllCompany();
+    /**
+     * @Author houxuyang
+     * @Description //通过名称查询该公司是否存在
+     * @Date 16:29 2020/7/1
+     * @Param [companyName]
+     * @return com.tdkj.RNS.entity.Company
+     **/
+    Company queryByName(String companyName);
 }

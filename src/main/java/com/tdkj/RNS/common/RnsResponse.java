@@ -43,11 +43,11 @@ public class RnsResponse {
         return rnsResponse;
     }
 
-    public static RnsResponse setResult(Integer ResponseCode, String message,String url, Object rows) {
+    public static RnsResponse setResult(Integer ResponseCode, String message,String url, Object Data) {
         RnsResponse rnsResponse =new RnsResponse();
         rnsResponse.setResponseCode(ResponseCode);
         rnsResponse.setMessage(message);
-        rnsResponse.setData(rows);
+        rnsResponse.setData(Data);
         rnsResponse.setUrl(url);
         return rnsResponse;
     }
