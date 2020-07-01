@@ -44,12 +44,12 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
     @Value("${file.uploadtempFolder}")
     private String uploadtempFolder;
 
-    @RequestMapping("/Userinfo")
+    @RequestMapping("/userinfo")
     public String Userinfo(Model model) throws Exception {
         /*进入用户修改页面*/
         Userinfo userinfo;
         try {
-            userinfo=userinfoService.queryById(ShiroUtils.getPrincipal().getId());
+            userinfo=userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
             List<Company> companylist =companyService.queryAllCompany();
             model.addAttribute("userinfo", userinfo);
             model.addAttribute("companylist", companylist);

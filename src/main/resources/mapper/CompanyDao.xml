@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdkj.RNS.dao.CompanyDao">
+
+    <resultMap type="com.tdkj.RNS.entity.Company" id="CompanyMap">
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="companyAddress" column="company_address" jdbcType="VARCHAR"/>
+        <result property="vehicleOfficerName" column="vehicle_officer_name" jdbcType="VARCHAR"/>
+        <result property="vehicleOfficerTel" column="vehicle_officer_tel" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CompanyMap">
+        select
+          company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
+        from car.company
+        where company_id = #{companyId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CompanyMap">
+        select
+          company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
+        from car.company
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CompanyMap">
+        select
+          company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
+        from car.company
+        <where>
+            <if test="companyId != null">
+                and company_id = #{companyId}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName}
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                and company_address = #{companyAddress}
+            </if>
+            <if test="vehicleOfficerName != null and vehicleOfficerName != ''">
+                and vehicle_officer_name = #{vehicleOfficerName}
+            </if>
+            <if test="vehicleOfficerTel != null and vehicleOfficerTel != ''">
+                and vehicle_officer_tel = #{vehicleOfficerTel}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="companyId" useGeneratedKeys="true">
+        insert into car.company(company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time)
+        values (#{companyName}, #{companyAddress}, #{vehicleOfficerName}, #{vehicleOfficerTel}, #{createTime}, #{modifyTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update car.company
+        <set>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="companyAddress != null and companyAddress != ''">
+                company_address = #{companyAddress},
+            </if>
+            <if test="vehicleOfficerName != null and vehicleOfficerName != ''">
+                vehicle_officer_name = #{vehicleOfficerName},
+            </if>
+            <if test="vehicleOfficerTel != null and vehicleOfficerTel != ''">
+                vehicle_officer_tel = #{vehicleOfficerTel},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+        </set>
+        where company_id = #{companyId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from car.company where company_id = #{companyId}
+    </delete>
+
+    <select id="queryAllCompany" resultMap="CompanyMap">
+    select
+    company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
+    from car.company
+    </select>
+
+</mapper>

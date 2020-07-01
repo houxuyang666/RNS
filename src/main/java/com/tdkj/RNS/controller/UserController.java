@@ -19,10 +19,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ import java.util.*;
 @Controller
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController implements RnsResultType, RnsResultCode {
 
     private final ValidateCodeUtil validateCodeUtil;
@@ -82,9 +84,11 @@ public class UserController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/register/user")
     public RnsResponse adduser(String username, String password,String name,Integer sex,Integer age,String tel,Integer companyId) {
+
         log.info("注册用户");
-        User user = userService.findByName(username);
-        if (user != null) {
+        log.info(password);
+        User olduser = userService.findByName(username);
+        if (olduser != null) {
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"用户名已存在");
         }
         Userinfo userinfo =new Userinfo();
@@ -94,25 +98,27 @@ public class UserController implements RnsResultType, RnsResultCode {
         userinfo.setTel(tel);
         userinfo.setCompanyId(companyId);
         userinfo.setCreateTime(new Date());
+        log.info(userinfo.toString());
         userinfoService.insert(userinfo);
         System.out.println(userinfo.getId());
-        user = new User();
+        User user = new User();
         //uuid设置盐
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         user.setUsername(username);
         user.setPassword(Md5Util.Md5Password(uuid,password));
         user.setStatus(0);
         user.setSalt(uuid);
+        user.setRid(1);
         user.setUserinfoId(userinfo.getId());
-        user.setCreateTime(new Date());
         userService.insert(user);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
 
+
     @RequestMapping("/goupdatepassword")
     public String updatepassword(Model model) {
         log.info("updatepassword");
-        return "page/user-password";
+        return "page/setpassword";
     }
 
     /**
@@ -147,12 +153,10 @@ public class UserController implements RnsResultType, RnsResultCode {
     }
 
     @RequestMapping("/map")
-    public String JobSetup() {
+    public String map() {
         log.info("------------map");
         return "page/map";
     }
-
-
 
     @RequestMapping("/selectuser")
     public RnsResponse selectuser() {
