@@ -100,11 +100,11 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                         if(data.data == null) {
                             miniAdmin.error("暂无信息菜单");
                         } else {
-                            layer.alert(JSON.stringify(data.data));
+                           // layer.alert(JSON.stringify(data.data));
                             console.log(data.data)
                             var objData = data.data.childs;
                             var obj = [];
-                            alert(objData.length);
+                            //alert(objData.length);
                             for(var i = 0; objData.length > i; i++) {
                                 var objone = new Object();
                                 objone.title = objData[i].data.title;
@@ -147,7 +147,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                             var jsonArr = {};
                             jsonArr["homeInfo"] = {
                                 "title": "首页",
-                                "href": "/page/welcome-1.html"
+                                "href": "/welcome"
                             };
                             jsonArr["logoInfo"] = {
                                 "title": "唐都科技",

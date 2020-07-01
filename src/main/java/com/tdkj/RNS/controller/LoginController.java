@@ -69,7 +69,7 @@ public class LoginController implements RnsResultType, RnsResultCode{
 
     @RequestMapping("/welcome")
     public String welcome() {
-        return "page/welcome-1";
+        return "page/welcome";
     }
 
 
