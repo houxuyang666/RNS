@@ -2,6 +2,7 @@ package com.tdkj.RNS.controller;
 
 import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.service.MenuService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -12,7 +13,7 @@ import javax.annotation.Resource;
  * @author makejava
  * @since 2020-06-18 16:59:57
  */
-@RestController
+@Controller
 @RequestMapping("menu")
 public class MenuController {
     /**
@@ -31,5 +32,11 @@ public class MenuController {
     public Menu selectOne(Integer id) {
         return this.menuService.queryById(id);
     }
+
+    @RequestMapping("/gomenu")
+    public String gomenu() {
+        return "page/menu";
+    }
+
 
 }
