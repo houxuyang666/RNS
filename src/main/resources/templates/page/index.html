@@ -180,64 +180,6 @@
             });
         });
 
-        /*$.getJSON("api/init2.json", function(data) {
-            if(data.responseCode == 200) {
-                //alert(JSON.stringify(data.data));
-                if(data.data == null) {
-                    miniAdmin.error("暂无信息菜单");
-                } else {
-                    //layer.alert(JSON.stringify(data.data));
-                    var objData=data.data;
-                    var jsonArr_1={};
-                    var obj=[];
-                    for(var i=0; objData.length>i; i++){
-                        var objone=new Object();
-                        objone.title=objData[i].data.title;
-                        objone.icon=objData[i].data.icon;
-                        objone.href =objData[i].data.href;
-                        objone.child=[];
-                        if(objData[i].childs.length==0)
-                        {
-                            objone.child=[];
-                        }else{
-                            for (var j=0 ;j<objData[i].childs.length;j++) {
-                                var objtwo=new Object();
-                                objtwo.title=objData[i].childs[j].data.title;
-                                objtwo.icon=objData[i].childs[j].data.icon;
-                                objtwo.href =objData[i].childs[j].data.href;
-                                objtwo.child=objData[i].childs[j].childs;
-                                objone.child.push(objtwo);
-                            }
-                        }
-                        obj.push(objone);
-                    }
-                    layer.alert(JSON.stringify(obj));
-                    jsonArr_1["menuInfo"]={obj};
-                    console.info(jsonArr_1);
-                    //layer.alert(JSON.stringify(jsonArr_1));
-
-                    //格式化数据格式
-                    var jsonArr = {};
-                    jsonArr["homeInfo"] = {
-                        "title": "首页",
-                        "href": "welcome-1.html"
-                    };
-                    jsonArr["logoInfo"] = {
-                        "title": "唐都科技",
-                        "image": "images/tdkjlogo.png",
-                        "href": ""
-                    };
-                    jsonArr["menuInfo"] = data.data;
-                    //console.log(jsonArr);
-                    //layer.alert(JSON.stringify(jsonArr));
-
-                }
-            } else {
-                miniAdmin.error("菜单接口有误");
-            }
-        }).fail(function(){
-            miniAdmin.error('网络繁忙，访问失败');
-        })*/
 
     });
 </script>
