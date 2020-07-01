@@ -1,7 +1,5 @@
 package com.tdkj.RNS.dao;
 
-import com.tdkj.RNS.entity.Permission;
-import com.tdkj.RNS.entity.User;
 import com.tdkj.RNS.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;

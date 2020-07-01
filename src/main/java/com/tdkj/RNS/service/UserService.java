@@ -1,6 +1,5 @@
 package com.tdkj.RNS.service;
 
-import com.tdkj.RNS.entity.Permission;
 import com.tdkj.RNS.entity.User;
 
 import java.util.List;

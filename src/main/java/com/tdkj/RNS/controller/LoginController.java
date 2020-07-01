@@ -66,6 +66,14 @@ public class LoginController implements RnsResultType, RnsResultCode{
         return "page/index";
     }
 
+
+    @RequestMapping("/welcome")
+    public String welcome() {
+        return "page/welcome-1";
+    }
+
+
+
     /**
      * @Author houxuyang
      * @Description //查询目录

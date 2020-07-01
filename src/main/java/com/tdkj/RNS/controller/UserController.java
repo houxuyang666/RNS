@@ -115,7 +115,7 @@ public class UserController implements RnsResultType, RnsResultCode {
     }
 
 
-    @RequestMapping("/goupdatepassword")
+    @RequestMapping("/goupdapsd")
     public String updatepassword(Model model) {
         log.info("updatepassword");
         return "page/setpassword";
@@ -129,15 +129,15 @@ public class UserController implements RnsResultType, RnsResultCode {
      * @return java.lang.String
      **/
     @ResponseBody
-    @RequestMapping("/updatepassword")
-    public RnsResponse updatepassword(String oldpassword,String newpassword) {
+    @RequestMapping("/updatepsd")
+    public RnsResponse updatepsd(String oldpassword,String newpassword) {
         log.info("修改密码");
         //根据用户id查询出来用户信息
         User user =userService.queryById(ShiroUtils.getPrincipal().getId());
         //将输入的原密码进行加密后 与数据库密码进行对比
         String dbpassword = Md5Util.Md5Password(user.getSalt(), oldpassword);
         if (!dbpassword.equals(user.getPassword())){
-            return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
+            return RnsResponse.setResult(HTTP_RNS_CODE_500,"原密码错误");
         }
         //密码正确后进入  将新密码进行加密
         newpassword=Md5Util.Md5Password(user.getSalt(), newpassword);

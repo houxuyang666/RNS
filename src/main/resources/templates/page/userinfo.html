@@ -7,11 +7,11 @@
 </head>
 <body>
 
-<form id="form" action="userinfo/setUserinfo" method="post" enctype="multipart/form-data">
+<form id="form" action="/userinfo/setUserinfo" method="post">
     姓名：<input type="text" name="name"  th:value="${userinfo!=null ?userinfo.name:''}"><br>
     性别：<select class="btn btn-info" name="sex">
-            <option value="0" th:selected="(0 eq ${userinfo.sex})" >女</option>
-            <option value="1" th:selected="(1 eq ${userinfo.sex})" >男</option>
+            <option value="0" th:selected="('0' eq ${userinfo.sex})" >女</option>
+            <option value="1" th:selected="('1' eq ${userinfo.sex})" >男</option>
         </select><br>
     年龄： <input type="text" name="age" th:value="${userinfo!=null ?userinfo.age:''}"><br>
     联系电话：<input type="text" name="tel" th:value="${userinfo!=null ?userinfo.tel:''}"><br>
@@ -23,6 +23,7 @@
                 th:selected="${company.companyId} eq ${userinfo.companyId}">
         </option>
     </select>
+    <input type="submit" value="提交">
 
     <!--照片：      <input id="loadphoto" type="file" name="photo" onchange="upload(this,'photo','oldloadphoto','loadphoto')" th:value="${userinfo.photo}"/>
                     <div style="display: inline-block" id="photo"></div>
@@ -47,7 +48,7 @@
 <!--            <option value="4" >测试4</option>-->
 <!--            <option value="5" >测试5</option>-->
 <!--        </select><br>-->
-    <input type="submit" value="提交">
+
 </form>
 <script type="text/javascript">
     function upload(obj,photo,oldloadphoto,loadphoto){
