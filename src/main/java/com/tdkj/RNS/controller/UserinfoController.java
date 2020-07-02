@@ -44,21 +44,30 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
     @Value("${file.uploadtempFolder}")
     private String uploadtempFolder;
 
-    @RequestMapping("/userinfo")
+    @RequestMapping("/gouserinfo")
     public String Userinfo(Model model) throws Exception {
+            return "page/userinfo";
+    }
+
+    @ResponseBody
+    @RequestMapping("/userinfo")
+    public RnsResponse userinfo() {
         /*进入用户修改页面*/
         Userinfo userinfo;
         try {
             userinfo=userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
             List<Company> companylist =companyService.queryAllCompany();
-            model.addAttribute("userinfo", userinfo);
-            model.addAttribute("companylist", companylist);
-            return "page/userinfo";
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userinfo,companylist);
         }catch (NullPointerException E){
-            model.addAttribute("userinfo",new Userinfo());
-            return "page/userinfo";
+
         }
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
     }
+
+
+
+
+
     @ResponseBody
     @RequestMapping("/setUserinfo")
     public RnsResponse setUserinfo(String name,Integer sex,Integer age,String tel,Integer companyId) {

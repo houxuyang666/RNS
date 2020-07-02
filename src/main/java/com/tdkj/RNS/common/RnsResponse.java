@@ -16,6 +16,7 @@ public class RnsResponse {
     private String Url;
 
     private Object Data;//数据 Data
+    private Object Data2;//数据 Data2
     private Long total;
 
     public static RnsResponse setResult(Integer ResponseCode, String message, Object data) {
@@ -49,6 +50,15 @@ public class RnsResponse {
         rnsResponse.setMessage(message);
         rnsResponse.setData(Data);
         rnsResponse.setUrl(url);
+        return rnsResponse;
+    }
+
+    public static RnsResponse setResult(Integer ResponseCode, String message, Object Data,Object Data2) {
+        RnsResponse rnsResponse =new RnsResponse();
+        rnsResponse.setResponseCode(ResponseCode);
+        rnsResponse.setMessage(message);
+        rnsResponse.setData(Data);
+        rnsResponse.setData2(Data2);
         return rnsResponse;
     }
 
