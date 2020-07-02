@@ -1,5 +1,6 @@
 package com.tdkj.RNS.service;
 
+import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.Userinfo;
 import com.tdkj.RNS.entity.Userinfo;
 
@@ -32,7 +33,7 @@ public interface UserinfoService {
 
     int insert(Userinfo userinfo);
 
-    Userinfo queryById(Integer id);
+    UserCompanyVO queryById(Integer id);
 
     int update(Userinfo userinfo);
 }

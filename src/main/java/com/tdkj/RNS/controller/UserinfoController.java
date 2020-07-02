@@ -5,6 +5,7 @@ import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Company;
 import com.tdkj.RNS.entity.Log;
+import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.Userinfo;
 import com.tdkj.RNS.service.CompanyService;
 import com.tdkj.RNS.service.LogService;
@@ -54,11 +55,11 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
     @RequestMapping("/userinfo")
     public RnsResponse userinfo() {
         /*进入用户修改页面*/
-        Userinfo userinfo;
+        UserCompanyVO userCompanyVO;
         try {
-            userinfo=userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
+            userCompanyVO =userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
             List<Company> companylist =companyService.queryAllCompany();
-            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userinfo,companylist);
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userCompanyVO,companylist);
         }catch (NullPointerException E){
 
         }
@@ -80,7 +81,7 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
         userinfo.setAge(age);
         userinfo.setTel(tel);
         userinfo.setCompanyId(companyId);
-        Userinfo oldUserinfo =userinfoService.queryById(id);
+        UserCompanyVO oldUserinfo =userinfoService.queryById(id);
             if (null==oldUserinfo){
                 userinfo.setCreateTime(new Date());
                 userinfoService.insert(userinfo);

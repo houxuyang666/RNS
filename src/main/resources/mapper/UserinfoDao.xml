@@ -14,12 +14,24 @@
         <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap type="com.tdkj.RNS.entity.UserCompanyVO" id="Userinfo">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="companyName" column="company_name" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+
     <!--查询单个-->
-    <select id="queryById" resultMap="UserinfoMap">
+    <select id="queryById" resultMap="Userinfo">
         select
-          id, name, sex, age, tel, status, company_id, create_time, modify_time
-        from u_userinfo
-        where id = #{id}
+          id, name, sex, age, tel, status, company_name
+        from u_userinfo u,company c
+        where id = #{id} and u.company_id=c.company_id
     </select>
 
     <!--查询指定行数据-->
