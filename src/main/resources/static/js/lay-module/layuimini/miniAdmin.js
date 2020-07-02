@@ -203,6 +203,8 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
 
             })
         },
+
+
         /**
          * 初始化logo
          * @param data

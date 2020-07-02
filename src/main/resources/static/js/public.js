@@ -32,3 +32,11 @@ function  Import() {
     importCssJs.js();
 
 }
+
+
+//成功
+
+//失败
+function Success(title) {
+    layer.msg("网络异常,请检查后再试",{icon: 2, shade: this.shade, scrollbar: false, time: 3000, shadeClose: true});
+}

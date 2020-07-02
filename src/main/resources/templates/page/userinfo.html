@@ -2,79 +2,190 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="../../static/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <title>用户资料卡</title>
+    <link rel="stylesheet" href="/statics/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
 </head>
 <body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <blockquote class="layui-elem-quote layui-text" style="margin-bottom: 10px">
+            这是你的资料卡 随时就可以修改哦
+        </blockquote>
+        <fieldset class="layui-elem-field layui-field-title"></fieldset>
+        <div style="padding: 20px;background-color: #F2F2F2;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header" style="">个人资料</div>
+                        <div class="layui-card-body" style="padding: 20px;">
+                            <table class="layui-table" lay-skin="line">
+                                <colgroup>
+                                    <col width="80">
+                                    <col width="150">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <td>姓名:</td>
+                                    <td><label id="name">柴佳楠</label></td>
+                                </tr>
+                                <tr>
+                                    <td>性别:</td>
+                                    <td><label id="sex">男</label></td>
+                                </tr>
+                                <tr>
+                                    <td>年龄:</td>
+                                    <td><label id="age">23</label></td>
+                                </tr>
+                                <tr>
+                                    <td>联系电话:</td>
+                                    <td><label id="phone">15225513715</label></td>
+                                </tr>
+                                <tr>
+                                    <td>所属公司:</td>
+                                    <td><label id="company">河南唐都科技有限公司</label></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md8">
+                    <div class="layui-card">
+                        <div class="layui-card-header" >资料修改</div>
+                        <div class="layui-card-body" style="padding: 20px;">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">姓名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="name" lay-verify="required" lay-reqtext="岂能为空？" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                                    </div>
+                                </div>
 
-<form id="form" action="/userinfo/setUserinfo" method="post">
-    姓名：<input type="text" name="name"  th:value="${userinfo!=null ?userinfo.name:''}"><br>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <select name="sex" lay-filter="sex">
+                                            <option value=""></option>
+                                            <option value="0">男</option>
+                                            <option value="1">女</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">年龄</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="age" lay-verify="required" lay-reqtext="岂能为空？" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">电话</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="tel" lay-verify="required" lay-reqtext="岂能为空？" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">所属公司</label>
+                                    <div class="layui-input-block">
+                                        <select name="companyId" lay-filter="companyId">
+                                            <option value=""></option>
+                                            <option value="0">写作</option>
+                                            <option value="1" selected="">阅读</option>
+                                            <option value="2">游戏</option>
+                                            <option value="3">音乐</option>
+                                            <option value="4">旅行</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="saveBtn">确认保存</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!--<form id="form" action="/userinfo/setUserinfo" method="post">
+    姓名：<input type="text" name="name" th:value="${userinfo!=null ?userinfo.name:''}"><br>
     性别：<select class="btn btn-info" name="sex">
-            <option value="0" th:selected="('0' eq ${userinfo.sex})" >女</option>
-            <option value="1" th:selected="('1' eq ${userinfo.sex})" >男</option>
-        </select><br>
+    <option value="0" th:selected="('0' eq ${userinfo.sex})">女</option>
+    <option value="1" th:selected="('1' eq ${userinfo.sex})">男</option>
+</select><br>
     年龄： <input type="text" name="age" th:value="${userinfo!=null ?userinfo.age:''}"><br>
     联系电话：<input type="text" name="tel" th:value="${userinfo!=null ?userinfo.tel:''}"><br>
     所属公司：<select class="btn btn-info" name="companyId">
-        <option label=''>所属公司</option>
-        <option th:each="company:${companylist}"
-                th:text="${company.companyName}"
-                th:value="${company.companyId}"
-                th:selected="${company.companyId} eq ${userinfo.companyId}">
-        </option>
-    </select>
+    <option label=''>所属公司</option>
+    <option th:each="company:${companylist}"
+            th:text="${company.companyName}"
+            th:value="${company.companyId}"
+            th:selected="${company.companyId} eq ${userinfo.companyId}">
+    </option>
+</select>
     <input type="submit" value="提交">
 
-    <!--照片：      <input id="loadphoto" type="file" name="photo" onchange="upload(this,'photo','oldloadphoto','loadphoto')" th:value="${userinfo.photo}"/>
-                    <div style="display: inline-block" id="photo"></div>
-                <img id="oldloadphoto" th:src="@{'/image/'+${userinfo.photo}}" height="50px" width="100px" onerror="this.src='/image/default.png'"><br>
--->
-    <!--身份证正面：<input id="loadidUpPhoto" type="file" name="photo" onchange="upload(idUpPhoto)" th:value="${userinfo.idUpPhoto}" multiple="multiple"/>
-                    <div id="idUpPhoto"></div>
-                    <img th:src="@{'/image/'+${userinfo.idUpPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultID.png'"><br>
 
-    身份证反面：<input id="loadidDownPhoto" type="file" name="photo" onchange="upload(idDownPhoto)" th:value="${userinfo.idDownPhoto}" multiple="multiple"/>
-                    <div id="idDownPhoto"></div>
-                <img th:src="@{'/image/'+${userinfo.idDownPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultID.png'"><br>
+</form>-->
 
-    从业资格证：<input id="loadqualificationsPhoto" type="file" name="photo" onchange="upload(qualificationsPhoto)" th:value="${userinfo.qualificationsPhoto}" multiple="multiple"/>
-                <div id="qualificationsPhoto"></div>
-            <img th:src="@{'/image/'+${userinfo.qualificationsPhoto}}" height="50px" width="100px" onerror="this.src='/image/defaultQualifications.png'"><br>-->
+<script src="/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 
-<!--    所属公司：<select name="companyid">-->
-<!--            <option value="1"selected="selected">测试1</option>-->
-<!--            <option value="2" >测试2</option>-->
-<!--            <option value="3" >测试3</option>-->
-<!--            <option value="4" >测试4</option>-->
-<!--            <option value="5" >测试5</option>-->
-<!--        </select><br>-->
-
-</form>
 <script type="text/javascript">
-    function upload(obj,photo,oldloadphoto,loadphoto){
-        var f = obj.files;
-        var str = "";
-        var s1 =photo;
-        var s2 =oldloadphoto;
-        var s3 =loadphoto;
-        for(var i=0;i<f.length;i++){
-            var reader = new FileReader();
-            reader.readAsDataURL(f[i]);
+    layui.use(['form'], function(){
+        var form = layui.form
+            ,layer = layui.layer;
 
-            reader.onload = function(e){
-                str+='<img width="100px" height="50px" src="'+e.target.result+'"/>';
-                document.getElementById(s1).innerHTML = str;
-            }
-        }
-        var parent=document.getElementById(s2);
-        parent.remove();
+        //监听提交
+        form.on('submit(saveBtn)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+        $(function () {
+            //直接赋值资料信息
+            $.ajax({
+                url: "/userinfo/userinfo",
+                data: "",
+                dataType: "json",
+                type: "POST",
+                //请求成功时的数据
+                success: function (msg) {
+                    if (msg.responseCode == "200") {
+                        layer.msg(JSON.stringify(msg.data));
+                        $("#name").text(msg.data.name);
+                    } else {
+                        layer.msg("!");
+                    }
+                },
+                //请求出错时的处理
+                error: function () {
+                    layer.msg("网络异常,请检查后再试", {
+                        icon: 2,
+                        shade: this.shade,
+                        scrollbar: false,
+                        time: 3000,
+                        shadeClose: true
+                    });
+                }
+            });
+        })
 
-        var file =$("input[name=\"photo\"]").innerHTML;
 
-        alert(file)
-    }
+
+    });
+
+
+
 </script>
-
 
 
 </body>
