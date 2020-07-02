@@ -1,6 +1,8 @@
 package com.tdkj.RNS.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.annotation.Limit;
 import com.tdkj.RNS.common.RnsJson;
 import com.tdkj.RNS.common.RnsResponse;
@@ -68,7 +70,7 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @RequestMapping("/register")
     public String add(Model model) {
-        /*进入添加用户页面*/
+        /*进入注册用户页面*/
         List<Company> companylist =companyService.queryAllCompany();
         model.addAttribute("companylist", companylist);
         return "register";
@@ -155,19 +157,47 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
     }
 
-    @RequestMapping("/map")
-    public String map() {
-        log.info("------------map");
-        return "page/map";
+
+    /**
+     * @Author houxuyang
+     * @Description //重置某个用户密码
+     * @Date 15:50 2020/5/26
+     * @Param [id, oldpassword, newpassword]
+     * @return java.lang.String
+     **/
+    @ResponseBody
+    @RequestMapping("/setpsd")
+    public RnsResponse setpsd(Integer id) {
+        log.info("重置密码");
+        if("admin".equals(ShiroUtils.getPrincipal().getUsername())){
+            User user =userService.queryById(id);
+            user.setPassword(Md5Util.Md5Password(user.getSalt(),"123456"));
+            user.setModifyTime(new Date());
+            userService.update(user);
+            log.info("密码修改成功");
+            Log log = ShiroUtils.setLog("重置"+user.getUsername()+"密码");
+            logService.insert(log);
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
+        }
+        return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
     }
 
+    @RequestMapping("/goselectuser")
+    public String goselectuser(Model model) {
+        log.info("goselectuser");
+        return "page/userlist";
+    }
+
+    @ResponseBody
     @RequestMapping("/selectuser")
     public RnsResponse selectuser() {
         log.info("-------------selectuser");
-        List<User> userList =userService.selectUser();
-        Object json = JSONArray.toJSON(userList);
-        //log.info(json.toString());
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,json.toString());
+        PageHelper.startPage(1,10);
+        List<User> userList=userService.selectUser();
+        PageInfo<User> pageInfo = new PageInfo<User>(userList);
+        Log log = ShiroUtils.setLog("查看用户");
+        logService.insert(log);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
     }
 
 
