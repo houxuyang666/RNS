@@ -162,6 +162,10 @@
                     if (msg.responseCode == "200") {
                         layer.msg(JSON.stringify(msg.data));
                         $("#name").text(msg.data.name);
+                        $("#sex").text(msg.data.sex);
+                        $("#age").text(msg.data.age);
+                        $("#phone").text(msg.data.tel);
+                        $("#company").text(msg.data.companyId);
                     } else {
                         layer.msg("!");
                     }

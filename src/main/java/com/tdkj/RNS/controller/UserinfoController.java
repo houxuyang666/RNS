@@ -45,7 +45,8 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
 //    private String uploadtempFolder;
 
     @RequestMapping("/gouserinfo")
-    public String Userinfo(Model model) throws Exception {
+    public String gouserinfo()  {
+        log.info("gouserinfo");
             return "page/userinfo";
     }
 
