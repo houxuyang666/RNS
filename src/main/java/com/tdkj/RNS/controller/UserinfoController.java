@@ -25,7 +25,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@PropertySource("classpath:application-dev.properties")//此处路径需要按需修改
+//@PropertySource("classpath:application-dev.properties")//此处路径需要按需修改
 @RequestMapping("userinfo")
 public class UserinfoController implements RnsResultType, RnsResultCode {
 
@@ -38,11 +38,11 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
     @Autowired
     private CompanyService companyService;
 
-    @Value("${file.uploadFolder}")
-    private String uploadFolder;
-
-    @Value("${file.uploadtempFolder}")
-    private String uploadtempFolder;
+//    @Value("${file.uploadFolder}")
+//    private String uploadFolder;
+//
+//    @Value("${file.uploadtempFolder}")
+//    private String uploadtempFolder;
 
     @RequestMapping("/gouserinfo")
     public String Userinfo(Model model) throws Exception {

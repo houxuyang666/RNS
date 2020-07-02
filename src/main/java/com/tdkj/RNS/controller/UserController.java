@@ -126,6 +126,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         return "page/setpassword";
     }
 
+
     /**
      * @Author houxuyang
      * @Description //修改密码
@@ -200,9 +201,11 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
     }
 
-
-
-
-
+    @GetMapping("images/captcha")
+    @Limit(key = "get_captcha", period = 60, count = 10, name = "获取验证码", prefix = "limit")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException, RnsException {
+        validateCodeUtil.create(request, response);
+        log.info("测试生成验证码");
+    }
 
 }

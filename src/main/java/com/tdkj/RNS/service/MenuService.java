@@ -70,4 +70,6 @@ public interface MenuService {
      * @return java.util.List<com.tdkj.RNS.entity.Menu>
      **/
     MenuTree<Menu> findByUsernameGetMenu(String username);
+
+    MenuTree<Menu> findMenus();
 }

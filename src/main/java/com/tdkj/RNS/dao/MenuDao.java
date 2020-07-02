@@ -72,4 +72,6 @@ public interface MenuDao {
     List<Menu> findByUsernameGetPerms(String username);
 
     List<Menu> findByUsernameGetMenu(String username);
+
+    List<Menu> findMenus();
 }

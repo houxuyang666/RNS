@@ -90,9 +90,10 @@ public class LoginController implements RnsResultType, RnsResultCode{
 
     @ResponseBody
     @GetMapping("tree")
-    public RnsResponse getMenuTree(Menu menu) {
-        MenuTree<Menu> menus = menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menus.getChilds()));
+    public RnsResponse getMenuTree() {
+        MenuTree<Menu> allMenus = menuService.findMenus();
+        //System.out.println(allMenus);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(allMenus));
     }
 
 /*    *//*编写shiro 登录认证逻辑*//*

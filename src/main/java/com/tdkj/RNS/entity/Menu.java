@@ -52,9 +52,8 @@ public class Menu implements Serializable {
     */
     private Date modifyTime;
 
-    // 子菜单
-    private List<Menu> childMenus;
-
+    // 子菜单  buyong le
+    //private List<Menu> childMenus;
 
 
 
