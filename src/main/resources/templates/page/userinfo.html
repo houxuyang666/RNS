@@ -208,9 +208,9 @@
                         }
                         $('#companyList').append(html);
                     }
-                    layui.form.render("select");
-                    $('#companyList').val(msg.data.companyId);
                     //layui.form.render("select");
+                    $('#companyList').val(msg.data.companyId);
+                    layui.form.render("select");
                 },
                 //请求出错时的处理
                 error: function () {
