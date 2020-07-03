@@ -30,7 +30,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="Userinfo">
         select
-          id, name, sex, age, tel, status, company_id,company_name
+          id, name, sex, age, tel, status, u.company_id,company_name
         from u_userinfo u,company c
         where id = #{id} and u.company_id=c.company_id
     </select>
