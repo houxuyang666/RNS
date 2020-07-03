@@ -67,13 +67,13 @@ public class UserController implements RnsResultType, RnsResultCode {
     @Autowired
     private CompanyService companyService;
 
-
+    @ResponseBody
     @RequestMapping("/register")
-    public String add(Model model) {
+    public RnsResponse add(Model model) {
         /*进入注册用户页面*/
         List<Company> companylist =companyService.queryAllCompany();
         model.addAttribute("companylist", companylist);
-        return "register";
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,companylist);
     }
     /**
      * @Author houxuyang
@@ -183,9 +183,9 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
     }
 
-    @RequestMapping("/goselectuser")
+    @RequestMapping("/gouser")
     public String goselectuser(Model model) {
-        log.info("goselectuser");
+        log.info("user");
         return "page/userlist";
     }
 
@@ -194,8 +194,8 @@ public class UserController implements RnsResultType, RnsResultCode {
     public RnsResponse selectuser() {
         log.info("-------------selectuser");
         PageHelper.startPage(1,10);
-        List<User> userList=userService.selectUser();
-        PageInfo<User> pageInfo = new PageInfo<User>(userList);
+        List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
+        PageInfo<UserinfoVO> pageInfo = new PageInfo<UserinfoVO>(userinfoVOS);
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
