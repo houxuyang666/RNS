@@ -1,5 +1,7 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-06-30 09:11:13
  */
+@Data
 public class Vehicleorders implements Serializable {
     private static final long serialVersionUID = -35190928921008585L;
     /**
@@ -63,110 +66,5 @@ public class Vehicleorders implements Serializable {
     * 订单描述
     */
     private String orderDesc;
-
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(Integer vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
-    public String getVehicleDriver() {
-        return vehicleDriver;
-    }
-
-    public void setVehicleDriver(String vehicleDriver) {
-        this.vehicleDriver = vehicleDriver;
-    }
-
-    public String getBeganAddress() {
-        return beganAddress;
-    }
-
-    public void setBeganAddress(String beganAddress) {
-        this.beganAddress = beganAddress;
-    }
-
-    public String getDestinationAddress() {
-        return destinationAddress;
-    }
-
-    public void setDestinationAddress(String destinationAddress) {
-        this.destinationAddress = destinationAddress;
-    }
-
-    public String getEndAddress() {
-        return endAddress;
-    }
-
-    public void setEndAddress(String endAddress) {
-        this.endAddress = endAddress;
-    }
-
-    public String getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(String mileage) {
-        this.mileage = mileage;
-    }
-
-    public String getMileageBeganUrl() {
-        return mileageBeganUrl;
-    }
-
-    public void setMileageBeganUrl(String mileageBeganUrl) {
-        this.mileageBeganUrl = mileageBeganUrl;
-    }
-
-    public String getMileageEndUrl() {
-        return mileageEndUrl;
-    }
-
-    public void setMileageEndUrl(String mileageEndUrl) {
-        this.mileageEndUrl = mileageEndUrl;
-    }
-
-    public Date getBeganTime() {
-        return beganTime;
-    }
-
-    public void setBeganTime(Date beganTime) {
-        this.beganTime = beganTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(Integer orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getOrderDesc() {
-        return orderDesc;
-    }
-
-    public void setOrderDesc(String orderDesc) {
-        this.orderDesc = orderDesc;
-    }
 
 }

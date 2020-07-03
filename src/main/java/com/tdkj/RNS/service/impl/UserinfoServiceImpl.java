@@ -37,7 +37,7 @@ public class UserinfoServiceImpl implements UserinfoService {
     }
 
     @Override
-    public UserCompanyVO queryById(Integer id) {
+    public Userinfo queryById(Integer id) {
         return UserinfoDao.queryById(id);
     }
 

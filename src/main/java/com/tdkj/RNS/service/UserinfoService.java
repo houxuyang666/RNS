@@ -33,7 +33,7 @@ public interface UserinfoService {
 
     int insert(Userinfo userinfo);
 
-    UserCompanyVO queryById(Integer id);
+    Userinfo queryById(Integer id);
 
     int update(Userinfo userinfo);
 }

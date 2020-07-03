@@ -55,11 +55,11 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
     @RequestMapping("/userinfo")
     public RnsResponse userinfo() {
         /*进入用户修改页面*/
-        UserCompanyVO userCompanyVO;
+        Userinfo userinfo;
         try {
-            userCompanyVO =userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
+            userinfo=userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
             List<Company> companylist =companyService.queryAllCompany();
-            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userCompanyVO,companylist);
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userinfo,companylist);
         }catch (NullPointerException E){
 
         }
@@ -81,7 +81,7 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
         userinfo.setAge(age);
         userinfo.setTel(tel);
         userinfo.setCompanyId(companyId);
-        UserCompanyVO oldUserinfo =userinfoService.queryById(id);
+        Userinfo oldUserinfo =userinfoService.queryById(id);
             if (null==oldUserinfo){
                 userinfo.setCreateTime(new Date());
                 userinfoService.insert(userinfo);

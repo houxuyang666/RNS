@@ -23,17 +23,6 @@ public class GouldUtil {
 
     //申请的账户Key
 
-    /*例子
-    * //根据地址名称得到两个地址间的距离
-        Long a =GouldUtil.getDistanceByAddress("河南省洛阳市","河南省洛阳市新安县");
-        System.out.println(a);
-        log.info(GouldUtil.getLonLat("河南省洛阳市"));
-        log.info(GouldUtil.getLonLat("河南省洛阳市新安县"));
-        log.info(GouldUtil.getResponse("https://restapi.amap.com/v3/direction/driving?origin=112.454040,34.619682&destination=112.132488,34.728584&extensions=all&output=JSON&key=1e4b72709cf6bafa8de7da669796eb4b"));
-
-    *
-    * */
-
     /**
      * 0.根据地址名称得到两个地址间的距离
      * @param start 起始位置
