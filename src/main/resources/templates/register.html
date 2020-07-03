@@ -2,10 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>注册</title>
+    <title>唐都科技-注册</title>
+    <link rel="stylesheet" href="/statics/lib/layui-v2.5.5/css/layui.css" media="all">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        html, body {width: 100%;height: 100%;overflow: hidden}
+        /*body {background: #1E9FFF;}*/
+        body{background-image: url("/images/loginbg.jpg"); background-repeat: no-repeat;background-size:100% 100%;background-attachment: fixed;}
+        body:after {content:'';background-repeat:no-repeat;background-size:cover;-webkit-filter:blur(3px);-moz-filter:blur(3px);-o-filter:blur(3px);-ms-filter:blur(3px);filter:blur(3px);position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;}
+        .layui-container {width: 100%;height: 100%;overflow: hidden}
+        /*.admin-login-background {width:360px;height:300px;position:absolute;left:50%;top:40%;margin-left:-180px;margin-top:-100px;}*/
+        .admin-login-background {width:550px;height:580px;position:absolute;left:60%;top:30%;margin-left:0px;margin-top:-100px;opacity: 0.9}
+        .logo-title {text-align:center;letter-spacing:2px;padding:14px 0;}
+        .logo-title h1 {color:#1E9FFF;font-size:25px;font-weight:bold;}
+        /*.login-form {background-color:#fff;border:1px solid #fff;border-radius:3px;padding:14px 20px;box-shadow:0 0 8px #eeeeee;}*/
+        .login-form {background-color:#fff;border:1px solid #fff;border-radius:3px;padding:14px 20px;box-shadow:0 0 8px #eeeeee;height: 580px}
+        .login-form .layui-form-item {position:relative;}
+        .login-form .layui-form-item label {position:absolute;left:1px;top:1px;width:38px;line-height:36px;text-align:center;color:#d2d2d2;}
+        .login-form .layui-form-item input {padding-left:36px;}
+        .captcha {width:60%;display:inline-block;}
+        .captcha-img {display:inline-block;width:34%;float:right;}
+        .captcha-img img {height:34px;border:1px solid #e6e6e6;height:36px;width:100%;}
+    </style>
 </head>
 <body>
-<form id="form" action="/user/register/user" method="post">
+
+<div class="layui-container" >
+    <div class="admin-login-background">
+        <div class="layui-form login-form">
+            <form class="layui-form" action="">
+                <div class="layui-form-item logo-title">
+                    <h1>注册</h1>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-user" for="username"></label>
+                    <input type="text" name="username" lay-verify="account" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" >
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-password" for="password"></label>
+                    <input type="password" name="password" lay-verify="password" placeholder="密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-password" for="password1"></label>
+                    <input type="password" name="password1" lay-verify="password" placeholder="确认密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-username" for="name"></label>
+                    <input type="text" name="name" lay-verify="name" placeholder="姓名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-male" lay-verify="sex" for="sex"></label>
+                        <select name="sex" lay-filter="sex">
+                            <option value="">请选择性别</option>
+                            <option value="0">女</option>
+                            <option value="1">男</option>
+                        </select>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-circle" for="age"></label>
+                    <input type="text" name="age" lay-verify="required|number" placeholder="年龄" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-cellphone" for="tel"></label>
+                    <input type="text" name="tel" lay-verify="required|phone" placeholder="手机号码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-icon layui-icon-male"></label>
+                    <select name="companyId" lay-verify="requiredCompany" id="companyList" lay-filter="companyId">
+                        <option value="">请选择所属公司</option>
+                    </select>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-col-xs12" style="font-size: 12px;cursor: pointer;text-align: right"><span><a href="/logout">已有账号！立即登录</a></span></div>
+                </div>
+
+
+                <div class="layui-form-item" style="margin-top: 20px">
+                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit="" lay-filter="register">立即注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--<form id="form" action="/user/register/user" method="post">
     登录名：<input type="text" name="username" ><br>
     密码：<input type="password" name="password" ><br>
     确认密码：<input type="password" name="password1" ><br>
@@ -17,15 +101,151 @@
     年龄： <input type="text" name="age"><br>
     联系电话：<input type="text" name="tel"><br>
     所属公司：<select class="btn btn-info" name="companyId">
-                <option label=''>所属公司</option>
-                <option th:each="company:${companylist}"
-                        th:text="${company.companyName}"
-                        th:value="${company.companyId}"
-                        th:selected="${company.companyId} eq '1'">
-                </option>
-            </select>
+    <option label=''>所属公司</option>
+    <option th:each="company:${companylist}"
+            th:text="${company.companyName}"
+            th:value="${company.companyId}"
+            th:selected="${company.companyId} eq '1'">
+    </option>
+</select>
     <input type="submit" value="提交">
-</form>
+</form>-->
+
+<script src="/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="/statics/lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+
+        // 登录过期的时候，跳出ifram框架
+        if (top.location != self.location) top.location = self.location;
+
+        // 粒子线条背景
+        $(document).ready(function(){
+            $('.layui-container').particleground({
+                dotColor:'#7ec7fd',
+                lineColor:'#7ec7fd'
+            });
+        });
+        //表单验证
+        form.verify({
+            account:function (value) {
+                if(value=="")
+                    return"用户名或邮箱不能为空";
+                else if(value<2)
+                    return "用户名至少2个字符";
+            },
+            password:[
+                /^[\S]{6,12}$/,'密码必须6到12位，且不能出现空格'
+            ],
+            requiredCompany:function (value) {
+                if(value=="")
+                    return "请选择隶属公司"
+            }
+            
+        })
+
+        // 进行登录操作 /login
+        form.on('submit(register)', function (data) {
+            data = data.field;
+            if (data.password != data.password1) {
+                layer.msg('两次密码输入不一致',{
+                    icon: 2,
+                    shade: this.shade,
+                    scrollbar: false,
+                    time: 2000,
+                    shadeClose: true
+                });
+                return false;
+            };
+            //alert(JSON.stringify(data));
+            $.ajax({
+                url:"/user/register/user",
+                type:"POST",
+                dataType:"json",
+                data:data,
+                success:function (res) {
+                    if(res.responseCode==200){//判断状态码是200的话就跳转登录页面
+                        var msg=res.message;
+                        layer.open({
+                                           type: 2,
+                                           area: ['200px', '100px'],
+                                           fix: false, //不固定
+                                           maxmin: true,
+                                           shade:0.4,
+                                           title: msg,
+                                           //content: url,
+                                           end: function(){
+                                               window.location.href="/logout";
+                                            }
+                                  });
+
+                    }if(res.responseCode==500){//判断状态码是200的话就跳转登录页面
+                        var msg=res.message;
+                        layer.msg(msg);
+                    }
+                    else {
+                        layer.msg("注册失败");
+                        return false;
+                    }
+                },
+                error:function () {
+                    layer.msg("网络繁忙，访问失败");
+                }
+            })
+            return false;
+        });
+
+        InitInfo()
+
+
+    });
+
+    //加载下拉框
+    function InitInfo() {
+        $.ajax({
+            url: "/user/register/getcompany",
+            data: "",
+            dataType: "json",
+            type: "POST",
+            //请求成功时的数据1.40
+            success: function (msg) {
+                if (msg.responseCode == "200") {
+                    var listData = msg.data;
+                    //layer.msg(JSON.stringify(msg.data2[1].companyId));
+                    if (msg.data == null && msg.data == "") {
+                        layer.msg("暂无公司下拉信息");
+                    } else {
+                        var html = '';
+                        for (var i = 0; i < listData.length; i++) {
+                            html += '<option value="' + listData[i].companyId + '">' + listData[i].companyName + '</option>';
+                        }
+                        //alert(html);
+                    }
+                    $('#companyList').append(html);
+                }
+                layui.form.render("select");
+            },
+            //请求出错时的处理
+            error: function () {
+                layer.msg("网络异常,请检查后再试", {
+                    icon: 2,
+                    shade: this.shade,
+                    scrollbar: false,
+                    time: 3000,
+                    shadeClose: true
+                });
+            }
+        });
+    }
+
+</script>
+
+
+
 
 </body>
 </html>

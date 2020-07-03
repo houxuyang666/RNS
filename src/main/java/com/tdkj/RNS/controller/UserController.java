@@ -67,12 +67,16 @@ public class UserController implements RnsResultType, RnsResultCode {
     @Autowired
     private CompanyService companyService;
 
-    @ResponseBody
     @RequestMapping("/register")
-    public RnsResponse add(Model model) {
-        /*进入注册用户页面*/
+    public String goregister() {
+        log.info("register");
         List<Company> companylist =companyService.queryAllCompany();
-        model.addAttribute("companylist", companylist);
+        return "register";
+    }
+    @ResponseBody
+    @RequestMapping("/register/getcompany")
+    public RnsResponse register() {
+        List<Company> companylist =companyService.queryAllCompany();
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,companylist);
     }
     /**
@@ -114,8 +118,8 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setCreateTime(new Date());
         user.setUserinfoId(userinfo.getId());
         userService.insert(user);
-        Log log = ShiroUtils.setLog(username,"注册");
-        logService.insert(log);
+        /*Log log = ShiroUtils.setLog(username,"注册");
+        logService.insert(log);*/
         return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
 
