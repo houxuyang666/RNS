@@ -36,6 +36,8 @@ public class UserCompanyVO implements Serializable {
      * 用户状态 0为在职 1为离职
      */
     private Integer status;
+
+    private Integer companyId;
     /**
      * 所属公司
      */

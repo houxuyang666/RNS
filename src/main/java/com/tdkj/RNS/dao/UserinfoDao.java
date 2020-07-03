@@ -14,7 +14,7 @@ public interface UserinfoDao {
      * @param id 主键
      * @return 实例对象
      */
-    Userinfo queryById(Integer id);
+    UserCompanyVO queryById(Integer id);
 
     /**
      * 查询指定行数据

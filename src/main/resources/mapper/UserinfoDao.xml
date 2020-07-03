@@ -21,6 +21,7 @@
         <result property="age" column="age" jdbcType="INTEGER"/>
         <result property="tel" column="tel" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="companyId" column="company_id" jdbcType="INTEGER"/>
         <result property="companyName" column="company_name" jdbcType="INTEGER"/>
     </resultMap>
 
@@ -29,9 +30,9 @@
     <!--查询单个-->
     <select id="queryById" resultMap="Userinfo">
         select
-          id, name, sex, age, tel, status, company_name
-        from u_userinfo
-        where id = #{id}
+          id, name, sex, age, tel, status, company_id,company_name
+        from u_userinfo u,company c
+        where id = #{id} and u.company_id=c.company_id
     </select>
 
     <!--查询指定行数据-->
