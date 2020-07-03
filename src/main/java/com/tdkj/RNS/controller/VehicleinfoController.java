@@ -46,6 +46,14 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @Autowired
     private LogService logService;
 
+
+
+    @RequestMapping("/govehicle")
+    public String govehicle() {
+        log.info("vehiclelist");
+        return "page/vehiclelist";
+    }
+
     /**
      * 查询多条数据
      *

@@ -1,6 +1,7 @@
 package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.entity.UserinfoVO;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -79,4 +80,6 @@ public interface UserDao {
      * @return java.util.List<com.tdkj.RNS.entity.User>
      **/
     List<User> selectUser();
+
+    List<UserinfoVO> selectUserUserinfo();
 }

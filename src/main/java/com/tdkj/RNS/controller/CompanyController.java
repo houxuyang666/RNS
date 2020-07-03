@@ -1,6 +1,5 @@
 package com.tdkj.RNS.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
@@ -11,9 +10,11 @@ import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.service.CompanyService;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.utils.ShiroUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-06-30 09:11:13
  */
+@Slf4j
 @Controller
 @RequestMapping("company")
 public class CompanyController implements RnsResultType, RnsResultCode {
@@ -35,6 +37,13 @@ public class CompanyController implements RnsResultType, RnsResultCode {
     private CompanyService companyService;
     @Autowired
     private LogService logService;
+
+
+    @RequestMapping("/gocompany")
+    public String gomenu() {
+        log.info("company");
+        return "page/companylist";
+    }
 
     /**
      * 查询多条数据
@@ -51,7 +60,7 @@ public class CompanyController implements RnsResultType, RnsResultCode {
         //Object json = JSONArray.toJSON(pageInfo);
         Log log = ShiroUtils.setLog("查看公司");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,"page/companylist",pageInfo);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
     }
     /**
      * @Author houxuyang
@@ -109,8 +118,5 @@ public class CompanyController implements RnsResultType, RnsResultCode {
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,REMOVE_SUCCESS);
     }
-
-
-
 
 }

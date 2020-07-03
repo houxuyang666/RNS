@@ -88,13 +88,13 @@ public class LoginController implements RnsResultType, RnsResultCode{
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 
-    @ResponseBody
+ /*   @ResponseBody
     @GetMapping("tree")
     public RnsResponse getMenuTree() {
         MenuTree<Menu> allMenus = menuService.findMenus();
         //System.out.println(allMenus);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(allMenus));
-    }
+    }*/
 
 /*    *//*编写shiro 登录认证逻辑*//*
     @ApiOperation("登录")

@@ -59,7 +59,7 @@ public class Vehicleorders implements Serializable {
     */
     private Date endTime;
     /**
-    * 0 在用 1未用 2已申请
+    * 0 进行中 1已完成
     */
     private Integer orderStatus;
     /**

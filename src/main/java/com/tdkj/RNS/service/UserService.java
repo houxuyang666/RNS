@@ -1,6 +1,7 @@
 package com.tdkj.RNS.service;
 
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.entity.UserinfoVO;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface UserService {
     int update(User user);
 
     List<User> selectUser();
+
+    List<UserinfoVO> selectUserUserinfo();
 }

@@ -139,36 +139,36 @@
 
         //监听修改提交
         form.on('submit(saveBtn)', function (data) {
-           /* layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
-           var FormData=data.field;
-           $.ajax({
-               url:"/userinfo/setUserinfo",
-               data:FormData,
-               dataType:"json",
-               type:"POST",
-               success:function (msg) {
-                   if(msg.responseCode=="200"){
-                       layer.msg("修改成功");
-                       InitInfo();
-                   }else {
-                       layer.msg("修改失败");
-                   }
-               },
-               error:function () {
-                   layer.msg("网络异常,请检查后重试", {
-                       icon: 2,
-                       shade: this.shade,
-                       scrollbar: false,
-                       time: 3000,
-                       shadeClose: true
-                   });
-               }
-           })
+            /* layer.alert(JSON.stringify(data.field), {
+                 title: '最终的提交信息'
+             })*/
+            var FormData=data.field;
+            $.ajax({
+                url:"/userinfo/setUserinfo",
+                data:FormData,
+                dataType:"json",
+                type:"POST",
+                success:function (msg) {
+                    if(msg.responseCode=="200"){
+                        layer.msg("修改成功");
+                        InitInfo();
+                    }else {
+                        layer.msg("修改失败");
+                    }
+                },
+                error:function () {
+                    layer.msg("网络异常,请检查后重试", {
+                        icon: 2,
+                        shade: this.shade,
+                        scrollbar: false,
+                        time: 3000,
+                        shadeClose: true
+                    });
+                }
+            })
             return false;
         });
-        
+
         function InitInfo() {
             $.ajax({
                 url: "/userinfo/userinfo",
