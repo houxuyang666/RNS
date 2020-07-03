@@ -135,6 +135,7 @@ public class LoginController implements RnsResultType, RnsResultCode{
             logService.insert(log);
             Session session1 = subject.getSession();
             session1.setAttribute("user", user);
+            session1.setAttribute("name", userinfoService.queryById(user.getId()).getName());
             return RnsResponse.setResult(HTTP_RNS_CODE_200,"/index");
         } catch(RnsException e){
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"验证码错误！");

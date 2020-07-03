@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">-->
+
     <link rel="icon" href="/images/TDlogo.ico">
     <link rel="stylesheet" href="/statics/lib/layui-v2.5.5/css/layui.css" media="all">
     <link rel="stylesheet" href="/css/layuimini.css" media="all">
@@ -67,7 +68,7 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">唐都科技</a>
+                    <a th:text="${session.name}" href="javascript:;"></a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="userinfo/gouserinfo" data-title="基本资料" data-icon="fa fa-gears">基本资料</a>
