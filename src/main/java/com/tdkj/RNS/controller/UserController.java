@@ -1,11 +1,8 @@
 package com.tdkj.RNS.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.annotation.Limit;
-import com.tdkj.RNS.common.RnsJson;
 import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.*;
@@ -16,33 +13,23 @@ import com.tdkj.RNS.utils.RedisUtil;
 import com.tdkj.RNS.utils.ShiroUtils;
 import com.tdkj.RNS.utils.ValidateCodeUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.beans.Transient;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Api("UserController")
@@ -79,6 +66,8 @@ public class UserController implements RnsResultType, RnsResultCode {
         List<Company> companylist =companyService.queryAllCompany();
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,companylist);
     }
+
+
     /**
      * @Author houxuyang
      * @Description //注册用户
@@ -118,8 +107,9 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setCreateTime(new Date());
         user.setUserinfoId(userinfo.getId());
         userService.insert(user);
-        /*Log log = ShiroUtils.setLog(username,"注册");
-        logService.insert(log);*/
+        //注册时会出错 需要重写log方法
+        Log log = ShiroUtils.setLog(username,"注册");
+        logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
 
@@ -189,20 +179,17 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @RequestMapping("/gouser")
     public String goselectuser(Model model) {
-        log.info("user");
         return "page/userlist";
     }
 
     @ResponseBody
     @RequestMapping("/selectuser")
-    public RnsResponse selectuser() {
+    public RnsResponseList selectuser() {
         log.info("-------------selectuser");
-        PageHelper.startPage(1,10);
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
-        PageInfo<UserinfoVO> pageInfo = new PageInfo<UserinfoVO>(userinfoVOS);
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
+        return RnsResponseList.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
     }
 
     @GetMapping("images/captcha")

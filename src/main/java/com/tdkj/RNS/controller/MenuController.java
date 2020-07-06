@@ -1,13 +1,14 @@
 package com.tdkj.RNS.controller;
 
+import com.tdkj.RNS.common.RnsJson;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Menu;
+import com.tdkj.RNS.entity.MenuTree;
 import com.tdkj.RNS.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,6 +36,13 @@ public class MenuController  implements RnsResultCode, RnsResultType {
     public String gomenu() {
         log.info("menu");
         return "page/menu";
+    }
+
+    @ResponseBody
+    @RequestMapping("/getmenu")
+    public RnsResponse getmenu() {
+        MenuTree<Menu> menuList =menuService.findByUsernameGetMenu("admin");
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 
     @ResponseBody
