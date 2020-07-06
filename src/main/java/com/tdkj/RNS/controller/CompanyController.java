@@ -3,6 +3,7 @@ package com.tdkj.RNS.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Company;
@@ -52,16 +53,14 @@ public class CompanyController implements RnsResultType, RnsResultCode {
      * @return 多条数据
      */
     @ResponseBody
-    @RequestMapping("/companylist")
-    public RnsResponse companylist() {
-        PageHelper.startPage(1,10);
+    @RequestMapping("/selectcompany")
+    public RnsResponseList companylist() {
         List<Company> companyList=companyService.queryAllCompany();
-        PageInfo<Company> pageInfo = new PageInfo<Company>(companyList);
-        //Object json = JSONArray.toJSON(pageInfo);
         Log log = ShiroUtils.setLog("查看公司");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,companyList);
     }
+
     /**
      * @Author houxuyang
      * @Description //添加公司

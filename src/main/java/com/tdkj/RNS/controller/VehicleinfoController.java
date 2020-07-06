@@ -9,6 +9,7 @@ package com.tdkj.RNS.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
@@ -46,8 +47,6 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @Autowired
     private LogService logService;
 
-
-
     @RequestMapping("/govehicle")
     public String govehicle() {
         log.info("vehiclelist");
@@ -61,15 +60,12 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
      * @return 多条数据
      */
     @ResponseBody
-    @RequestMapping("/vehicleinfolist")
-    public RnsResponse vehicleinfolist() {
-        PageHelper.startPage(1,10);
+    @RequestMapping("/selectvehicleinfo")
+    public RnsResponseList vehicleinfolist() {
         List<Vehicleinfo> vehicleinfoList=vehicleinfoService.queryAllvehicleinfo();
-        PageInfo<Vehicleinfo> pageInfo = new PageInfo<Vehicleinfo>(vehicleinfoList);
-        //Object json = JSONArray.toJSON(pageInfo);
         Log log = ShiroUtils.setLog("查看车辆");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,"page/vehicleinfolist",pageInfo);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,vehicleinfoList);
     }
     /**
      * @Author houxuyang
