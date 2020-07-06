@@ -187,12 +187,10 @@ public class UserController implements RnsResultType, RnsResultCode {
     @RequestMapping("/selectuser")
     public RnsResponse selectuser() {
         log.info("-------------selectuser");
-        PageHelper.startPage(1,10);
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
-        PageInfo<UserinfoVO> pageInfo = new PageInfo<UserinfoVO>(userinfoVOS);
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,pageInfo);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
     }
 
     @GetMapping("images/captcha")
