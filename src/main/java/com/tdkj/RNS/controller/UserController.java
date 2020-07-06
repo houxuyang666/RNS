@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.annotation.Limit;
 import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.*;
@@ -185,12 +186,12 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @ResponseBody
     @RequestMapping("/selectuser")
-    public RnsResponse selectuser() {
+    public RnsResponseList selectuser() {
         log.info("-------------selectuser");
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
+        return RnsResponseList.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
     }
 
     @GetMapping("images/captcha")
