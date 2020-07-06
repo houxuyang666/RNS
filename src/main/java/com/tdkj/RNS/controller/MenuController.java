@@ -7,7 +7,6 @@ import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Menu;
 import com.tdkj.RNS.entity.MenuTree;
 import com.tdkj.RNS.service.MenuService;
-import com.tdkj.RNS.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 /**
  * (Menu)表控制层

@@ -12,7 +12,7 @@
 	<artifactId>rns</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RNS</name>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<description>Real Name System for Spring Boot</description>
 
 	<properties>
@@ -22,12 +22,6 @@
 	</properties>
 
 	<dependencies>
-		<!--	热部署插件-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -73,6 +67,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<!-- 导入thymeleaf依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

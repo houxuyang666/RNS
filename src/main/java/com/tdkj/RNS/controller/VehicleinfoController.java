@@ -6,8 +6,6 @@ package com.tdkj.RNS.controller;
  * @date 2020/6/30 9:14
  */
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
@@ -17,14 +15,11 @@ import com.tdkj.RNS.entity.Vehicleinfo;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.VehicleinfoService;
 import com.tdkj.RNS.utils.ShiroUtils;
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;

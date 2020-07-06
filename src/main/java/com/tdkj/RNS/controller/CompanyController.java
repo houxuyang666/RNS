@@ -1,7 +1,5 @@
 package com.tdkj.RNS.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
