@@ -226,6 +226,20 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
     }
 
+    @ResponseBody
+    @RequestMapping("/selectuserbycondition")
+    public RnsResponseList selectuserbycondition(String name,String tel,String companyName) {
+        log.info("-------------selectuserbycondition");
+        UserinfoVO userinfoVO =new UserinfoVO();
+        userinfoVO.setName(name);
+        userinfoVO.setTel(tel);
+        userinfoVO.setCompanyName(companyName);
+        List<UserinfoVO> userinfoVOS=userService.selectUserByCondition(userinfoVO);
+        Log log = ShiroUtils.setLog("根据条件查询");
+        logService.insert(log);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
+    }
+
     @GetMapping("images/captcha")
     @Limit(key = "get_captcha", period = 60, count = 10, name = "获取验证码", prefix = "limit")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException, RnsException {

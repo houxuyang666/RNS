@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserinfoVO> selectUserByCondition(UserinfoVO userinfoVO) {
+        return userDao.selectUserByCondition(userinfoVO);
+    }
+
+    @Override
     public int insert(User user) {
         return userDao.insert(user);
     }
