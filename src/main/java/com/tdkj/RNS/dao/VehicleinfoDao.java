@@ -1,6 +1,7 @@
 package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Vehicleinfo;
+import com.tdkj.RNS.entity.VehicleinfoVO;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public interface VehicleinfoDao {
      */
     int deleteById(Integer vehicleinfoId);
 
-    List<Vehicleinfo> queryAllvehicleinfo();
+    List<VehicleinfoVO> queryAllvehicleinfo();
 
     Vehicleinfo queryByvehicleNumber(String vehicleNumber);
 }

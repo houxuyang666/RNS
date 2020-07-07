@@ -10,29 +10,31 @@
         <result property="vehicleStatus" column="vehicle_status" jdbcType="INTEGER"/>
         <result property="vehicleAffiliationCompany" column="vehicle_affiliation_company" jdbcType="INTEGER"/>
         <result property="vehicleAffiliationPersonal" column="vehicle_affiliation_personal" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="VehicleinfoMap">
         select
-          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal
-        from vehicleinfo
+          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal, create_time, modify_time
+        from car.vehicleinfo
         where vehicleinfo_id = #{vehicleinfoId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="VehicleinfoMap">
         select
-          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal
-        from vehicleinfo
+          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal, create_time, modify_time
+        from car.vehicleinfo
         limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="VehicleinfoMap">
         select
-          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal
-        from vehicleinfo
+          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal, create_time, modify_time
+        from car.vehicleinfo
         <where>
             <if test="vehicleinfoId != null">
                 and vehicleinfo_id = #{vehicleinfoId}
@@ -55,18 +57,24 @@
             <if test="vehicleAffiliationPersonal != null">
                 and vehicle_affiliation_personal = #{vehicleAffiliationPersonal}
             </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="vehicleinfoId" useGeneratedKeys="true">
-        insert into vehicleinfo(vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal)
-        values (#{vehicleType}, #{vehicleSeatsNumber}, #{vehicleNumber}, #{vehicleStatus}, #{vehicleAffiliationCompany}, #{vehicleAffiliationPersonal})
+        insert into car.vehicleinfo(vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal, create_time, modify_time)
+        values (#{vehicleType}, #{vehicleSeatsNumber}, #{vehicleNumber}, #{vehicleStatus}, #{vehicleAffiliationCompany}, #{vehicleAffiliationPersonal}, #{createTime}, #{modifyTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update vehicleinfo
+        update car.vehicleinfo
         <set>
             <if test="vehicleType != null and vehicleType != ''">
                 vehicle_type = #{vehicleType},
@@ -86,19 +94,35 @@
             <if test="vehicleAffiliationPersonal != null">
                 vehicle_affiliation_personal = #{vehicleAffiliationPersonal},
             </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
         </set>
         where vehicleinfo_id = #{vehicleinfoId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from vehicleinfo where vehicleinfo_id = #{vehicleinfoId}
+        delete from car.vehicleinfo where vehicleinfo_id = #{vehicleinfoId}
     </delete>
 
-    <select id="queryAllvehicleinfo" resultMap="VehicleinfoMap">
+    <select id="queryAllvehicleinfo" resultType="com.tdkj.RNS.entity.VehicleinfoVO">
         select
-          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal
-        from vehicleinfo
+            vehicleinfo_id as vehicleinfoId,
+            vehicle_type as vehicleType,
+            vehicle_seats_number as vehicleSeatsNumber,
+            vehicle_number as vehicleNumber,
+            vehicle_status as vehicleStatus,
+            vehicle_affiliation_company as vehicleAffiliationCompany,
+            c.company_name as companyName,
+            vehicle_affiliation_personal as vehicleAffiliationPersonal,
+            u.name as name,
+            v.create_time as createTime,
+            v.modify_time as modifyTime
+        from vehicleinfo v LEFT JOIN company c on v.vehicle_affiliation_company = c.company_id LEFT JOIN u_userinfo u on v.vehicle_affiliation_personal =u.id ORDER BY vehicle_status Desc
     </select>
 
     <!--查询单个-->

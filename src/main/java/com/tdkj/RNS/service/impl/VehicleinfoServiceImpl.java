@@ -2,6 +2,7 @@ package com.tdkj.RNS.service.impl;
 
 import com.tdkj.RNS.dao.VehicleinfoDao;
 import com.tdkj.RNS.entity.Vehicleinfo;
+import com.tdkj.RNS.entity.VehicleinfoVO;
 import com.tdkj.RNS.service.VehicleinfoService;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class VehicleinfoServiceImpl implements VehicleinfoService {
     }
 
     @Override
-    public List<Vehicleinfo> queryAllvehicleinfo() {
+    public List<VehicleinfoVO> queryAllvehicleinfo() {
         return vehicleinfoDao.queryAllvehicleinfo();
     }
 

@@ -170,11 +170,11 @@ public class UserController implements RnsResultType, RnsResultCode {
             user.setModifyTime(new Date());
             userService.update(user);
             log.info("密码修改成功");
-            Log log = ShiroUtils.setLog("重置"+user.getUsername()+"密码");
+            Log log = ShiroUtils.setLog("重置:"+user.getUsername()+":密码");
             logService.insert(log);
             return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
         }
-        return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT);
+        return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT+":只有admin可以重置用户密码");
     }
 
     @RequestMapping("/gouser")

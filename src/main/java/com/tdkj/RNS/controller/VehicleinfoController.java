@@ -12,6 +12,7 @@ import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.Vehicleinfo;
+import com.tdkj.RNS.entity.VehicleinfoVO;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.VehicleinfoService;
 import com.tdkj.RNS.utils.ShiroUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,10 +59,10 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/selectvehicleinfo")
     public RnsResponseList vehicleinfolist() {
-        List<Vehicleinfo> vehicleinfoList=vehicleinfoService.queryAllvehicleinfo();
+        List<VehicleinfoVO> vehicleinfoVOList=vehicleinfoService.queryAllvehicleinfo();
         Log log = ShiroUtils.setLog("查看车辆");
         logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,vehicleinfoList);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,vehicleinfoVOList);
     }
     /**
      * @Author houxuyang
@@ -81,6 +83,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
+        vehicleinfo.setCreateTime(new Date());
         vehicleinfoService.insert(vehicleinfo);
         Log log = ShiroUtils.setLog("新增车辆");
         logService.insert(log);
@@ -108,6 +111,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
+        vehicleinfo.setModifyTime(new Date());
         vehicleinfoService.insert(vehicleinfo);
         Log log = ShiroUtils.setLog("更新车辆信息："+vehicleNumber);
         logService.insert(log);
