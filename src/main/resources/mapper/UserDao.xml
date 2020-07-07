@@ -140,6 +140,34 @@
     </select>
 
 
+    <select id="selectUserByCondition" resultType="com.tdkj.RNS.entity.UserinfoVO">
+        select u.id as id,
+        u.username as username,
+        u.status as status,
+        r.rid as rid,
+        r.rolename as rolename,
+        f.id as userinfoId,
+        f.name as name,
+        f.sex as sex,
+        f.age as age,
+        f.tel as tel,
+        c.company_id as companyId,
+        c.company_name as companyName
+        from  u_user u LEFT JOIN  u_userinfo f on u.userinfo_id =f.id LEFT JOIN u_role r on u.rid=r.rid LEFT JOIN company c on f.company_id =c.company_id
+        <where>
+            <if test="name != null and name != ''">
+                and f.name like concat('%',#{name},'%')
+            </if>
+            <if test="tel != null and tel !=''">
+                and f.tel = #{tel}
+            </if>
+            <if test="companyName != null and companyName !=''">
+                and c.company_name = #{companyName}
+            </if>
+        </where>
+    </select>
+
+
 
 
 

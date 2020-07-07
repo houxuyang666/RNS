@@ -1,6 +1,7 @@
 package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.User;
+import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.UserinfoVO;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -82,4 +83,6 @@ public interface UserDao {
     List<User> selectUser();
 
     List<UserinfoVO> selectUserUserinfo();
+
+    List<UserinfoVO> selectUserByCondition(UserinfoVO userinfoVO);
 }

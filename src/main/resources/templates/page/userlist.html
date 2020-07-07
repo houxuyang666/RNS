@@ -22,27 +22,23 @@
                     <form class="layui-form layui-form-pane" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">账号名称</label>
+                                <label class="layui-form-label">用户名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="username" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">用户性别</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="sex" autocomplete="off" class="layui-input">
+                                    <input type="text" name="name" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">所属公司</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="city" autocomplete="off" class="layui-input">
+                                    <select name="companyName" id="companyList"  lay-filter="companyId">
+                                        <option value=""></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label">用户名称</label>
+                                <label class="layui-form-label">电话号码</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="classify" autocomplete="off" class="layui-input">
+                                    <input type="text" name="tel" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -57,14 +53,19 @@
             <table id="userList" lay-filter="userList" class="layui-hide"></table>
 
             <script type="text/html" id="currentTableBar">
-                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="ChongZhiPwd">重置密码</a>
-                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+                <a class="layui-btn layui-btn-xs " lay-event="ChongZhiPwd">重置密码</a>
+                {{# if(d.status==0){ }}
+                    <a class="layui-btn layui-btn-xs layui-btn-danger " lay-event="delete">注销</a>
+                {{#  } else { }}
+                     <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="delete">启用</a>
+                {{#  } }}
             </script>
 
         </div>
     </div>
 </div>
 
+<script src="/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script type="text/javascript" th:inline="none">
     layui.use(['form', 'table'], function () {
@@ -109,30 +110,20 @@
         //搜索事件操作
         form.on("submit(searchBtn)",function (data) {
             var formData=data.field;//获取搜索新信息
-            alert(formData);
-            /*$.ajax({
-                url:"",
-                data:formData,
-                dataType:"json",
-                type:"POST",
-                success:function (res) {
-                    if(res!=null){
-                        //重新加载table表格
-                        table.reload('userList',{
-                            page:{curr:1}//重新从第一页开始
-                        })
-                    }
-                }
-            });*/
-
+            var selectText=$("#companyList").find("option:selected").text();
+            //layer.msg(selectText);
+            var canshu={
+                "name":formData.name,
+                "tel":formData.tel,
+                "companyName":selectText,
+            }
             //搜索重载
             table.reload("userList",{
+                url:"/user/selectuserbycondition",
                 page:{
                     curr:1
                 },
-                where:{
-                    searchParams:formData
-                }
+                where:canshu
             },"data");
             return false;
         });
@@ -140,19 +131,110 @@
         //表格操作事件
         table.on("tool(userList)",function (obj) {
             var  data=obj.data;
-            if(obj.event==="ChongZhiPwd"){
-                layer.alert(JSON.stringify(data));
-            }else  if(obj.event==="delete"){
-                layer.msg(data.id);
-                /*layer.confirm("确定删除此用户吗?",function (index) {
-                    //删除操作
-                    layer.close(index);
-                })*/
+            switch (obj.event) {
+                case "ChongZhiPwd":
+                    ChongZhiPwd(data.id);
+                    break;
+                case "delete":
+                    DeleteUser(data);
+                    break;
             }
-        })
+        });
 
+        //下拉框绑定
+        BindCompany();
 
     });
+    //重置密码操作
+    function ChongZhiPwd(id) {
+        $.ajax({
+            url:"/user/setpsd",
+            type:"post",
+            dataType:"json",
+            data:{id:id},
+            success:function (res) {
+                if(res.responseCode=="200"){
+                    layer.msg(res.message);
+                }else {
+                    layer.msg(res.message);
+                }
+            },
+            error:function () {
+                layer.msg("网络异常,请检查后再试", {
+                    icon: 2,
+                    shade: this.shade,
+                    scrollbar: false,
+                    time: 3000,
+                    shadeClose: true
+                });
+            }
+        })
+    }
+
+    //修改用户状态操作
+    function DeleteUser(data) {
+        layer.confirm("确定要更改此用户状态吗?",function (index) {
+            //更改操作
+            $.ajax({
+                url:"/user/setuserstatus",
+                type:"post",
+                dataType:"json",
+                data:{id:data.id,status:data.status},
+                success:function (res) {
+                    if(res.responseCode=="200"){
+                        //layer.msg(res.message);
+                        layui.table.reload("userList");
+                    }else {
+                        layer.msg(res.message);
+                    }
+                },
+                error:function () {
+                    layer.msg("网络异常,请检查后再试", {
+                        icon: 2,
+                        shade: this.shade,
+                        scrollbar: false,
+                        time: 3000,
+                        shadeClose: true
+                    });
+                }
+            });
+
+            layer.close(index);
+        })
+    }
+
+    //监听公司下拉框绑定
+    function BindCompany() {
+        $.ajax({
+            url:"/company/selectcompany",
+            dataType:"json",
+            type:"post",
+            success:function (res) {
+                var data=res.data;
+                var html = '';
+                if(data!=null && data!=""){
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="' + data[i].companyId + '">' + data[i].companyName + '</option>';
+                    }
+                }else {
+                    html+="";
+                }
+                $('#companyList').append(html);
+                layui.form.render("select");
+            },
+            error:function () {
+                layer.msg("公司下拉框请求失败", {
+                    icon: 2,
+                    shade: this.shade,
+                    scrollbar: false,
+                    time: 3000,
+                    shadeClose: true
+                });
+            }
+        })
+    }
+
+
 </script>
 </body>
 </html>

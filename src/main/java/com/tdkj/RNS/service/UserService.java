@@ -21,4 +21,6 @@ public interface UserService {
     List<User> selectUser();
 
     List<UserinfoVO> selectUserUserinfo();
+
+    List<UserinfoVO> selectUserByCondition(UserinfoVO userinfoVO);
 }

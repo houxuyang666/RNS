@@ -177,6 +177,40 @@ public class UserController implements RnsResultType, RnsResultCode {
         return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT+":只有admin可以重置用户密码");
     }
 
+    /**
+     * @Author houxuyang
+     * @Description //修改账号状态
+     * @Date 10:10 2020/7/7
+     * @Param [id, status]
+     * @return com.tdkj.RNS.common.RnsResponse
+     **/
+    @ResponseBody
+    @RequestMapping("/setuserstatus")
+    public RnsResponse setuserstatus(Integer id,Integer status) {
+        log.info("修改账号状态");
+        User user =new User();
+        Integer a =0;
+        user.setId(id);
+        if("admin".equals(ShiroUtils.getPrincipal().getUsername())){
+            //账号状态 0为正常 1为锁定
+            if (a.equals(status)){ //如果用户状态为 0 那么执行锁定 将状态改为1
+                user.setStatus(1);
+                user.setModifyTime(new Date());
+                userService.update(user);
+                Log log = ShiroUtils.setLog("锁定用户:"+user.getUsername());
+                logService.insert(log);
+            }else{
+                user.setStatus(0);
+                user.setModifyTime(new Date());
+                userService.update(user);
+                Log log = ShiroUtils.setLog("解锁用户:"+user.getUsername());
+                logService.insert(log);
+            }
+            return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
+        }
+        return RnsResponse.setResult(HTTP_RNS_CODE_500,UPDATE_FAULT+":只有admin可以操作");
+    }
+
     @RequestMapping("/gouser")
     public String goselectuser(Model model) {
         return "page/userlist";
@@ -189,7 +223,21 @@ public class UserController implements RnsResultType, RnsResultCode {
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponseList.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
+    }
+
+    @ResponseBody
+    @RequestMapping("/selectuserbycondition")
+    public RnsResponseList selectuserbycondition(String name,String tel,String companyName) {
+        log.info("-------------selectuserbycondition");
+        UserinfoVO userinfoVO =new UserinfoVO();
+        userinfoVO.setName(name);
+        userinfoVO.setTel(tel);
+        userinfoVO.setCompanyName(companyName);
+        List<UserinfoVO> userinfoVOS=userService.selectUserByCondition(userinfoVO);
+        Log log = ShiroUtils.setLog("根据条件查询");
+        logService.insert(log);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
     }
 
     @GetMapping("images/captcha")
