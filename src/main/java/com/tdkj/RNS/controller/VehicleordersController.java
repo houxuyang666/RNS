@@ -45,11 +45,11 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
     @Resource
     private VehicleinfoService vehicleinfoService;
 
-    @Value("${file.uploadFolder}")
-    private String uploadFolder;
-
-    @Value("${file.uploadtempFolder}")
-    private String uploadtempFolder;
+//    @Value("${file.uploadFolder}")
+//    private String uploadFolder;
+//
+//    @Value("${file.uploadtempFolder}")
+//    private String uploadtempFolder;
 
     @Transactional
     @ResponseBody

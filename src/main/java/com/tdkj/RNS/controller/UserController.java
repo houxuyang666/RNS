@@ -57,15 +57,15 @@ public class UserController implements RnsResultType, RnsResultCode {
     private CompanyService companyService;
 
     @RequestMapping("/register")
-    public String goregister() {
+    public String goregister(String companyName,String vehicleOfficerName) {
         log.info("register");
-        List<Company> companylist =companyService.queryAllCompany();
+        List<Company> companylist =companyService.queryAllCompany(companyName,vehicleOfficerName);
         return "register";
     }
     @ResponseBody
     @RequestMapping("/register/getcompany")
-    public RnsResponse register() {
-        List<Company> companylist =companyService.queryAllCompany();
+    public RnsResponse register(String companyName,String vehicleOfficerName) {
+        List<Company> companylist =companyService.queryAllCompany(companyName,vehicleOfficerName);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,companylist);
     }
 

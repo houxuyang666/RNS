@@ -67,7 +67,7 @@ public interface CompanyDao {
      * @param
      * @return 对象列表
      */
-    List<Company> queryAllCompany();
+    List<Company> queryAllCompany(@Param("companyName")String companyName,@Param("vehicleOfficerName")String vehicleOfficerName);
     /**
      * @Author houxuyang
      * @Description //通过名称查询该公司是否存在
@@ -76,4 +76,6 @@ public interface CompanyDao {
      * @return com.tdkj.RNS.entity.Company
      **/
     Company queryByName(String companyName);
+
+
 }

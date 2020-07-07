@@ -25,13 +25,13 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">公司名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="username" autocomplete="off" class="layui-input">
+                                    <input type="text" name="companyName" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">车辆负责人</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="sex" autocomplete="off" class="layui-input">
+                                    <input type="text" name="vehicleOfficerName" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -114,29 +114,15 @@
         //搜索事件操作
         form.on("submit(searchBtn)", function (data) {
             var formData = data.field;//获取搜索新信息
-            alert(formData);
-            /*$.ajax({
-                url:"",
-                data:formData,
-                dataType:"json",
-                type:"POST",
-                success:function (res) {
-                    if(res!=null){
-                        //重新加载table表格
-                        table.reload('userList',{
-                            page:{curr:1}//重新从第一页开始
-                        })
-                    }
-                }
-            });*/
-
+            layer.alert(JSON.stringify(formData));
             //搜索重载
             table.reload("companyList", {
                 page: {
                     curr: 1
                 },
                 where: {
-                    searchParams: formData
+                    companyName:formData.companyName,
+                    vehicleOfficerName:formData.vehicleOfficerName
                 }
             }, "data");
             return false;

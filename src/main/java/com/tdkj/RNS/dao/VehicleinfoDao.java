@@ -63,7 +63,7 @@ public interface VehicleinfoDao {
      */
     int deleteById(Integer vehicleinfoId);
 
-    List<VehicleinfoVO> queryAllvehicleinfo();
+    List<VehicleinfoVO> queryAllvehicleinfo(@Param("vehicleNumber") String vehicleNumber,@Param("companyName") String companyName);
 
     Vehicleinfo queryByvehicleNumber(String vehicleNumber);
 }

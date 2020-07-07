@@ -58,7 +58,7 @@ public interface CompanyService {
      * @Param []
      * @return java.util.List<com.tdkj.RNS.entity.Company>
      **/
-    List<Company> queryAllCompany();
+    List<Company> queryAllCompany(String companyName,String vehicleOfficerName);
     /**
      * @Author houxuyang
      * @Description //通过名称查询该公司是否存在

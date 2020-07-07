@@ -79,8 +79,8 @@ public class VehicleinfoServiceImpl implements VehicleinfoService {
     }
 
     @Override
-    public List<VehicleinfoVO> queryAllvehicleinfo() {
-        return vehicleinfoDao.queryAllvehicleinfo();
+    public List<VehicleinfoVO> queryAllvehicleinfo(String vehicleNumber,String companyName) {
+        return vehicleinfoDao.queryAllvehicleinfo(vehicleNumber,companyName);
     }
 
     @Override

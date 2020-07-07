@@ -50,17 +50,16 @@ public class CompanyController implements RnsResultType, RnsResultCode {
      * 查询多条数据
      *
      * @param
-     * @return 多条数据
+     * @return 多条数据分页
      */
     @ResponseBody
     @RequestMapping("/selectcompany")
-    public RnsResponseList companylist(Integer page,Integer limit) {
+    public RnsResponseList companylist(String companyName,String vehicleOfficerName,Integer page,
+                                       Integer limit) {
         PageHelper.startPage(page,limit,true);
-    public RnsResponseList companylist(Integer pageNum,Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize,true);
-        List<Company> companyList=companyService.queryAllCompany();
+        List<Company> companyList=companyService.queryAllCompany(companyName,vehicleOfficerName);
         PageInfo pageInfo=new PageInfo(companyList);
-        Log log = ShiroUtils.setLog("查看公司");
+        Log log = ShiroUtils.setLog("分页查看公司");
         logService.insert(log);
         return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
     }
@@ -73,8 +72,8 @@ public class CompanyController implements RnsResultType, RnsResultCode {
      */
     @ResponseBody
     @RequestMapping("/selectallcompany")
-    public RnsResponseList companyalllist() {
-        List<Company> companyList=companyService.queryAllCompany();
+    public RnsResponseList companyalllist(String companyName,String vehicleOfficerName) {
+        List<Company> companyList=companyService.queryAllCompany(companyName,vehicleOfficerName);
         Log log = ShiroUtils.setLog("公司下拉框");
         logService.insert(log);
         return RnsResponseList.setResult(0,FIND_SUCCESS,companyList);

@@ -42,12 +42,12 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
 
     @ResponseBody
     @RequestMapping("/userinfo")
-    public RnsResponse userinfo() {
+    public RnsResponse userinfo(String companyName,String vehicleOfficerName) {
         /*进入用户修改页面*/
         UserCompanyVO userCompanyVO;
         try {
             userCompanyVO =userinfoService.queryById(ShiroUtils.getPrincipal().getUserinfoId());
-            List<Company> companylist =companyService.queryAllCompany();
+            List<Company> companylist =companyService.queryAllCompany(companyName,vehicleOfficerName);
             return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS,userCompanyVO,companylist);
         }catch (NullPointerException E){
 

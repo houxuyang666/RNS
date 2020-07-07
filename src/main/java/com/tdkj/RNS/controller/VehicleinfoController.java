@@ -61,9 +61,9 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
      */
     @ResponseBody
     @RequestMapping("/selectvehicleinfo")
-    public RnsResponseList vehicleinfolist(Integer page,Integer limit) {
+    public RnsResponseList vehicleinfolist(Integer page,Integer limit,String vehicleNumber,String companyName) {
         PageHelper.startPage(page,limit,true);
-        List<VehicleinfoVO> vehicleinfoVOList=vehicleinfoService.queryAllvehicleinfo();
+        List<VehicleinfoVO> vehicleinfoVOList=vehicleinfoService.queryAllvehicleinfo(vehicleNumber,companyName);
         PageInfo<VehicleinfoVO> pageInfo=new PageInfo<>(vehicleinfoVOList);
         Log log = ShiroUtils.setLog("查看车辆");
         logService.insert(log);

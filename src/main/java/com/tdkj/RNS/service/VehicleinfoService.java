@@ -61,7 +61,7 @@ public interface VehicleinfoService {
      * @Param []
      * @return java.util.List<com.tdkj.RNS.entity.Vehicleinfo>
      **/
-    List<VehicleinfoVO> queryAllvehicleinfo();
+    List<VehicleinfoVO> queryAllvehicleinfo(String vehicleNumber,String companyName);
     /**
      * @Author houxuyang
      * @Description //通过车牌号查询

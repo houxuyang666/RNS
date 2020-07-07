@@ -97,8 +97,18 @@
 
     <select id="queryAllCompany" resultMap="CompanyMap">
     select
-    company_id, company_name, company_address, vehicle_officer_name, vehicle_officer_tel, create_time, modify_time
-    from company
+    company_id, company_name , company_address, vehicle_officer_name ,
+        vehicle_officer_tel, create_time,
+        modify_time
+    from company c
+    <where>
+            <if test="companyName != null and companyName !=''">
+                and c.company_name like concat('%',#{companyName},'%')
+            </if>
+            <if test="vehicleOfficerName != null and vehicleOfficerName !=''">
+            and c.vehicle_officer_name like concat('%',#{vehicleOfficerName},'%')
+            </if>
+    </where>
     </select>
 
     <select id="queryByName" resultMap="CompanyMap">
