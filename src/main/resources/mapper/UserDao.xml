@@ -155,13 +155,13 @@
         c.company_name as companyName
         from  u_user u LEFT JOIN  u_userinfo f on u.userinfo_id =f.id LEFT JOIN u_role r on u.rid=r.rid LEFT JOIN company c on f.company_id =c.company_id
         <where>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 and f.name like concat('%',#{name},'%')
             </if>
-            <if test="tel != null">
+            <if test="tel != null and tel !=''">
                 and f.tel = #{tel}
             </if>
-            <if test="companyName != null">
+            <if test="companyName != null and companyName !=''">
                 and c.company_name = #{companyName}
             </if>
         </where>
