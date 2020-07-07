@@ -54,6 +54,8 @@ public class CompanyController implements RnsResultType, RnsResultCode {
      */
     @ResponseBody
     @RequestMapping("/selectcompany")
+    public RnsResponseList companylist(Integer page,Integer limit) {
+        PageHelper.startPage(page,limit,true);
     public RnsResponseList companylist(Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize,true);
         List<Company> companyList=companyService.queryAllCompany();

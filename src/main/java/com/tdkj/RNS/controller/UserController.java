@@ -1,5 +1,7 @@
 package com.tdkj.RNS.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.annotation.Limit;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResponseList;
@@ -213,12 +215,14 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @ResponseBody
     @RequestMapping("/selectuser")
-    public RnsResponseList selectuser() {
+    public RnsResponseList selectuser(Integer page,Integer limit) {
         log.info("-------------selectuser");
+        PageHelper.startPage(page,limit,true);
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
+        PageInfo<UserinfoVO> pageInfo=new PageInfo<>(userinfoVOS);
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
     }
 
     @ResponseBody
