@@ -227,16 +227,18 @@ public class UserController implements RnsResultType, RnsResultCode {
 
     @ResponseBody
     @RequestMapping("/selectuserbycondition")
-    public RnsResponseList selectuserbycondition(String name,String tel,String companyName) {
+    public RnsResponseList selectuserbycondition(String name,String tel,String companyName,Integer page,Integer limit) {
         log.info("-------------selectuserbycondition");
+        PageHelper.startPage(page,limit,true);
         UserinfoVO userinfoVO =new UserinfoVO();
         userinfoVO.setName(name);
         userinfoVO.setTel(tel);
         userinfoVO.setCompanyName(companyName);
         List<UserinfoVO> userinfoVOS=userService.selectUserByCondition(userinfoVO);
+        PageInfo<UserinfoVO> pageInfo=new PageInfo<>(userinfoVOS);
         Log log = ShiroUtils.setLog("根据条件查询");
         logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
     }
 
     @GetMapping("images/captcha")

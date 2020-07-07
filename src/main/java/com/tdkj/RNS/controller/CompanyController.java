@@ -64,6 +64,22 @@ public class CompanyController implements RnsResultType, RnsResultCode {
     }
 
     /**
+     * 公司下拉框查询
+     *
+     * @param
+     * @return 公司下拉框查询
+     */
+    @ResponseBody
+    @RequestMapping("/selectallcompany")
+    public RnsResponseList companyalllist() {
+        List<Company> companyList=companyService.queryAllCompany();
+        Log log = ShiroUtils.setLog("公司下拉框");
+        logService.insert(log);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,companyList);
+    }
+
+
+    /**
      * @Author houxuyang
      * @Description //添加公司
      * @Date 16:41 2020/7/1
