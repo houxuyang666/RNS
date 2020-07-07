@@ -122,15 +122,16 @@
             u.name as name,
             v.create_time as createTime,
             v.modify_time as modifyTime
-            from vehicleinfo v LEFT JOIN company c on v.vehicle_affiliation_company = c.company_id LEFT JOIN u_userinfo u on v.vehicle_affiliation_personal =u.id ORDER BY vehicle_status Desc
+            from vehicleinfo v LEFT JOIN company c on v.vehicle_affiliation_company = c.company_id LEFT JOIN u_userinfo u on v.vehicle_affiliation_personal =u.id
             <where>
                 <if test="vehicleNumber != null and vehicleNumber !=''">
-                    and c.vehicle_number= #{vehicleNumber}
+                    and v.vehicle_number= #{vehicleNumber}
                 </if>
                 <if test="companyName != null and companyName !=''">
                     and c.company_name = #{companyName}
                 </if>
             </where>
+        ORDER BY vehicle_status Desc
     </select>
 
     <!--查询单个-->
