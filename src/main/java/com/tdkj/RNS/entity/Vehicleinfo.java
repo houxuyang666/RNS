@@ -1,6 +1,9 @@
 package com.tdkj.RNS.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Vehicleinfo)实体类
@@ -8,92 +11,44 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-06-30 09:11:13
  */
+@Data
 public class Vehicleinfo implements Serializable {
-    private static final long serialVersionUID = 141058992214694579L;
+    private static final long serialVersionUID = -82375104396015611L;
     /**
-    * 车辆id
-    */
+     * 车辆id
+     */
     private Integer vehicleinfoId;
     /**
-    * 车辆型号
-    */
+     * 车辆型号
+     */
     private String vehicleType;
     /**
-    * 车辆载人数量
-    */
+     * 车辆载人数量
+     */
     private Integer vehicleSeatsNumber;
     /**
-    * 车辆车牌号
-    */
+     * 车辆车牌号
+     */
     private String vehicleNumber;
     /**
-    * 车辆状态 0在用 1未用 2已申请
-    */
+     * 车辆状态 0在用 1未用
+     */
     private Integer vehicleStatus;
     /**
-    * 车辆隶属公司
-    */
+     * 车辆隶属公司
+     */
     private Integer vehicleAffiliationCompany;
     /**
-    * 车辆隶属个人
-    */
+     * 车辆隶属个人
+     */
     private Integer vehicleAffiliationPersonal;
-
-
-    public Integer getVehicleinfoId() {
-        return vehicleinfoId;
-    }
-
-    public void setVehicleinfoId(Integer vehicleinfoId) {
-        this.vehicleinfoId = vehicleinfoId;
-    }
-
-    public String getVehicleType() {
-        return vehicleType;
-    }
-
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
-    }
-
-    public Integer getVehicleSeatsNumber() {
-        return vehicleSeatsNumber;
-    }
-
-    public void setVehicleSeatsNumber(Integer vehicleSeatsNumber) {
-        this.vehicleSeatsNumber = vehicleSeatsNumber;
-    }
-
-    public String getVehicleNumber() {
-        return vehicleNumber;
-    }
-
-    public void setVehicleNumber(String vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
-    }
-
-    public Integer getVehicleStatus() {
-        return vehicleStatus;
-    }
-
-    public void setVehicleStatus(Integer vehicleStatus) {
-        this.vehicleStatus = vehicleStatus;
-    }
-
-    public Integer getVehicleAffiliationCompany() {
-        return vehicleAffiliationCompany;
-    }
-
-    public void setVehicleAffiliationCompany(Integer vehicleAffiliationCompany) {
-        this.vehicleAffiliationCompany = vehicleAffiliationCompany;
-    }
-
-    public Integer getVehicleAffiliationPersonal() {
-        return vehicleAffiliationPersonal;
-    }
-
-    public void setVehicleAffiliationPersonal(Integer vehicleAffiliationPersonal) {
-        this.vehicleAffiliationPersonal = vehicleAffiliationPersonal;
-    }
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
 }

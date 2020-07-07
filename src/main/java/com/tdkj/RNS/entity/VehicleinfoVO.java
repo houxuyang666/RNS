@@ -3,6 +3,7 @@ package com.tdkj.RNS.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Vehicleinfo)实体类
@@ -30,7 +31,7 @@ public class VehicleinfoVO implements Serializable {
     */
     private String vehicleNumber;
     /**
-    * 车辆状态 0在用 1未用 2已申请
+    * 车辆状态 0在用 1未用
     */
     private Integer vehicleStatus;
     /**
@@ -49,5 +50,13 @@ public class VehicleinfoVO implements Serializable {
      * 用户姓名
      */
     private String name;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
 }

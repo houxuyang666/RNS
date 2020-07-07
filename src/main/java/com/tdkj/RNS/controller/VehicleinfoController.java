@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,6 +83,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
+        vehicleinfo.setCreateTime(new Date());
         vehicleinfoService.insert(vehicleinfo);
         Log log = ShiroUtils.setLog("新增车辆");
         logService.insert(log);
@@ -109,6 +111,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
+        vehicleinfo.setModifyTime(new Date());
         vehicleinfoService.insert(vehicleinfo);
         Log log = ShiroUtils.setLog("更新车辆信息："+vehicleNumber);
         logService.insert(log);
