@@ -214,12 +214,12 @@
     //监听公司下拉框绑定
     function BindCompany() {
         $.ajax({
-            url:"/company/selectcompany",
+            url:"/company/selectallcompany",
             dataType:"json",
             type:"post",
             success:function (res) {
-                var data=res.data.list;
-                layer.alert(JSON.stringify(data));
+                var data=res.data;
+                //layer.alert(JSON.stringify(data));
                 var html = '';
                 if(data!=null && data!=""){
                     for (var i = 0; i < data.length; i++) {
