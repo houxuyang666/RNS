@@ -1,6 +1,7 @@
 package com.tdkj.RNS.service;
 
 import com.tdkj.RNS.entity.Vehicleinfo;
+import com.tdkj.RNS.entity.VehicleinfoVO;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public interface VehicleinfoService {
      * @Param []
      * @return java.util.List<com.tdkj.RNS.entity.Vehicleinfo>
      **/
-    List<Vehicleinfo> queryAllvehicleinfo();
+    List<VehicleinfoVO> queryAllvehicleinfo();
     /**
      * @Author houxuyang
      * @Description //通过车牌号查询

@@ -12,6 +12,7 @@ import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.Vehicleinfo;
+import com.tdkj.RNS.entity.VehicleinfoVO;
 import com.tdkj.RNS.service.LogService;
 import com.tdkj.RNS.service.VehicleinfoService;
 import com.tdkj.RNS.utils.ShiroUtils;
@@ -57,10 +58,10 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/selectvehicleinfo")
     public RnsResponseList vehicleinfolist() {
-        List<Vehicleinfo> vehicleinfoList=vehicleinfoService.queryAllvehicleinfo();
+        List<VehicleinfoVO> vehicleinfoVOList=vehicleinfoService.queryAllvehicleinfo();
         Log log = ShiroUtils.setLog("查看车辆");
         logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,vehicleinfoList);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,vehicleinfoVOList);
     }
     /**
      * @Author houxuyang

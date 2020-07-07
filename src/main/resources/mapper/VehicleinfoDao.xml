@@ -95,10 +95,18 @@
         delete from vehicleinfo where vehicleinfo_id = #{vehicleinfoId}
     </delete>
 
-    <select id="queryAllvehicleinfo" resultMap="VehicleinfoMap">
+    <select id="queryAllvehicleinfo" resultType="com.tdkj.RNS.entity.VehicleinfoVO">
         select
-          vehicleinfo_id, vehicle_type, vehicle_seats_number, vehicle_number, vehicle_status, vehicle_affiliation_company, vehicle_affiliation_personal
-        from vehicleinfo
+            vehicleinfo_id as vehicleinfoId,
+            vehicle_type as vehicleType,
+            vehicle_seats_number as vehicleSeatsNumber,
+            vehicle_number as vehicleNumber,
+            vehicle_status as vehicleStatus,
+            vehicle_affiliation_company as vehicleAffiliationCompany,
+            c.company_name as companyName,
+            vehicle_affiliation_personal as vehicleAffiliationPersonal,
+            u.name as name
+        from vehicleinfo v LEFT JOIN company c on v.vehicle_affiliation_company = c.company_id LEFT JOIN u_userinfo u on v.vehicle_affiliation_personal =u.id
     </select>
 
     <!--查询单个-->
