@@ -1,5 +1,7 @@
 package com.tdkj.RNS.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
@@ -52,10 +54,13 @@ public class CompanyController implements RnsResultType, RnsResultCode {
      */
     @ResponseBody
     @RequestMapping("/selectcompany")
-    public RnsResponseList companylist() {
+    public RnsResponseList companylist(Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize,true);
         List<Company> companyList=companyService.queryAllCompany();
-
-        return RnsResponseList.setResult(0,FIND_SUCCESS,companyList);
+        PageInfo pageInfo=new PageInfo(companyList);
+        Log log = ShiroUtils.setLog("查看公司");
+        logService.insert(log);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
     }
 
     /**
