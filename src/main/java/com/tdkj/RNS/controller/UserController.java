@@ -189,7 +189,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         List<UserinfoVO> userinfoVOS=userService.selectUserUserinfo();
         Log log = ShiroUtils.setLog("查看用户");
         logService.insert(log);
-        return RnsResponseList.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS,userinfoVOS);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoVOS);
     }
 
     @GetMapping("images/captcha")
