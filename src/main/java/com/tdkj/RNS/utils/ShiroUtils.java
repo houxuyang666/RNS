@@ -59,4 +59,14 @@ public class ShiroUtils {
         log.setIp(IpUtils.getIp());
         return log;
     }
+
+    public static Log setregisterLog(String resources){
+        //如注册用户
+        Log log = new Log();
+        log.setOperatedate(new Date());
+        log.setOperateresult("正常");
+        log.setOperatetype(resources);
+        log.setIp(IpUtils.getIp());
+        return log;
+    }
 }

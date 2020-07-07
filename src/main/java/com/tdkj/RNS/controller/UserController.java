@@ -79,9 +79,6 @@ public class UserController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/register/user")
     public RnsResponse adduser(String username, String password,String name,Integer sex,Integer age,String tel,Integer companyId) {
-
-        log.info("注册用户");
-        log.info(password);
         User olduser = userService.findByName(username);
         if (olduser != null) {
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"用户名已存在");
@@ -93,7 +90,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         userinfo.setTel(tel);
         userinfo.setCompanyId(companyId);
         userinfo.setCreateTime(new Date());
-        log.info(userinfo.toString());
+        //log.info(userinfo.toString());
         userinfoService.insert(userinfo);
         System.out.println(userinfo.getId());
         User user = new User();
@@ -103,23 +100,21 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setPassword(Md5Util.Md5Password(uuid,password));
         user.setStatus(0);
         user.setSalt(uuid);
-        user.setRid(1);
+        user.setRid(5);
         user.setCreateTime(new Date());
         user.setUserinfoId(userinfo.getId());
         userService.insert(user);
-        //注册时会出错 需要重写log方法
-        Log log = ShiroUtils.setLog(username,"注册");
+        // 需要重写log方法
+        Log log = ShiroUtils.setregisterLog(username+"：注册");
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,"注册成功");
     }
-
 
     @RequestMapping("/goupdapsd")
     public String updatepassword(Model model) {
         log.info("updatepassword");
         return "page/setpassword";
     }
-
 
     /**
      * @Author houxuyang

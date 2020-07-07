@@ -54,8 +54,7 @@ public class CompanyController implements RnsResultType, RnsResultCode {
     @RequestMapping("/selectcompany")
     public RnsResponseList companylist() {
         List<Company> companyList=companyService.queryAllCompany();
-        Log log = ShiroUtils.setLog("查看公司");
-        logService.insert(log);
+
         return RnsResponseList.setResult(0,FIND_SUCCESS,companyList);
     }
 
