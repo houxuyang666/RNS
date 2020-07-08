@@ -86,6 +86,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         Vehicleinfo vehicleinfo=new Vehicleinfo();
         vehicleinfo.setVehicleType(vehicleType);
         vehicleinfo.setVehicleSeatsNumber(vehicleSeatsNumber);
+        vehicleinfo.setVehicleNumber(vehicleNumber);
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
