@@ -18,4 +18,9 @@ public class SystemController {
         return "page/setting";
     }
 
+    @RequestMapping("/goicon")
+    public String goIcon() {
+        return "page/icon";
+    }
+
 }
