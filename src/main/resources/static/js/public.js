@@ -90,4 +90,19 @@ var PublicFun = {
         })
     },
 
+
+    //ajax请求异步通用函数
+    FunPostAjax:function (url,data,success,msgerror) {
+        $.ajax({
+            url:url,
+            dataType:"json",
+            type:"POST",
+            data:data,
+            success:success,
+            error:function () {
+                PublicFun.LayerMsgError(msgerror);
+            }
+        })
+    }
+
 }

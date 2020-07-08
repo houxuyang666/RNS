@@ -96,9 +96,9 @@
                 {field: "vehicleNumber", title: "车牌号"},
                 {field: "companyName", title: "隶属公司",},
                 {field: "vehicleStatus", title: "车辆状态",sort:true,templet:function (row) {
-                        if(row.vehicleStatus==0) return "在用";
-                        else if (row.vehicleStatus==1) return  "未用";
-                        else  return  "已申请";
+                        if(row.vehicleStatus==0) return "<span style='color:#1E9FFF '>在用</span>";
+                        else if (row.vehicleStatus==1) return  "<span style='color: #FF5722'>未用</span>";
+                        else  return  "<span style='color:#FFB800 '>已申请</span>";
                     }},
                 {field: "name", title: "隶属个人",},
                 {title: '操作', toolbar: '#currentTableBar', align: "center", fixed: 'right'}
@@ -187,7 +187,7 @@
     //添加操作
     function Add() {
         var index = layer.open({
-            title: '添加用户',
+            title: '添加车辆',
             type: 2,
             shade: 0.2,
             maxmin:true,

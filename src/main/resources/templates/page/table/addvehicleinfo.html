@@ -12,14 +12,15 @@
         body {
             background-color: #ffffff;
         }
-        #contain{
+
+        #contain {
             padding: 25px;
         }
     </style>
 </head>
 <body>
 <div id="contain">
-    <form class="layui-form layui-form-pane" action="" >
+    <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">车辆型号</label>
             <div class="layui-input-block">
@@ -30,7 +31,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">车载人数</label>
             <div class="layui-input-block">
-                <input type="number" name="vehicleSeatsNumber" autocomplete="off" placeholder="请输入车载人数" class="layui-input">
+                <input type="number" name="vehicleSeatsNumber" autocomplete="off" placeholder="请输入车载人数"
+                       class="layui-input">
             </div>
         </div>
 
@@ -44,7 +46,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">隶属公司</label>
             <div class="layui-input-block">
-                <select name="vehicleAffiliationCompany" id="companyList"  lay-filter="companyId">
+                <select name="vehicleAffiliationCompany" id="companyList" lay-filter="companyList">
                     <option value=""></option>
                 </select>
             </div>
@@ -53,7 +55,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">隶属个人</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleAffiliationPersonal" autocomplete="off" placeholder="请输入车辆隶属个人" class="layui-input">
+                <select name="vehicleAffiliationPersonal" id="vehicleAffiliationPersonalList"
+                        lay-filter="vehicleAffiliationPersonalList">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
 
@@ -73,26 +78,26 @@
             $ = layui.$,
             laydate = layui.laydate;
 
-        var obj=new Date();
+        var obj = new Date();
         //日期
         laydate.render({
             elem: '#date',
-            format:"yyyy-MM-dd HH:mm:ss",
-            value:obj,
-            isInitValue:true,
-            trigger:"click"
+            format: "yyyy-MM-dd HH:mm:ss",
+            value: obj,
+            isInitValue: true,
+            trigger: "click"
         });
 
         //监听提交
         form.on('submit(SureAdd)', function (data) {
             //ajax请求异步交互
             $.ajax({
-                url:"/vehicleinfo/addvehicleinfo",
-                dataType:"json",
-                type:"POST",
-                data:data.field,
-                success:function (res) {
-                    if(res.responseCode){
+                url: "/vehicleinfo/addvehicleinfo",
+                dataType: "json",
+                type: "POST",
+                data: data.field,
+                success: function (res) {
+                    if (res.responseCode) {
                         var index = layer.alert(res.message, {
                             title: '提交信息'
                         }, function () {
@@ -101,11 +106,11 @@
                             var iframeIndex = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(iframeIndex);
                         });
-                    }else {
+                    } else {
                         layer.msg(res.message);
                     }
                 },
-                error:function () {
+                error: function () {
                     layer.msg("请求失败，请检查网络或联系管理员", {
                         icon: 2,
                         shade: this.shade,
@@ -121,6 +126,34 @@
         //绑定公司下拉框
         PublicFun.BindCompanyList();
 
+        //下拉框联动 根据公司下拉框获取 公司所有人
+        form.on("select(companyList)", function (data) {
+            //获取被选中的公司id
+            var conpanyId = data.value;
+            PublicFun.FunPostAjax(
+                "/userinfo/queryAllPersionByCompanyId",
+                {companyId: data.value},
+                function (res) {
+                    if (res.code == "0") {
+                        var data = res.data;
+                        //layer.alert(JSON.stringify(data));
+                        var html = '';
+                        if (data != null && data != "") {
+                            for (var i = 0; i < data.length; i++) {
+                                html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                            }
+                        } else {
+                            layer.msg("此公司没有负责人");
+                            html += "";
+                        }
+                        $('#vehicleAffiliationPersonalList').empty();
+                        $('#vehicleAffiliationPersonalList').append(html);
+                        layui.form.render("select");
+                    }
+                },"下拉框请求失败，请稍后再试或联系管理员！！！");
+
+
+        });
     });
 
 </script>
