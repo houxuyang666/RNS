@@ -21,37 +21,37 @@
 <div id="contain">
     <form class="layui-form layui-form-pane" action="" >
         <div class="layui-form-item">
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">车辆型号</label>
             <div class="layui-input-block">
-                <input type="text" name="companyName" autocomplete="off" placeholder="请输入公司名称" class="layui-input">
+                <input type="text" name="vehicleType" autocomplete="off" placeholder="例如:别克英朗、大众凌度" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">公司地址</label>
+            <label class="layui-form-label">车载人数</label>
             <div class="layui-input-block">
-                <input type="text" name="companyAddress" autocomplete="off" placeholder="请输入公司地址" class="layui-input">
+                <input type="number" name="vehicleSeatsNumber" autocomplete="off" placeholder="请输入车载人数" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">车辆负责人名称</label>
+            <label class="layui-form-label">车牌号</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleOfficerName" autocomplete="off" placeholder="请输入车辆负责人名称" class="layui-input">
+                <input type="text" name="vehicleNumber" autocomplete="off" placeholder="请输入车牌号" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">车辆负责人联系电话</label>
+            <label class="layui-form-label">隶属公司</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleOfficerTel" autocomplete="off" placeholder="请输入车辆负责人联系电话" class="layui-input">
+                <input type="text" name="vehicleOfficerName" autocomplete="off" placeholder="请输入车辆隶属公司" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">创建时间</label>
+            <label class="layui-form-label">负责人电话</label>
             <div class="layui-input-block">
-                <input type="text" name="createTime" id="date" autocomplete="off" readonly class="layui-input">
+                <input type="text" name="vehicleOfficerTel" autocomplete="off" placeholder="请输入车辆隶属个人" class="layui-input">
             </div>
         </div>
 
@@ -81,18 +81,36 @@
 
         //监听提交
         form.on('submit(SureAdd)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
+            //ajax请求异步交互
+            $.ajax({
+                url:"/vehicleinfo/addvehicleinfo",
+                dataType:"json",
+                type:"POST",
+                data:data.field,
+                success:function (res) {
+                    if(res.responseCode){
+                        var index = layer.alert(res.message, {
+                            title: '提交信息'
+                        }, function () {
+                            // 关闭弹出层
+                            layer.close(index);
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    }else {
+                        layer.msg(res.message);
+                    }
+                },
+                error:function () {
+                    layer.msg("请求失败，请检查网络或联系管理员", {
+                        icon: 2,
+                        shade: this.shade,
+                        scrollbar: false,
+                        time: 3000,
+                        shadeClose: true
+                    });
+                }
             });
-
             return false;
         });
 

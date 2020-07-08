@@ -53,7 +53,7 @@
                 <div class="layui-btn-container">
                     <button class="layui-btn layui-btn-normal layui-btn-sm " lay-event="add"><i class="layui-icon">&#xe654;</i> 添加 </button>
                     <button class="layui-btn layui-btn-sm layui-btn-warm " lay-event="update"> <i class="layui-icon">&#xe642;</i>修改 </button>
-                    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deleteRows"><i class="layui-icon">&#xe640;</i>多行删除 </button>
+                    <!--<button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deleteRows"><i class="layui-icon">&#xe640;</i>多行删除 </button>-->
                     <button class="layui-btn layui-btn-sm " lay-event="refresh"><i class="layui-icon">&#xe669;</i>刷新</button>
                 </div>
             </script>
@@ -149,7 +149,7 @@
                     DelRows(checkStatus);
                     break;
                 case "update":
-                    UpdateRow(checkStatus);
+                    UpdateRow(checkStatus.data);
                     break;
                 case "refresh":
                     table.reload("CarList");
@@ -168,14 +168,18 @@
             shade: 0.2,
             maxmin:true,
             shadeClose: true,
-            area: ['50%', '80%'],
-            content: '/table/addvehicleinfo',
+            area: ['40%', '60%'],
+            content: '/table/goaddvehicleinfo',
+            end:function () {
+                //刷新表格
+                layui.table.reload("CarList");
+            }
         });
         $(window).on("resize", function () {
             layer.full(index);
         });
     }
-    //多行删除操作
+    //多行删除操作 未用
     function DelRows(checkStatus) {
         var chkData=checkStatus.data;
         var delList=[];
@@ -194,11 +198,29 @@
     }
     //修改操作
     function UpdateRow(checkStatus) {
-        var chkData=checkStatus.data;
+        var chkData=checkStatus;
         if(chkData.length==1){
             //获取选中行的数量 判断  修改时一次只能选择一行
             //若为一行是 执行修改操作
-            alert(chkData);
+            var index = layer.open({
+                title: '添加用户',
+                type: 2,
+                shade: 0.2,
+                maxmin:true,
+                shadeClose: true,
+                area: ['40%', '60%'],
+                content: '/table/updatevehicleinfo',
+                success:function(){
+                    //赋值
+                },
+                end:function () {
+                    //刷新表格
+                    layui.table.reload("CarList");
+                }
+            });
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
         }else if(chkData.length>1){
             layer.msg("一次只能修改一行数据！！！");
         }else {
@@ -206,7 +228,7 @@
         }
     }
 
-    //监听公司下拉框绑定
+    //绑定公司下拉框绑定
     function BindCompany() {
         $.ajax({
             url:"/company/selectallcompany",
