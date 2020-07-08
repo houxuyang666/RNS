@@ -70,5 +70,13 @@ public class Vehicleorders implements Serializable {
     * 订单描述
     */
     private String orderDesc;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
 }
