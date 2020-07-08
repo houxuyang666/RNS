@@ -81,25 +81,15 @@
 
         //监听提交
         form.on('submit(SureAdd)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
-            });
             $.ajax({
                 url:"/company/addcompany",
                 dataType:"json",
                 type:"POST",
                 data:data.field,
                 success:function (res) {
-                    if(res.ResponseCode==200){
-                        layer.msg(res.message)
+                    if(res.responseCode==200){
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
                     }else {
                         layer.msg(res.message)
                     }
