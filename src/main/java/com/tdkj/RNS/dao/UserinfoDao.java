@@ -54,4 +54,15 @@ public interface UserinfoDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    /**
+     *
+     * @author Chang
+     * @description
+     * @date 2020/7/8 15:07
+     *
+     * @param companyId:
+     * @return java.util.List<com.tdkj.RNS.entity.Userinfo>
+     */
+    List<Userinfo> queryAllPersionByCompanyId(Integer companyId);
 }

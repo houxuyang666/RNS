@@ -1,8 +1,10 @@
 package com.tdkj.RNS.controller;
 
 import com.tdkj.RNS.common.RnsResponse;
+import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
+import com.tdkj.RNS.dao.UserinfoDao;
 import com.tdkj.RNS.entity.Company;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.UserCompanyVO;
@@ -33,6 +35,9 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private UserinfoDao ud;
 
     @RequestMapping("/gouserinfo")
     public String gouserinfo()  {
@@ -82,5 +87,12 @@ public class UserinfoController implements RnsResultType, RnsResultCode {
             }
         log.info(userinfo.toString());
         return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
+    }
+
+    @ResponseBody
+    @RequestMapping("/queryAllPersionByCompanyId")
+    RnsResponseList queryAllPersionByCompanyId(Integer companyId){
+        List<Userinfo> userinfoList = ud.queryAllPersionByCompanyId(companyId);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,userinfoList);
     }
 }

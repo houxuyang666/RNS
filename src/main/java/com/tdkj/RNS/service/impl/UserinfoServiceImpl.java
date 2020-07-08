@@ -47,6 +47,11 @@ public class UserinfoServiceImpl implements UserinfoService {
     }
 
     @Override
+    public List<Userinfo> queryAllPersionByCompanyId(Integer companyId) {
+        return UserinfoDao.queryAllPersionByCompanyId(companyId);
+    }
+
+    @Override
     public boolean deleteById(Integer id) {
         return false;
     }

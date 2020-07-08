@@ -122,4 +122,8 @@
         delete from u_userinfo where id = #{id}
     </delete>
 
+    <select id="queryAllPersionByCompanyId" resultMap="UserinfoMap">
+        select id,name from u_userinfo where company_id=#{companyId};
+    </select>
+
 </mapper>

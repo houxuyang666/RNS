@@ -36,4 +36,6 @@ public interface UserinfoService {
     UserCompanyVO queryById(Integer id);
 
     int update(Userinfo userinfo);
+
+    List<Userinfo> queryAllPersionByCompanyId(Integer companyId);
 }
