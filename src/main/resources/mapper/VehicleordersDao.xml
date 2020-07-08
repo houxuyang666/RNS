@@ -96,8 +96,9 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="orderId" useGeneratedKeys="true">
-        insert into car.vehicleorders(vehicle_id, user_id, vehicle_driver, began_address, destination_address, end_address, mileage, mileage_began_url, mileage_end_url, began_time, end_time, order_status, order_desc, create_time, modify_time)
-        values (#{vehicleId}, #{userId}, #{vehicleDriver}, #{beganAddress}, #{destinationAddress}, #{endAddress}, #{mileage}, #{mileageBeganUrl}, #{mileageEndUrl}, #{beganTime}, #{endTime}, #{orderStatus}, #{orderDesc}, #{createTime}, #{modifyTime})
+        insert into car.vehicleorders(order_id,vehicle_id, user_id, vehicle_driver, began_address,destination_address, end_address, mileage, mileage_began_url, mileage_end_url, began_time, end_time, order_status, order_desc, create_time, modify_time)
+        values (#{orderId},#{vehicleId}, #{userId}, #{vehicleDriver}, #{beganAddress}, #{destinationAddress}, #{endAddress},
+        #{mileage}, #{mileageBeganUrl}, #{mileageEndUrl}, #{beganTime}, #{endTime}, #{orderStatus}, #{orderDesc}, #{createTime}, #{modifyTime})
     </insert>
 
     <!--通过主键修改数据-->

@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -66,15 +67,18 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
     @Transactional
     @ResponseBody
     @RequestMapping("/addvehicleorders")
-    public RnsResponse addvehicleorders(Integer vehicleId,String vehicleDriver, String beganAddress,String destinationAddress, String endAddress, String orderDesc) {
+    public RnsResponse addvehicleorders(Integer vehicleId,String vehicleDriver,String beginDate, String beganAddress,
+                                        String destinationAddress, String endAddress, String orderDesc) {
         Vehicleorders vehicleorders =new Vehicleorders();
         //生成4为随机数 第二个参数为是否要字母 第三个参数是否要数字
         String code= RandomStringUtils.random(4, false, true);
         vehicleorders.setOrderId(DateUtil.getDateFormat(new Date(),"yyyyMMddHHmmss")+code);
+        System.out.println(vehicleorders.getOrderId());
         Vehicleinfo vehicleinfo=vehicleinfoService.queryById(vehicleId);
         if (vehicleinfo.getVehicleStatus()==0){
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"该车辆正在使用，请选择未使用车辆");
         }
+
         //如果车辆被申请使用则修改该车辆的状态
         vehicleinfo.setVehicleStatus(0);
         vehicleorders.setVehicleId(vehicleId);
@@ -86,7 +90,15 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
         //状态改为0 进行中
         vehicleorders.setOrderStatus(0);
         vehicleorders.setOrderDesc(orderDesc);
-        vehicleorders.setBeganTime(new Date());
+        //格式化String类型的时间为date
+        try {
+           Date BeganTime=DateUtil.formatDate(beginDate);
+           vehicleorders.setBeganTime(BeganTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(vehicleorders.getBeganTime());
+        vehicleorders.setCreateTime(new Date());
         //订单申请时将车辆状态改为已申请
         vehicleinfoService.update(vehicleinfo);
         vehicleordersService.insert(vehicleorders);

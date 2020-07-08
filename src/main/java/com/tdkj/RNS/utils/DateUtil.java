@@ -46,4 +46,11 @@ public class DateUtil {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return localDateTime.format(DateTimeFormatter.ofPattern(format));
     }
+
+    public static Date formatDate(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FULL_TIME_SPLIT_PATTERN, Locale.CHINESE);
+        Date usDate = simpleDateFormat.parse(date);
+        return usDate;
+    }
+
 }
