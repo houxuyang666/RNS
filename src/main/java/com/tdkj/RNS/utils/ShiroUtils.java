@@ -3,6 +3,7 @@ package com.tdkj.RNS.utils;
 import com.tdkj.RNS.entity.Log;
 import com.tdkj.RNS.entity.User;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -69,4 +70,17 @@ public class ShiroUtils {
         log.setIp(IpUtils.getIp());
         return log;
     }
+    /**
+     * @Author houxuyang
+     * @Description //获取文件后缀名
+     * @Date 15:37 2020/7/8
+     * @Param [multipartFile]
+     * @return java.lang.String
+     **/
+    public static String getfilesuffix(MultipartFile multipartFile){
+        String suffix =multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".")+1);
+        return suffix;
+    }
+
+
 }

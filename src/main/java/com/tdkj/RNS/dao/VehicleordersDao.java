@@ -2,6 +2,7 @@ package com.tdkj.RNS.dao;
 
 
 import com.tdkj.RNS.entity.Vehicleorders;
+import com.tdkj.RNS.entity.VehicleordersVO;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -63,4 +64,5 @@ public interface VehicleordersDao {
      */
     int deleteById(String orderId);
 
+    List<VehicleordersVO> selecvehicleorders();
 }

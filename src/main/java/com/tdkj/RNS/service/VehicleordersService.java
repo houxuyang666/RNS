@@ -1,6 +1,7 @@
 package com.tdkj.RNS.service;
 
 import com.tdkj.RNS.entity.Vehicleorders;
+import com.tdkj.RNS.entity.VehicleordersVO;
 
 import java.util.List;
 
@@ -52,5 +53,12 @@ public interface VehicleordersService {
      * @return 是否成功
      */
     boolean deleteById(String orderId);
-
+    /**
+     * @Author houxuyang
+     * @Description //查询车辆订单
+     * @Date 15:51 2020/7/8
+     * @Param []
+     * @return java.util.List<com.tdkj.RNS.entity.VehicleordersVO>
+     **/
+    List<VehicleordersVO> selecvehicleorders();
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+用车订单
+<form action="/vehicleorders/updatevehicleorders" method="post"  enctype="multipart/form-data" >
+    订单id<input type="text" name="orderId"></br>
+    车辆id<input type="text" name="vehicleId"></br>
+    里程数<input type="text" name="mileage"></br>
+    订单简介<input type="text" name="orderDesc"></br>
+    开始里程<input type="file" name="mileageBegan"></br>
+    结束里程<input type="file" name="mileageEnd"></br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

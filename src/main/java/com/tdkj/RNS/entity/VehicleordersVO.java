@@ -2,8 +2,8 @@ package com.tdkj.RNS.entity;
 
 import lombok.Data;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Vehicleorders)实体类
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @since 2020-06-30 09:11:13
  */
 @Data
-public class Vehicleorders implements Serializable {
+public class VehicleordersVO implements Serializable {
     private static final long serialVersionUID = -35190928921008585L;
     /**
     * 订单编号
@@ -23,9 +23,21 @@ public class Vehicleorders implements Serializable {
     */
     private Integer vehicleId;
     /**
+     * 车辆名称
+     */
+    private Integer vehicleType;
+    /**
+     * 车辆车牌号
+     */
+    private String vehicleNumber;
+    /**
      * 用户id
      */
     private Integer userId;
+    /**
+     * 用户姓名
+     */
+    private Integer name;
     /**
     * 车辆司机
     */

@@ -51,4 +51,16 @@ public class TableController {
         log.info("goupdatevehicleinfo");
         return "page/table/updatevehicleinfo";
     }
+
+    @RequestMapping("/goaddvehicleorders")
+    public String goaddvehicleorders()  {
+        log.info("goaddvehicleorders");
+        return "page/table/addvehicleorders";
+    }
+
+    @RequestMapping("/goupdatevehicleorders")
+    public String goupdatevehicleorders()  {
+        log.info("goupdatevehicleorders");
+        return "page/table/updatevehicleorders";
+    }
 }

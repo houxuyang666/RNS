@@ -2,6 +2,7 @@ package com.tdkj.RNS.service.impl;
 
 import com.tdkj.RNS.dao.VehicleordersDao;
 import com.tdkj.RNS.entity.Vehicleorders;
+import com.tdkj.RNS.entity.VehicleordersVO;
 import com.tdkj.RNS.service.VehicleordersService;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +76,10 @@ public class VehicleordersServiceImpl implements VehicleordersService {
     @Override
     public boolean deleteById(String orderId) {
         return this.vehicleordersDao.deleteById(orderId) > 0;
+    }
+
+    @Override
+    public List<VehicleordersVO> selecvehicleorders() {
+        return this.vehicleordersDao.selecvehicleorders();
     }
 }
