@@ -79,10 +79,11 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/addvehicleinfo")
     public RnsResponse addcompany(String vehicleType,Integer vehicleSeatsNumber,String vehicleNumber,Integer vehicleAffiliationCompany,Integer vehicleAffiliationPersonal) {
-        Vehicleinfo vehicleinfo =vehicleinfoService.queryByvehicleNumber(vehicleNumber);
-        if (vehicleinfo != null) {
+        Vehicleinfo vehicleinfo1 =vehicleinfoService.queryByvehicleNumber(vehicleNumber);
+        if (vehicleinfo1 != null) {
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"车辆已存在");
         }
+        Vehicleinfo vehicleinfo=new Vehicleinfo();
         vehicleinfo.setVehicleType(vehicleType);
         vehicleinfo.setVehicleSeatsNumber(vehicleSeatsNumber);
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
