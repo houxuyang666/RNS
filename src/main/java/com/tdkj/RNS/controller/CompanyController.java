@@ -90,10 +90,11 @@ public class CompanyController implements RnsResultType, RnsResultCode {
     @ResponseBody
     @RequestMapping("/addcompany")
     public RnsResponse addcompany(String companyName,String companyAddress,String vehicleOfficerName,String vehicleOfficerTel) {
-        Company company = companyService.queryByName(companyName);
-        if (company != null) {
+        Company company1 = companyService.queryByName(companyName);
+        if (company1 != null) {
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"公司已存在");
         }
+        Company company=new Company();
         company.setCompanyName(companyName);
         company.setCompanyAddress(companyAddress);
         company.setVehicleOfficerName(vehicleOfficerName);
