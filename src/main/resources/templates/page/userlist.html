@@ -65,9 +65,10 @@
     </div>
 </div>
 
-<script src="/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="/js/public.js" charset="utf-8"></script>
 <script type="text/javascript" th:inline="none">
+    PublicFun.ImportJs("/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js");
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -150,7 +151,7 @@
         });
 
         //下拉框绑定
-        BindCompany();
+        PublicFun.BindCompanyList();
 
     });
     //重置密码操作

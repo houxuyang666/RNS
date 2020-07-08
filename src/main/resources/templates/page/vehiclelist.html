@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/public.css" media="all">
     <link rel="stylesheet" href="/css/themes/default.css" media="all">
     <link rel="stylesheet" href="/statics/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <script src="/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <div class="layuimini-container">
@@ -67,7 +66,9 @@
 </div>
 
 <script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="/js/public.js" charset="utf-8"></script>
 <script type="text/javascript" th:inline="none">
+    PublicFun.ImportJs("/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js");
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -108,7 +109,6 @@
             //skin: 'line'
         });
 
-
         //搜索事件操作
         form.on("submit(searchBtn)", function (data) {
             var formData = data.field;//获取搜索新信息
@@ -130,11 +130,34 @@
         table.on("tool(CarList)", function (obj) {
             var data = obj.data;
             if (obj.event === "delete") {
-                layer.msg(data.vehicleinfoId);
-                /*layer.confirm("确定删除此用户吗?",function (index) {
+                //layer.msg(data.vehicleinfoId);
+                layer.confirm("确定删除此用户吗?",function (index) {
                     //删除操作
+                    $.ajax({
+                        url:"/vehicleinfo/delvehicleinfo",
+                        dataType:"json",
+                        type:"POST",
+                        data:{vehicleinfoId:data.vehicleinfoId},
+                        success:function (res) {
+                            if(res.responseCode==200){
+                                layer.msg(res.message);
+                                layui.table.reload("CarList");
+                            }else {
+                                layer.msg(res.message);
+                            }
+                        },
+                        error:function () {
+                            layer.msg("请求失败，请检查网络或联系管理员", {
+                                icon: 2,
+                                shade: this.shade,
+                                scrollbar: false,
+                                time: 3000,
+                                shadeClose: true
+                            });
+                        }
+                    })
                     layer.close(index);
-                })*/
+                })
             }
         });
 
@@ -145,9 +168,9 @@
                 case "add":
                     Add();
                     break;
-                case "deleteRows":
+                /*case "deleteRows":
                     DelRows(checkStatus);
-                    break;
+                    break;*/
                 case "update":
                     UpdateRow(checkStatus.data);
                     break;
@@ -157,7 +180,8 @@
             }
         });
 
-        BindCompany();
+        //绑定公司下拉框绑定
+        PublicFun.BindCompanyList();
     });
 
     //添加操作
@@ -228,37 +252,7 @@
         }
     }
 
-    //绑定公司下拉框绑定
-    function BindCompany() {
-        $.ajax({
-            url:"/company/selectallcompany",
-            dataType:"json",
-            type:"post",
-            success:function (res) {
-                var data=res.data;
-                //layer.alert(JSON.stringify(data));
-                var html = '';
-                if(data!=null && data!=""){
-                    for (var i = 0; i < data.length; i++) {
-                        html += '<option value="' + data[i].companyId + '">' + data[i].companyName + '</option>';
-                    }
-                }else {
-                    html+="";
-                }
-                $('#companyList').append(html);
-                layui.form.render("select");
-            },
-            error:function () {
-                layer.msg("公司下拉框请求失败", {
-                    icon: 2,
-                    shade: this.shade,
-                    scrollbar: false,
-                    time: 3000,
-                    shadeClose: true
-                });
-            }
-        })
-    }
+
 
 </script>
 </body>

@@ -44,14 +44,16 @@
         <div class="layui-form-item">
             <label class="layui-form-label">隶属公司</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleOfficerName" autocomplete="off" placeholder="请输入车辆隶属公司" class="layui-input">
+                <select name="vehicleAffiliationCompany" id="companyList"  lay-filter="companyId">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">负责人电话</label>
+            <label class="layui-form-label">隶属个人</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleOfficerTel" autocomplete="off" placeholder="请输入车辆隶属个人" class="layui-input">
+                <input type="text" name="vehicleAffiliationPersonal" autocomplete="off" placeholder="请输入车辆隶属个人" class="layui-input">
             </div>
         </div>
 
@@ -62,7 +64,9 @@
     </form>
 </div>
 <script src="/statics/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="/js/public.js" charset="utf-8"></script>
 <script>
+    PublicFun.ImportJs("/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js");
     layui.use(['form', 'laydate'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -114,7 +118,11 @@
             return false;
         });
 
+        //绑定公司下拉框
+        PublicFun.BindCompanyList();
+
     });
+
 </script>
 </body>
 </html>
