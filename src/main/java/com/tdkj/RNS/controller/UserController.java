@@ -161,7 +161,8 @@ public class UserController implements RnsResultType, RnsResultCode {
     @RequestMapping("/setpsd")
     public RnsResponse setpsd(Integer id) {
         log.info("重置密码");
-        if("admin".equals(ShiroUtils.getPrincipal().getUsername())){
+        Integer rid =1;
+        if(rid.equals(ShiroUtils.getPrincipal().getRid())){
             User user =userService.queryById(id);
             user.setPassword(Md5Util.Md5Password(user.getSalt(),"123456"));
             user.setModifyTime(new Date());
@@ -187,8 +188,9 @@ public class UserController implements RnsResultType, RnsResultCode {
         log.info("修改账号状态");
         User user =new User();
         Integer a =0;
+        Integer rid =1;
         user.setId(id);
-        if("admin".equals(ShiroUtils.getPrincipal().getUsername())){
+        if(rid.equals(ShiroUtils.getPrincipal().getRid())){
             //账号状态 0为正常 1为锁定
             if (a.equals(status)){ //如果用户状态为 0 那么执行锁定 将状态改为1
                 user.setStatus(1);
