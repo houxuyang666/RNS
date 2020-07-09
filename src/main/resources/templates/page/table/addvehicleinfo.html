@@ -90,12 +90,20 @@
 
         //监听提交
         form.on('submit(SureAdd)', function (data) {
+            var FormData={
+                vehicleinfoId:data.field.vehicleinfoId,
+                vehicleType:data.field.vehicleType,
+                vehicleSeatsNumber:data.field.vehicleSeatsNumber,
+                vehicleNumber:data.field.vehicleNumber,
+                vehicleAffiliationCompany:data.field.vehicleAffiliationCompany,
+                vehicleAffiliationPersonal:data.field.vehicleAffiliationPersonal="请选择"?"":data.field.vehicleAffiliationPersonal
+            }
             //ajax请求异步交互
             $.ajax({
                 url: "/vehicleinfo/addvehicleinfo",
                 dataType: "json",
                 type: "POST",
-                data: data.field,
+                data: FormData,
                 success: function (res) {
                     if (res.responseCode) {
                         var index = layer.alert(res.message, {
@@ -139,12 +147,12 @@
                         //layer.alert(JSON.stringify(data));
                         var html = '';
                         if (data != null && data != "") {
+                            html+='<option value="请选择">请选择</option>';
                             for (var i = 0; i < data.length; i++) {
                                 html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                             }
                         } else {
-                            layer.msg("此公司没有负责人");
-                            html += "";
+                            html+='<option value="请选择">请选择</option>';
                         }
                         $('#vehicleAffiliationPersonalList').empty();
                         $('#vehicleAffiliationPersonalList').append(html);

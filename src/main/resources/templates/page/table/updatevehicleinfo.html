@@ -22,24 +22,31 @@
 <div id="contain">
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
+            <label class="layui-form-label">车辆编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="vehicleinfoId" autocomplete="off" disabled class="layui-input layui-disabled">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label">车辆型号</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleType" autocomplete="off" placeholder="例如:别克英朗、大众凌度" class="layui-input">
+                <input type="text" name="vehicleType" autocomplete="off" placeholder="例如:别克英朗、大众凌度" disabled class="layui-input layui-disabled">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">车载人数</label>
             <div class="layui-input-block">
-                <input type="number" name="vehicleSeatsNumber" autocomplete="off" placeholder="请输入车载人数"
-                       class="layui-input">
+                <input type="number" name="vehicleSeatsNumber" autocomplete="off" disabled placeholder="请输入车载人数"
+                       class="layui-input layui-disabled">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">车牌号</label>
             <div class="layui-input-block">
-                <input type="text" name="vehicleNumber" autocomplete="off" placeholder="请输入车牌号" class="layui-input">
+                <input type="text" name="vehicleNumber" autocomplete="off" disabled placeholder="请输入车牌号" class="layui-input layui-disabled">
             </div>
         </div>
 
@@ -64,7 +71,7 @@
 
 
         <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="SureAdd">确定添加</button>
+            <button class="layui-btn" lay-submit="" lay-filter="SureUpdate">确认修改</button>
         </div>
     </form>
 </div>
@@ -72,30 +79,29 @@
 <script src="/js/public.js" charset="utf-8"></script>
 <script>
     PublicFun.ImportJs("/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js");
-    layui.use(['form', 'laydate'], function () {
+    layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
-            $ = layui.$,
-            laydate = layui.laydate;
+            $ = layui.$;
 
-        var obj = new Date();
-        //日期
-        laydate.render({
-            elem: '#date',
-            format: "yyyy-MM-dd HH:mm:ss",
-            value: obj,
-            isInitValue: true,
-            trigger: "click"
-        });
+        BindCompanyList();
 
         //监听提交
-        form.on('submit(SureAdd)', function (data) {
+        form.on('submit(SureUpdate)', function (data) {
+             var FormData={
+                 vehicleinfoId:data.field.vehicleinfoId,
+                 vehicleType:data.field.vehicleType,
+                 vehicleSeatsNumber:data.field.vehicleSeatsNumber,
+                 vehicleNumber:data.field.vehicleNumber,
+                 vehicleAffiliationCompany:data.field.vehicleAffiliationCompany,
+                 vehicleAffiliationPersonal:data.field.vehicleAffiliationPersonal="请选择"?"":data.field.vehicleAffiliationPersonal
+             }
             //ajax请求异步交互
             $.ajax({
-                url: "/vehicleinfo/addvehicleinfo",
+                url: "/vehicleinfo/updatevehicleinfo",
                 dataType: "json",
                 type: "POST",
-                data: data.field,
+                data: FormData,
                 success: function (res) {
                     if (res.responseCode) {
                         var index = layer.alert(res.message, {
@@ -111,25 +117,59 @@
                     }
                 },
                 error: function () {
-                    layer.msg("请求失败，请检查网络或联系管理员", {
-                        icon: 2,
-                        shade: this.shade,
-                        scrollbar: false,
-                        time: 3000,
-                        shadeClose: true
-                    });
+                    PublicFun.LayerMsgError("请求失败，请检查网络或联系管理员")
                 }
             });
             return false;
         });
 
         //绑定公司下拉框
-        PublicFun.BindCompanyList();
+        function BindCompanyList(){
+            $.ajax({
+                url: "/company/selectallcompany",
+                dataType: "json",
+                type: "post",
+                success: function (res) {
+                    var data = res.data;
+                    //layer.alert(JSON.stringify(data));
+                    var html = '';
+                    if (data != null && data != "") {
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<option value="' + data[i].companyId + '">' + data[i].companyName + '</option>';
+                        }
+
+                    } else {
+                        html += "";
+                    }
+                    $('#companyList').append(html);
+                    // 获取父窗口中存储的下拉框选中的值
+                    var selectValue =parent.$("#selectValue").val();
+                    //layer.alert(selectValue);
+                    //找到指定下拉框，设置选中
+                    $("#companyList").each(function() {
+                        $(this).children("option").each(function() {
+                            // 判断需要对那个选项进行回显
+                            if ($(this).text()== selectValue) {
+                                console.log($(this).text());
+                                // 进行回显
+                                $(this).attr("selected","selected");
+                            }
+                        });
+                    })
+                    //渲染表单中的下拉框！！
+                    layui.form.render("select");
+                },
+                error: function () {
+                    PublicFun.LayerMsgError("公司下拉框请求失败")
+                }
+            })
+        }
 
         //下拉框联动 根据公司下拉框获取 公司所有人
         form.on("select(companyList)", function (data) {
             //获取被选中的公司id
             var conpanyId = data.value;
+            //layer.alert(conpanyId);
             PublicFun.FunPostAjax(
                 "/userinfo/queryAllPersionByCompanyId",
                 {companyId: data.value},
@@ -139,22 +179,61 @@
                         //layer.alert(JSON.stringify(data));
                         var html = '';
                         if (data != null && data != "") {
+                            html+='<option value="请选择">请选择</option>';
                             for (var i = 0; i < data.length; i++) {
                                 html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                             }
                         } else {
-                            layer.msg("此公司没有负责人");
-                            html += "";
+                            html+='<option value="请选择">请选择</option>';
                         }
                         $('#vehicleAffiliationPersonalList').empty();
                         $('#vehicleAffiliationPersonalList').append(html);
                         layui.form.render("select");
                     }
-                },"下拉框请求失败，请稍后再试或联系管理员！！！");
-
+                }, "下拉框请求失败，请稍后再试或联系管理员！！！");
 
         });
+
+        //获取父窗体的公司id
+        var companyid=parent.$('#vehicleAffiliationCompany').val();
+        PublicFun.FunPostAjax(
+            "/userinfo/queryAllPersionByCompanyId",
+            {companyId: companyid},
+            function (res) {
+                if (res.code == "0") {
+                    var data = res.data;
+                    //layer.alert(JSON.stringify(data));
+                    var html = '';
+                    if (data != null && data != "") {
+                        html+='<option value="请选择">请选择</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                        }
+                    } else {
+                        html+='<option value="请选择">请选择</option>';
+                    }
+                    $('#vehicleAffiliationPersonalList').empty();
+                    $('#vehicleAffiliationPersonalList').append(html);
+                    // 获取父窗口中存储的下拉框选中的值
+                    var selectNameValue =parent.$("#name").val();
+                    //layer.alert(selectNameValue);
+                    $("#vehicleAffiliationPersonalList").each(function () {
+                        $(this).children("option").each(function () {
+                            //判断对那个选项进行赋值
+                            if($(this).text()==selectNameValue){
+                                console.log($(this).text());
+                                // 进行回显
+                                $(this).attr("selected","selected");
+                            }
+                        })
+                    })
+                    layui.form.render("select");
+                }
+            }, "下拉框请求失败，请稍后再试或联系管理员！！！");
+
     });
+
+
 
 </script>
 </body>
