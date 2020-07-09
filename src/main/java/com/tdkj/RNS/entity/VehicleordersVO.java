@@ -25,7 +25,7 @@ public class VehicleordersVO implements Serializable {
     /**
      * 车辆名称
      */
-    private Integer vehicleType;
+    private String vehicleType;
     /**
      * 车辆车牌号
      */
@@ -37,7 +37,7 @@ public class VehicleordersVO implements Serializable {
     /**
      * 用户姓名
      */
-    private Integer name;
+    private String name;
     /**
     * 车辆司机
     */

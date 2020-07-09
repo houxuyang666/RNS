@@ -79,7 +79,7 @@ public class VehicleordersServiceImpl implements VehicleordersService {
     }
 
     @Override
-    public List<VehicleordersVO> selecvehicleorders() {
-        return this.vehicleordersDao.selecvehicleorders();
+    public List<VehicleordersVO> selecvehicleorders(Integer userId) {
+        return this.vehicleordersDao.selecvehicleorders(userId);
     }
 }

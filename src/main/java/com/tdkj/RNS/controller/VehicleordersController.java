@@ -112,10 +112,10 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
 
     @ResponseBody
     @RequestMapping("/selecvehicleorders")
-    public RnsResponseList selecvehicleorders(Integer page, Integer limit) {
-        log.info("-------------selectuser");
+    public RnsResponseList selecvehicleorders(Integer page, Integer limit,Integer userId) {
+        log.info("-------------selectuser"+userId);
         PageHelper.startPage(page,limit,true);
-        List<VehicleordersVO> vehicleordersVOList=vehicleordersService.selecvehicleorders();
+        List<VehicleordersVO> vehicleordersVOList=vehicleordersService.selecvehicleorders(userId);
         PageInfo<VehicleordersVO> pageInfo=new PageInfo<>(vehicleordersVOList);
         Log log = ShiroUtils.setLog("查看车辆订单");
         logService.insert(log);

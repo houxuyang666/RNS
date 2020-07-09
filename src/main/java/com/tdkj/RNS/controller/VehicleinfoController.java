@@ -108,18 +108,20 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     @RequestMapping("/updatevehicleinfo")
     public RnsResponse updatevehicleinfo(Integer vehicleinfoId,String vehicleType,Integer vehicleSeatsNumber,String vehicleNumber,Integer vehicleAffiliationCompany,Integer vehicleAffiliationPersonal) {
         Vehicleinfo vehicleinfo =vehicleinfoService.queryById(vehicleinfoId);
-        if (vehicleinfo != null) {
-            return RnsResponse.setResult(HTTP_RNS_CODE_500,"车辆已存在");
-        }else if("0".equals(vehicleinfo.getVehicleStatus())){
+//        if (vehicleinfo != null) {
+//            return RnsResponse.setResult(HTTP_RNS_CODE_500,"车辆已存在");
+//        }else
+            if("0".equals(vehicleinfo.getVehicleStatus())){
             return RnsResponse.setResult(HTTP_RNS_CODE_500,"车辆正在使用");
         }
         vehicleinfo.setVehicleType(vehicleType);
         vehicleinfo.setVehicleSeatsNumber(vehicleSeatsNumber);
+        vehicleinfo.setVehicleNumber(vehicleNumber);
         vehicleinfo.setVehicleStatus(1); //刚注册都为未用
         vehicleinfo.setVehicleAffiliationCompany(vehicleAffiliationCompany);
         vehicleinfo.setVehicleAffiliationPersonal(vehicleAffiliationPersonal);
         vehicleinfo.setModifyTime(new Date());
-        vehicleinfoService.insert(vehicleinfo);
+        vehicleinfoService.update(vehicleinfo);
         Log log = ShiroUtils.setLog("更新车辆信息："+vehicleNumber);
         logService.insert(log);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,UPDATE_SUCCESS);
