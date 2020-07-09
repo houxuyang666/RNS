@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>公司列表</title>
@@ -49,10 +49,10 @@
 
             <script type="text/html" id="toolbar">
                 <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-normal layui-btn-sm " lay-event="add"><i class="layui-icon">&#xe654;</i>
+                    <button shiro:hasPermission="company:add" class="layui-btn layui-btn-normal layui-btn-sm " lay-event="add"><i class="layui-icon">&#xe654;</i>
                         添加
                     </button>
-                    <button class="layui-btn layui-btn-sm layui-btn-warm " lay-event="update"><i class="layui-icon">&#xe642;</i>修改
+                    <button shiro:hasPermission="company:update" class="layui-btn layui-btn-sm layui-btn-warm " lay-event="update"><i class="layui-icon">&#xe642;</i>修改
                     </button>
                    <!-- <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deleteRows"><i
                             class="layui-icon">&#xe640;</i>多行删除
@@ -63,7 +63,7 @@
             </script>
 
             <script type="text/html" id="currentTableBar">
-                <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+                <a  shiro:hasPermission="company:delete" class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
             </script>
 
         </div>
