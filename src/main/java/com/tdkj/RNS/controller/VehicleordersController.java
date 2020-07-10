@@ -114,12 +114,20 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
     @RequestMapping("/selecvehicleorders")
     public RnsResponseList selecvehicleorders(Integer page, Integer limit,Integer userId) {
         log.info("-------------selectuser"+userId);
-        PageHelper.startPage(page,limit,true);
-        List<VehicleordersVO> vehicleordersVOList=vehicleordersService.selecvehicleorders(userId);
-        PageInfo<VehicleordersVO> pageInfo=new PageInfo<>(vehicleordersVOList);
-        Log log = ShiroUtils.setLog("查看车辆订单");
-        logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
+        if(1==ShiroUtils.getPrincipal().getRid()){
+            PageHelper.startPage(page,limit,true);
+            List<VehicleordersVO> vehicleordersVOList=vehicleordersService.selecALLvehicleorders();
+            PageInfo<VehicleordersVO> pageInfo=new PageInfo<>(vehicleordersVOList);
+            return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
+        }else{
+            PageHelper.startPage(page,limit,true);
+            List<VehicleordersVO> vehicleordersVOList=vehicleordersService.selecvehicleorders(userId);
+            PageInfo<VehicleordersVO> pageInfo=new PageInfo<>(vehicleordersVOList);
+            Log log = ShiroUtils.setLog("查看车辆订单");
+            logService.insert(log);
+            return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
+        }
+
     }
 
 

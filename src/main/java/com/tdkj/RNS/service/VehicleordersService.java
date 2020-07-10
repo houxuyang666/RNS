@@ -61,4 +61,6 @@ public interface VehicleordersService {
      * @return java.util.List<com.tdkj.RNS.entity.VehicleordersVO>
      **/
     List<VehicleordersVO> selecvehicleorders(Integer userId);
+
+    List<VehicleordersVO> selecALLvehicleorders();
 }

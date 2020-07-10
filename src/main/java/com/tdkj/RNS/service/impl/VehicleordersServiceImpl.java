@@ -82,4 +82,9 @@ public class VehicleordersServiceImpl implements VehicleordersService {
     public List<VehicleordersVO> selecvehicleorders(Integer userId) {
         return this.vehicleordersDao.selecvehicleorders(userId);
     }
+
+    @Override
+    public List<VehicleordersVO> selecALLvehicleorders() {
+        return this.vehicleordersDao.selecALLvehicleorders();
+    }
 }

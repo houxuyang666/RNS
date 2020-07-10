@@ -182,15 +182,35 @@
 		v.modify_time as modifyTime
         from vehicleorders v LEFT JOIN vehicleinfo vf on v.vehicle_id =vf.vehicleinfo_id
                             LEFT JOIN u_user u on v.user_id = u.id
-                            LEFT JOIN u_userinfo uf on u.userinfo_id =uf.id
-
-          <where>
-              <if test="userId !=1 and userId !=2 and userId !=3 and userId !=4 and userId !=5 and userId !=6 ">
-                 and user_id = #{userId}
-              </if>
-          </where>
-
-
+                            LEFT JOIN u_userinfo uf on u.userinfo_id =uf.id where user_id = #{userId}
     </select>
+
+    <select id="selecALLvehicleorders" resultType="com.tdkj.RNS.entity.VehicleordersVO">
+        select
+        order_id as orderId,
+        vehicle_id as vehicleId,
+        vf.vehicle_type as vehicleType,
+        user_id as userId,
+        uf.name as name,
+        vehicle_driver as vehicleDriver,
+        began_address as beganAddress,
+        destination_address as destinationAddress,
+        end_address as endAddress,
+        mileage as mileage,
+        mileage_began_url as mileageBeganUrl,
+        mileage_end_url as mileageEndUrl,
+        began_time as beganTime,
+        end_time as endTime,
+        order_status as orderStatus,
+        order_desc as orderDesc,
+        v.create_time as createTime,
+        v.modify_time as modifyTime
+        from vehicleorders v LEFT JOIN vehicleinfo vf on v.vehicle_id =vf.vehicleinfo_id
+        LEFT JOIN u_user u on v.user_id = u.id
+        LEFT JOIN u_userinfo uf on u.userinfo_id =uf.id
+    </select>
+
+
+
 
 </mapper>

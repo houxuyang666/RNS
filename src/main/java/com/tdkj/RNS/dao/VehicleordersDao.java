@@ -65,4 +65,6 @@ public interface VehicleordersDao {
     int deleteById(String orderId);
 
     List<VehicleordersVO> selecvehicleorders(@Param("userId") Integer userId);
+
+    List<VehicleordersVO> selecALLvehicleorders();
 }
