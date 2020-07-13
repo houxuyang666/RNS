@@ -9,6 +9,7 @@ import com.tdkj.RNS.entity.MenuTree;
 import com.tdkj.RNS.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -45,6 +46,7 @@ public class MenuController  implements RnsResultCode, RnsResultType {
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 
+    @Transactional
     @ResponseBody
     @RequestMapping("/addmenu")
     public RnsResponse addmenu(Integer parentId,String title, String href, String perms,String icon,String target) {
@@ -56,7 +58,9 @@ public class MenuController  implements RnsResultCode, RnsResultType {
         menu.setIcon(icon);
         menu.setTarget(target);
         menu.setCreateTime(new Date());
-        menuService.insert(menu);
+        menu =menuService.insert(menu);
+        log.info(menu.getMenuId().toString());
+        menuService.insertroleAndmenu(1,menu.getMenuId());
         return RnsResponse.setResult(HTTP_RNS_CODE_200,ADD_SUCCESS);
     }
 

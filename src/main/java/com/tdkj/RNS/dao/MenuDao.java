@@ -75,5 +75,5 @@ public interface MenuDao {
 
     List<Menu> findMenus();
 
-    int insertroleAndmenu(Integer roleId, Integer menuId);
+    int insertroleAndmenu(@Param("roleId")Integer roleId, @Param("menuId")Integer menuId);
 }
