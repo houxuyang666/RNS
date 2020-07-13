@@ -145,6 +145,12 @@
         values (#{roleId}, #{menuId})
     </insert>
 
+    <!--查询所有菜单列表-->
+    <select id="queryAllMenu" resultMap="MenuMap">
+        select
+          menu_id, parent_id, title, href, perms, icon, target, create_time, modify_time
+        from u_menu
+    </select>
 
 
 </mapper>

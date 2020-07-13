@@ -3,6 +3,7 @@ package com.tdkj.RNS.service;
 import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.Userinfo;
 import com.tdkj.RNS.entity.Userinfo;
+import com.tdkj.RNS.entity.UserinfoVO;
 
 import java.util.List;
 
@@ -38,4 +39,8 @@ public interface UserinfoService {
     int update(Userinfo userinfo);
 
     List<Userinfo> queryAllPersionByCompanyId(Integer companyId);
+
+    List<UserinfoVO> Alldriver();
+    //获取当前用户名称
+    String getName(Integer userinfoId);
 }

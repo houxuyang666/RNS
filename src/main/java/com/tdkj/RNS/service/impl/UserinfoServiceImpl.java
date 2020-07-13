@@ -3,6 +3,7 @@ package com.tdkj.RNS.service.impl;
 import com.tdkj.RNS.dao.UserinfoDao;
 import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.Userinfo;
+import com.tdkj.RNS.entity.UserinfoVO;
 import com.tdkj.RNS.service.UserinfoService;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,16 @@ public class UserinfoServiceImpl implements UserinfoService {
     @Override
     public List<Userinfo> queryAllPersionByCompanyId(Integer companyId) {
         return UserinfoDao.queryAllPersionByCompanyId(companyId);
+    }
+
+    @Override
+    public List<UserinfoVO> Alldriver() {
+        return UserinfoDao.Alldriver();
+    }
+
+    @Override
+    public String getName(Integer userinfoId) {
+        return UserinfoDao.getName(userinfoId);
     }
 
     @Override

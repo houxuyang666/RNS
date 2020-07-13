@@ -74,4 +74,8 @@ public interface MenuService {
     MenuTree<Menu> findMenus();
 
     int insertroleAndmenu(Integer roleId, Integer menuId);
+
+    List<Menu> queryAllMenu();
+
+    MenuTree<Menu> findMenusAllMenu();
 }

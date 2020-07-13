@@ -1,6 +1,7 @@
 package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.Menu;
+import com.tdkj.RNS.entity.MenuTree;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -76,4 +77,6 @@ public interface MenuDao {
     List<Menu> findMenus();
 
     int insertroleAndmenu(@Param("roleId")Integer roleId, @Param("menuId")Integer menuId);
+
+    List<Menu> queryAllMenu();
 }

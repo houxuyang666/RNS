@@ -12,11 +12,9 @@ import com.tdkj.RNS.common.RnsResponse;
 import com.tdkj.RNS.common.RnsResponseList;
 import com.tdkj.RNS.common.RnsResultCode;
 import com.tdkj.RNS.common.RnsResultType;
-import com.tdkj.RNS.entity.Company;
-import com.tdkj.RNS.entity.Log;
-import com.tdkj.RNS.entity.Vehicleinfo;
-import com.tdkj.RNS.entity.VehicleinfoVO;
+import com.tdkj.RNS.entity.*;
 import com.tdkj.RNS.service.LogService;
+import com.tdkj.RNS.service.UserinfoService;
 import com.tdkj.RNS.service.VehicleinfoService;
 import com.tdkj.RNS.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +44,8 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
     private VehicleinfoService vehicleinfoService;
     @Autowired
     private LogService logService;
+    @Autowired
+    private UserinfoService userinfoService;
 
     @RequestMapping("/govehicle")
     public String govehicle() {
@@ -65,12 +65,14 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
         PageHelper.startPage(page,limit,true);
         List<VehicleinfoVO> vehicleinfoVOList=vehicleinfoService.queryAllvehicleinfo(vehicleNumber,companyName);
         PageInfo<VehicleinfoVO> pageInfo=new PageInfo<>(vehicleinfoVOList);
+        List<UserinfoVO> userinfoVOList=userinfoService.Alldriver();
         Log log = ShiroUtils.setLog("查看车辆");
         logService.insert(log);
-        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo);
+        return RnsResponseList.setResult(0,FIND_SUCCESS,pageInfo,userinfoVOList);
     }
     /**
      * @Author houxuyang
+      *
      * @Description //新增车辆信息
      * @Date 17:28 2020/7/1
      * @Param [vehicleType, vehicleSeatsNumber, vehicleNumber, vehicleAffiliationCompany, vehicleAffiliationPersonal]
@@ -105,7 +107,7 @@ public class VehicleinfoController implements RnsResultType, RnsResultCode {
      * @return com.tdkj.RNS.common.RnsResponse
      **/
     @ResponseBody
-        @RequestMapping("/updatevehicleinfo")
+    @RequestMapping("/updatevehicleinfo")
     public RnsResponse updatevehicleinfo(Integer vehicleinfoId,String vehicleType,Integer vehicleSeatsNumber,String vehicleNumber,Integer vehicleAffiliationCompany,Integer vehicleAffiliationPersonal) {
         Vehicleinfo vehicleinfo =vehicleinfoService.queryById(vehicleinfoId);
 //        if (vehicleinfo != null) {

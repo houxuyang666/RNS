@@ -112,6 +112,20 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.insertroleAndmenu(roleId,menuId);
     }
 
+
+    @Override
+    public MenuTree<Menu> findMenusAllMenu() {
+        List<Menu> menus = this.menuDao.queryAllMenu();
+        List<MenuTree<Menu>> trees = this.convertMenus(menus);
+        return TreeUtil.buildMenuTree(trees);
+    }
+
+    @Override
+    public List<Menu> queryAllMenu() {
+        return menuDao.queryAllMenu();
+    }
+
+
     /**
  *
  * @author Chang

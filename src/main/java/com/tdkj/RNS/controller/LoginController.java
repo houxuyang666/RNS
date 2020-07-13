@@ -28,6 +28,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,7 +74,6 @@ public class LoginController implements RnsResultType, RnsResultCode{
     }
 
 
-
     /**
      * @Author houxuyang
      * @Description //查询目录
@@ -85,23 +85,9 @@ public class LoginController implements RnsResultType, RnsResultCode{
     @RequestMapping("/indexinit")
     public RnsResponse indexinit() {
         MenuTree<Menu> menuList =menuService.findByUsernameGetMenu(ShiroUtils.getPrincipal().getUsername());
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList),userinfoService.getName(ShiroUtils.getPrincipal().getUserinfoId()));
     }
 
- /*   @ResponseBody
-    @GetMapping("tree")
-    public RnsResponse getMenuTree() {
-        MenuTree<Menu> allMenus = menuService.findMenus();
-        //System.out.println(allMenus);
-        return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(allMenus));
-    }*/
-
-/*    *//*编写shiro 登录认证逻辑*//*
-    @ApiOperation("登录")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "query", name = "username", value = "账号", required = true, dataType = "String")
-            , @ApiImplicitParam(paramType = "query", name = "password", value = "密码", required = true, dataType = "String")
-    }
-    )*/
     @ResponseBody
     @RequestMapping("/login")
     @PostMapping
@@ -125,6 +111,7 @@ public class LoginController implements RnsResultType, RnsResultCode{
             UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
             /*3.执行登录操作*/
             //会将用户信息传给 UserRealm的doGetAuthenticationInfo方法的authenticationToken参数 用于与数据库验证
+
             subject.login(token);
             //token.setRememberMe(true);
             /*设置session*/
@@ -132,7 +119,7 @@ public class LoginController implements RnsResultType, RnsResultCode{
             logService.insert(log);
             Session session1 = subject.getSession();
             session1.setAttribute("user", user);
-            session1.setAttribute("name", userinfoService.queryById(user.getUserinfoId()).getName());
+            //session1.setAttribute("name", userinfoService.queryById(user.getUserinfoId()).getName());
             return RnsResponse.setResult(HTTP_RNS_CODE_200,"/index");
         } catch(RnsException e){
             return RnsResponse.setResult(HTTP_RNS_CODE_401,"验证码错误！");

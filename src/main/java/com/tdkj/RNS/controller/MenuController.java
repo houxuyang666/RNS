@@ -42,7 +42,7 @@ public class MenuController  implements RnsResultCode, RnsResultType {
     @ResponseBody
     @RequestMapping("/getmenu")
     public RnsResponse getmenu() {
-        MenuTree<Menu> menuList =menuService.findByUsernameGetMenu("admin");
+        MenuTree<Menu> menuList =menuService.findMenusAllMenu();
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 

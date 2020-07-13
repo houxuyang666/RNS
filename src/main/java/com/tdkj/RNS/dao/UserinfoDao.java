@@ -2,6 +2,7 @@ package com.tdkj.RNS.dao;
 
 import com.tdkj.RNS.entity.UserCompanyVO;
 import com.tdkj.RNS.entity.Userinfo;
+import com.tdkj.RNS.entity.UserinfoVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -65,4 +66,8 @@ public interface UserinfoDao {
      * @return java.util.List<com.tdkj.RNS.entity.Userinfo>
      */
     List<Userinfo> queryAllPersionByCompanyId(Integer companyId);
+
+    List<UserinfoVO> Alldriver();
+
+    String getName(Integer userinfoId);
 }
