@@ -138,7 +138,11 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
     public RnsResponse updatevehicleorders(String orderId,Integer vehicleId, String mileage,String orderDesc,
                                            @RequestParam("mileageBegan") MultipartFile mileageBegan,
                                            @RequestParam("mileageEnd") MultipartFile mileageEnd) {
+
         try{
+            if(mileageBegan.isEmpty()&&mileageEnd.isEmpty()){
+                return RnsResponse.setResult(HTTP_RNS_CODE_500,"请上传图片");
+            }
             Vehicleorders vehicleorders = vehicleordersService.queryById(orderId);
             vehicleorders.setMileage(mileage);
             //创建文件夹
