@@ -162,6 +162,7 @@ public class VehicleordersController implements RnsResultCode, RnsResultType {
             log.info(vehicleorders.getMileageEndUrl());
             vehicleorders.setOrderDesc(orderDesc);
             vehicleorders.setEndTime(new Date());
+            vehicleorders.setOrderStatus(2);
             vehicleordersService.update(vehicleorders);
             Vehicleinfo vehicleinfo =vehicleinfoService.queryById(vehicleId);
             vehicleinfo.setVehicleStatus(1);
