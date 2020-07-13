@@ -107,6 +107,11 @@ public class MenuServiceImpl implements MenuService {
         return TreeUtil.buildMenuTree(trees);
     }
 
+    @Override
+    public int insertroleAndmenu(Integer roleId, Integer menuId) {
+        return menuDao.insertroleAndmenu(roleId,menuId);
+    }
+
     /**
  *
  * @author Chang

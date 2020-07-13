@@ -72,4 +72,6 @@ public interface MenuService {
     MenuTree<Menu> findByUsernameGetMenu(String username);
 
     MenuTree<Menu> findMenus();
+
+    int insertroleAndmenu(Integer roleId, Integer menuId);
 }

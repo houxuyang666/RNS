@@ -13,12 +13,23 @@ public class RnsResponseList {
     private Integer code;
     private String Message;
     private Object Data;//数据 Data
+    private Object Data1;//数据 Data
 
     public static RnsResponseList setResult(Integer code, String message, Object data) {
         RnsResponseList rnsResponseList =new RnsResponseList();
         rnsResponseList.setCode(code);
         rnsResponseList.setMessage(message);
         rnsResponseList.setData(data);
+        return rnsResponseList;
+    }
+
+
+    public static RnsResponseList setResult(Integer code, String message, Object data,Object data1) {
+        RnsResponseList rnsResponseList =new RnsResponseList();
+        rnsResponseList.setCode(code);
+        rnsResponseList.setMessage(message);
+        rnsResponseList.setData(data);
+        rnsResponseList.setData1(data1);
         return rnsResponseList;
     }
 

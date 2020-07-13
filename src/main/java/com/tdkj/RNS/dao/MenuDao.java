@@ -74,4 +74,6 @@ public interface MenuDao {
     List<Menu> findByUsernameGetMenu(String username);
 
     List<Menu> findMenus();
+
+    int insertroleAndmenu(Integer roleId, Integer menuId);
 }

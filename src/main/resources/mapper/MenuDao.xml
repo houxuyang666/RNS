@@ -139,5 +139,12 @@
     </select>
 
 
+    <!--新增所有列-->
+    <insert id="insertroleAndmenu">
+        insert into role_menu(role_id,menu_id)
+        values (#{roleId}, #{menuId})
+    </insert>
+
+
 
 </mapper>

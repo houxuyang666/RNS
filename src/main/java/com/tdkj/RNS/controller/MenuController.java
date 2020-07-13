@@ -82,4 +82,11 @@ public class MenuController  implements RnsResultCode, RnsResultType {
         menuService.deleteById(menuId);
         return RnsResponse.setResult(HTTP_RNS_CODE_200,REMOVE_SUCCESS);
     }
+
+    @ResponseBody
+    @RequestMapping("/addroleAndmenu")
+    public RnsResponse addroleAndmenu(Integer roleId,Integer menuId) {
+        menuService.insertroleAndmenu(roleId,menuId);
+        return RnsResponse.setResult(HTTP_RNS_CODE_200,ADD_SUCCESS);
+    }
 }

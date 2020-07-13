@@ -108,9 +108,6 @@ public class LoginController implements RnsResultType, RnsResultCode{
     public RnsResponse login(String username, String password, boolean rememberMe, String verifyCode,
                              HttpServletRequest request) throws Exception {
         log.info("-----login");
-        log.info("username" + ":" + username);
-        log.info("password" + ":" + password);
-        log.info("rememberMe" + ":" + rememberMe);
         /*使用Shiro编写认证操作
          *1.获取subjec
          * */

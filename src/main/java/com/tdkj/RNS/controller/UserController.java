@@ -102,7 +102,7 @@ public class UserController implements RnsResultType, RnsResultCode {
         user.setPassword(Md5Util.Md5Password(uuid,password));
         user.setStatus(0);
         user.setSalt(uuid);
-        user.setRid(5);
+        user.setRid(3);
         user.setCreateTime(new Date());
         user.setUserinfoId(userinfo.getId());
         userService.insert(user);
