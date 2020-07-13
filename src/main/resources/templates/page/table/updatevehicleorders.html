@@ -62,70 +62,51 @@
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend>结束订单</legend>
     </fieldset>
+
     <div class="layui-card" style="padding: 10px;">
-        <form id="from" class="layui-form layui-form-pane" action=""
-               enctype="multipart/form-data">
-            <div class="layui-form-item layui-col-xs12">
-                <div class="layui-inline layui-col-xs5">
-                    <label class="layui-form-label">orderId</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="orderId" id="orderId1"  autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item layui-col-xs12">
+        <form id="form" class="layui-form layui-form-pane" action="">
 
-                <div class="layui-inline layui-col-xs5">
-                    <label class="layui-form-label">vehicleId</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="vehicleId" id="vehicleId1"  autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item layui-col-xs12">
-
-                <div class="layui-inline layui-col-xs5">
-                    <label class="layui-form-label">开始地点公里数照片</label>
-                    <div class="layui-input-block">
-                        <input type="file" name="mileageBegan"  autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item layui-col-xs12">
-                <div class="layui-inline layui-col-xs5" >
-                    <label class="layui-form-label">结束地点公里数照片</label>
-<!--                    <button type="button" class="layui-btn" id="test1">-->
-<!--                        <i class="layui-icon">&#xe67c;</i>上传图片-->
-<!--                    </button>-->
-                    <div class="layui-input-block">
-                        <input type="file" name="mileageEnd" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-            </div>
-            <div class="layui-form-item layui-col-xs12">
-                <div class="layui-inline layui-col-xs5">
-                    <label class="layui-form-label">行驶公里数</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="mileage" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item layui-col-xs12">
-                <div class="layui-inline layui-col-xs5">
-                    <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">订单备注</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" name="orderDesc" class="layui-textarea"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="layui-form-item">
-                <button  class="layui-btn" lay-submit="" lay-filter="SureEnd">确认结束当前订单</button>
+                <label class="layui-form-label">行驶公里数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="mileage" lay-verify="mileage" autocomplete="off" placeholder="请输入行驶公里数"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入备注" name="orderDesc" class="layui-textarea orderDesc"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <!-- <input type="file" name="mileageBegan" id="mileageBeganbtn">-->
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" name="mileageBeganbtn"
+                            id="mileageBeganbtn"><i class="layui-icon">&#xe67c;</i>选择开始公里数照片
+                    </button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" style="width: 200px;height: 200px;" id="mileageBegan">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <!--<input type="file" name="mileageEnd" id="mileageEndbtn">-->
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal layui-required" name="mileageEndbtn" id="mileageEndbtn"><i
+                            class="layui-icon">&#xe67c;</i>选择开始公里数照片
+                    </button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" style="width: 200px;height: 200px;" id="mileageEnd">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="text-align: right">
+                <button class="layui-btn" lay-submit="" lay-filter="SureEnd">确认结束当前订单</button>
             </div>
         </form>
     </div>
@@ -135,14 +116,41 @@
 <script src="/js/public.js" charset="utf-8"></script>
 <script>
     PublicFun.ImportJs("/statics/lib/jquery-3.4.1/jquery-3.4.1.min.js");
-    layui.use(['form', 'laydate','upload'], function () {
+    layui.use(['form', 'laydate', 'upload'], function () {
         var form = layui.form,
             layer = layui.layer,
             $ = layui.$,
+            upload = layui.upload,
             laydate = layui.laydate;
 
-        alert($("#vehicleId").html())
 
+        //开始公里数照片上传
+        upload.render({
+            elem: '#mileageBeganbtn'
+            , url: '' //改成您自己的上传接口
+            , auto: false
+            , field: "mileageBegan"
+            , acceptMime: 'image/*'
+            , choose: function (obj) {//预读本地文件
+                obj.preview(function (index, file, result) {
+                    $('#mileageBegan').attr("src", result);
+                })
+            }
+        });
+
+        upload.render({
+            elem: '#mileageEndbtn'
+            , url: ''
+            , auto: false
+            , field: "mileageEnd"
+            , acceptMime: 'image/*'
+            , choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#mileageEnd').attr('src', result);
+                });
+                console.log(obj)
+            }
+        });
 
 
         var obj = new Date();
@@ -157,63 +165,32 @@
 
         //监听提交
         form.on('submit(SureEnd)', function (data) {
-            var formData = new FormData($("#from")[0]);
-            alert(formData.get("vehicleId"));
-            //  FormData={
-            //     vehicleId:$("#vehicleId").text(),
-            //      orderId:"202007081418133810",
-            //      mileage:$('input[name="mileage"]').val(),
-            //     //vehicleDriver:$("#vehicleDriver").find("option:selected").text(),
-            //     //beginDate:$('input[name="beginDate"]').val(),
-            //     //beganAddress:$('input[name="beganAddress"]').val(),
-            //     //destinationAddress:$('input[name="destinationAddress"]').val(),
-            //     //endAddress:$('input[name="endAddress"]').val(),
-            //     orderDesc:$('input[name="orderDesc"]').val(),
-            //     mileageBegan:$('input[name="mileageBegan"]').val(),
-            //     mileageEnd:$('input[name="mileageEnd"]').val()
-            // }
-
-            $.ajax({
-                url: "/vehicleorders/updatevehicleorders",
-                data: formData,
-                processData: false, //因为data值是FormData对象，不需要对数据做处理。
-                contentType: false,
-                type: "POST",
-                success: function (res) {
-                            if (res.responseCode) {
-                                var index = layer.alert(res.message, {
-                                    title: '提交信息'
-                                }, function () {
-                                    // 关闭弹出层
-                                    layer.close(index);
-                                    var iframeIndex = parent.layer.getFrameIndex(window.name);
-                                    parent.layer.close(iframeIndex);
-                                });
-                            } else {
-                                layer.msg(res.message);
-                            }
-                        }
-            });
-
+            var formdata = new FormData($("#form")[0]);
+            //var formData=data.field;
+            var orderId = parent.$("#orderId").val();//订单编号
+            var vehicleId = parent.$("#vehicleId").val();//车辆编号
+            formdata.append("orderId", orderId);
+            formdata.append("vehicleId", vehicleId);
+            console.log(formdata);
             //ajax请求异步交互
-            // PublicFun.FunPostAjax("/vehicleorders/updatevehicleorders",FormData,
-            //     function (res) {
-            //         if (res.responseCode) {
-            //             var index = layer.alert(res.message, {
-            //                 title: '提交信息'
-            //             }, function () {
-            //                 // 关闭弹出层
-            //                 layer.close(index);
-            //                 var iframeIndex = parent.layer.getFrameIndex(window.name);
-            //                 parent.layer.close(iframeIndex);
-            //             });
-            //         } else {
-            //             layer.msg(res.message);
-            //         }
-            //     }
-            //     ,"请求失败，请检查网络或联系管理员");
-            // return false;
-         });
+            PublicFun.FunPostAjaxProcessData("/vehicleorders/updatevehicleorders", formdata,
+                function (res) {
+                    if (res.responseCode) {
+                        var index = layer.alert(res.message, {
+                            title: '提交信息'
+                        }, function () {
+                            // 关闭弹出层
+                            layer.close(index);
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }
+                , "请求失败，请检查网络或联系管理员");
+            return false;
+        });
 
         //绑定公司下拉框
         PublicFun.BindCompanyList();

@@ -97,12 +97,36 @@ var PublicFun = {
             url:url,
             dataType:"json",
             type:"POST",
+            processData:false,
             data:data,
             success:success,
             error:function () {
                 PublicFun.LayerMsgError(msgerror);
             }
         })
-    }
+    },
+
+    //请求上传图片的交互
+    FunPostAjaxProcessData:function (url,data,success,msgerror) {
+        $.ajax({
+            url:url,
+            dataType:"json",
+            type:"POST",
+            processData:false,
+            contentType: false,
+            data:data,
+            success:success,
+            error:function () {
+                PublicFun.LayerMsgError(msgerror);
+            }
+        })
+    },
+
+
 
 }
+
+
+
+
+

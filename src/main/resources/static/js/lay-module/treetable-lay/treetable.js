@@ -6,6 +6,7 @@ layui.define(['layer', 'table'], function (exports) {
     var treetable = {
         // 渲染树形表格
         render: function (param) {
+            //layer.alert(JSON.stringify(param));
             // 检查参数
             if (!treetable.checkParam(param)) {
                 return;
