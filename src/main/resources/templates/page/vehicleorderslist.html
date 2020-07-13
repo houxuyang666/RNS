@@ -64,9 +64,9 @@
 
             <script type="text/html" id="currentTableBar">
                 {{# if(d.vehicleStatus==0){ }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled" lay-event="">申请用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled" lay-event="">结束用车</a>
                 {{#  } else { }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="applay">申请用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="applay">结束用车</a>
                 {{# } }}
                 <a class="layui-btn layui-btn-xs layui-btn-danger " lay-event="delete">删除</a>
             </script>
@@ -183,15 +183,16 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['50%', '80%'],
-                    content: '/table/goaddvehicleorders',
+                    content: '/table/goupdatevehicleorders',
                     success: function (layero, index) {
                         //赋值
                         var body = layer.getChildFrame("body", index);
-                        body.contents().find("#vehicleId").text(data.vehicleinfoId);
-                        body.contents().find("#vehicleType").text(data.vehicleType);
-                        body.contents().find("#vehicleSeatsNumber").text(data.vehicleSeatsNumber);
-                        body.contents().find("#vehicleNumber").text(data.vehicleNumber);
-                        body.contents().find("#companyName").text(data.companyName);
+                        body.contents().find("#orderId").text(data.orderId);
+                        body.contents().find("#vehicleId").text(data.vehicleId);
+                        body.contents().find("#vehicleDriver").text(data.vehicleDriver);
+                        body.contents().find("#beganAddress").text(data.beganAddress);
+                        body.contents().find("#destinationAddress").text(data.destinationAddress);
+                        body.contents().find("#beganTime").text(data.beganTime);
                     },
                     end: function () {
                         //刷新表格
