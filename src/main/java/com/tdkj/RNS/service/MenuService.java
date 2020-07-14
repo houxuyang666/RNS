@@ -77,5 +77,5 @@ public interface MenuService {
 
     List<Menu> queryAllMenu();
 
-    MenuTree<Menu> findMenusAllMenu();
+    List<Menu> findMenusAllMenu();
 }

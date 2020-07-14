@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (Menu)表控制层
@@ -42,7 +43,7 @@ public class MenuController  implements RnsResultCode, RnsResultType {
     @ResponseBody
     @RequestMapping("/getmenu")
     public RnsResponse getmenu() {
-        MenuTree<Menu> menuList =menuService.findMenusAllMenu();
+        List<Menu> menuList =menuService.findMenusAllMenu();
         return RnsResponse.setResult(HTTP_RNS_CODE_200,FIND_SUCCESS, RnsJson.toJson(menuList));
     }
 

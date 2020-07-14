@@ -114,10 +114,10 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public MenuTree<Menu> findMenusAllMenu() {
+    public List<Menu> findMenusAllMenu() {
         List<Menu> menus = this.menuDao.queryAllMenu();
-        List<MenuTree<Menu>> trees = this.convertMenus(menus);
-        return TreeUtil.buildMenuTree(trees);
+        //List<MenuTree<Menu>> trees = this.convertMenus(menus);
+        return menus;
     }
 
     @Override
