@@ -96,6 +96,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                 data:"",
                 success:function(data){
                     //alert(data.data2);
+                    $("#namespan").text(data.data2);
                     if(data.responseCode == 200) {
                         //alert(JSON.stringify(data.data));
                         if(data.data == null) {

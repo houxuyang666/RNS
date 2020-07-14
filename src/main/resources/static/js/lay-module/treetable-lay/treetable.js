@@ -16,7 +16,20 @@ layui.define(['layer', 'table'], function (exports) {
                 treetable.init(param, param.data);
             } else {
                 $.getJSON(param.url, param.where, function (res) {
-                    treetable.init(param, res.data);
+                    //格式化数据库读取的数据
+                    var data = res.data;
+                    var obj = new Object();
+                        obj.modifyTime = null,
+                        obj.createTime = null,
+                        obj.icon = "",
+                        obj.menuId = 0,
+                        obj.perms = "",
+                        obj.href = " ",
+                        obj.title = "最高管理",
+                        obj.parentId = -1,
+                        obj.target = "_self"
+                    data.push(obj);
+                    treetable.init(param, res.data);//渲染表格用到的数据
                 });
             }
         },

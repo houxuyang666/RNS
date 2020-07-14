@@ -61,9 +61,9 @@
 
             <script type="text/html" id="currentTableBar">
                 {{#if(d.orderStatus===0){ }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="endCarOrders">结束用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="endCarOrders"><i class="layui-icon">&#x1006;</i>结束用车</a>
                 {{# }else{ }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled "  lay-event="">结束用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled "  lay-event=""><i class="layui-icon">&#x1006;</i>结束用车</a>
                 {{# } }}
             </script>
 
@@ -254,9 +254,6 @@
         $('td img').attr('style'," cursor: pointer;");
     }
 
-    $(function () {
-
-    })
 
 </script>
 </body>

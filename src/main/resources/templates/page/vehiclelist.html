@@ -66,11 +66,11 @@
 
             <script type="text/html" id="currentTableBar">
                 {{# if(d.vehicleStatus==0){ }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled" lay-event="">申请用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal layui-disabled" lay-event=""><i class="layui-icon">&#xe6b2;</i>申请用车</a>
                 {{#  } else { }}
-                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="applay">申请用车</a>
+                <a class="layui-btn layui-btn-xs layui-btn-normal " lay-event="applay"><i class="layui-icon">&#xe6b2;</i>申请用车</a>
                 {{# } }}
-                <a shiro:hasPermission="vehicleinfo:delete" class="layui-btn layui-btn-xs layui-btn-danger " lay-event="delete">删除</a>
+                <a shiro:hasPermission="vehicleinfo:delete" class="layui-btn layui-btn-xs layui-btn-danger " lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</a>
             </script>
 
         </div>
