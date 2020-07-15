@@ -24,7 +24,7 @@ layui.define(['layer', 'table'], function (exports) {
                         obj.icon = "",
                         obj.menuId = 0,
                         obj.perms = "",
-                        obj.href = " ",
+                        obj.href = "",
                         obj.title = "最高管理",
                         obj.parentId = -1,
                         obj.target = "_self"
