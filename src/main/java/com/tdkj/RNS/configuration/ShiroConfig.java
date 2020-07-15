@@ -75,18 +75,6 @@ public class ShiroConfig{
         filterMap.put("/css/**","anon");
         filterMap.put("/images/**","anon");
         filterMap.put("/js/**","anon");
-        //filterMap.put("/js/lay-module/**","anon");
-//        filterMap.put("/js/lay-module/echarts/**","anon");
-//        filterMap.put("/js/lay-module/iconPicker/**","anon");
-//        filterMap.put("/js/lay-module/layuimini/**","anon");
-//        filterMap.put("/js/lay-module/step-lay/**","anon");
-//        filterMap.put("/js/lay-module/tableSelect/**","anon");
-//        filterMap.put("/js/lay-module/treetable-lay/**","anon");
-//        filterMap.put("/js/lay-module/wangEditor/**","anon");
-//        filterMap.put("/js/lay-module/wangEditor/fonts/**","anon");
-//        filterMap.put("/js/lay-module/wangEditor/wangEditor.css/**","anon");
-//        filterMap.put("/js/lay-module/wangEditor/wangEditor.js/**","anon");
-
 
         /*放行静态资源-结束*/
         /*用通配符  */
